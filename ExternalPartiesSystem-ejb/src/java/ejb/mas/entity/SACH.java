@@ -16,7 +16,7 @@ public class SACH implements Serializable {
     private Double merlionTotalCredit;
     private String updateDate;
     private String bankNames;
-    private String fastTransferRef;
+    private String paymentMethod;
 
     public Long getSachId() {
         return sachId;
@@ -58,12 +58,12 @@ public class SACH implements Serializable {
         this.otherBankTotalCredit = otherBankTotalCredit;
     }
 
-    public String getFastTransferRef() {
-        return fastTransferRef;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setFastTransferRef(String fastTransferRef) {
-        this.fastTransferRef = fastTransferRef;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
     
     @Override

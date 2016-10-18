@@ -34,7 +34,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
 
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
-        Long sachId = addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion");
+        Long sachId = addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion", "FAST");
         SACH sach = retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 + transferAmt;
@@ -71,7 +71,8 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
     }
 
     @Override
-    public Long addNewSACH(Double otherTotalCredit, Double merlionTotalCredit, String updateDate, String bankNames) {
+    public Long addNewSACH(Double otherTotalCredit, Double merlionTotalCredit, 
+            String updateDate, String bankNames, String paymentMethod) {
 
         SACH sach = new SACH();
 
@@ -79,6 +80,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         sach.setMerlionTotalCredit(merlionTotalCredit);
         sach.setUpdateDate(updateDate);
         sach.setBankNames(bankNames);
+        sach.setPaymentMethod(paymentMethod);
 
         entityManager.persist(sach);
         entityManager.flush();
@@ -100,7 +102,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
 
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
-        Long sachId = addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion");
+        Long sachId = addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion", "FAST");
         SACH sach = retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 - transferAmt;

@@ -11,7 +11,8 @@ public interface SACHSessionBeanLocal {
 
     public SACH retrieveSACHById(Long sachId);
 
-    public Long addNewSACH(Double otherTotalCredit,Double merlionTotalCredit, String updateDate, String bankNames);
+    public Long addNewSACH(Double otherTotalCredit,Double merlionTotalCredit, 
+            String updateDate, String bankNames, String paymentMethod);
 
     public List<SACH> getAllSACH(String bankNames);
     

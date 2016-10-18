@@ -42,6 +42,10 @@
                 <p:column headerText="Merlion Total Credit"> 
                     <h:outputText value="#{dbsAndMerlionSACH.merlionTotalCredit}" />
                 </p:column>
+                
+                <p:column headerText="Payment Method"> 
+                    <h:outputText value="#{dbsAndMerlionSACH.paymentMethod}" />
+                </p:column>
             </p:dataTable>
             <br/>
             <p:commandButton id="backBtn" value="Back" action="/web/index.xhtml?faces-redirect=true" 
