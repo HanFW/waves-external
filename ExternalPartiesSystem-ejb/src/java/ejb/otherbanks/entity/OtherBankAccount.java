@@ -20,9 +20,13 @@ public class OtherBankAccount implements Serializable {
     private String otherBankAccountType;
     private String otherBankAccountBalance;
     private String bankName;
+    private String swiftCode;
     
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "otherBankAccount")
     private List<OtherBankAccountTransaction> otherBankAccountTransaction;
+    
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "otherBankAccount")
+    private List<IssuedCheque> issuedCheque;
 
     public Long getOtherBankAccountId() {
         return otherBankAccountId;
@@ -70,6 +74,22 @@ public class OtherBankAccount implements Serializable {
 
     public void setBankName(String bankName) {
         this.bankName = bankName;
+    }
+
+    public String getSwiftCode() {
+        return swiftCode;
+    }
+
+    public void setSwiftCode(String swiftCode) {
+        this.swiftCode = swiftCode;
+    }
+
+    public List<IssuedCheque> getIssuedCheque() {
+        return issuedCheque;
+    }
+
+    public void setIssuedCheque(List<IssuedCheque> issuedCheque) {
+        this.issuedCheque = issuedCheque;
     }
 
     @Override
