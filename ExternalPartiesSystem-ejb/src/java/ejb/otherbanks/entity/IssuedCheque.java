@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 public class IssuedCheque implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chequeId;
     private String chequeMICRData;
     private String transactionDate;
