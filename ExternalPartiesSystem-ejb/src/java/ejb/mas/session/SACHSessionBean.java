@@ -39,8 +39,8 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         Double dbsTotalCredit = 0 + transferAmt;
         Double merlionTotalCredit = 0 - transferAmt;
 
-        sach.setOtherBankTotalCredit(dbsTotalCredit);
-        sach.setMerlionTotalCredit(merlionTotalCredit);
+        sach.setBankBTotalCredit(dbsTotalCredit);
+        sach.setBankATotalCredit(merlionTotalCredit);
 
         otherBankSessionBeanLocal.actualMTOFastTransfer(fromBankAccount, toBankAccount, transferAmt);
         mEPSSessionBeanLocal.MEPSSettlementMTD("88776655", "44332211", transferAmt);
@@ -75,8 +75,8 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
 
         SACH sach = new SACH();
 
-        sach.setOtherBankTotalCredit(otherTotalCredit);
-        sach.setMerlionTotalCredit(merlionTotalCredit);
+        sach.setBankBTotalCredit(otherTotalCredit);
+        sach.setBankATotalCredit(merlionTotalCredit);
         sach.setUpdateDate(updateDate);
         sach.setBankNames(bankNames);
         sach.setPaymentMethod(paymentMethod);
@@ -107,8 +107,8 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         Double dbsTotalCredit = 0 - transferAmt;
         Double merlionTotalCredit = 0 + transferAmt;
 
-        sach.setOtherBankTotalCredit(merlionTotalCredit);
-        sach.setMerlionTotalCredit(merlionTotalCredit);
+        sach.setBankBTotalCredit(dbsTotalCredit);
+        sach.setBankATotalCredit(merlionTotalCredit);
 
         actualOTMFastTransfer(fromBankAccount, toBankAccount, transferAmt);
         mEPSSessionBeanLocal.MEPSSettlementDTM("44332211", "88776655", transferAmt);

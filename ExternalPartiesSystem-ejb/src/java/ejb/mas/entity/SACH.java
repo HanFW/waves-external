@@ -12,8 +12,8 @@ public class SACH implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sachId;
-    private Double otherBankTotalCredit;
-    private Double merlionTotalCredit;
+    private Double bankATotalCredit;
+    private Double bankBTotalCredit;
     private String updateDate;
     private String bankNames;
     private String paymentMethod;
@@ -42,20 +42,20 @@ public class SACH implements Serializable {
         this.bankNames = bankNames;
     }
 
-    public Double getMerlionTotalCredit() {
-        return merlionTotalCredit;
+    public Double getBankATotalCredit() {
+        return bankATotalCredit;
     }
 
-    public void setMerlionTotalCredit(Double merlionTotalCredit) {
-        this.merlionTotalCredit = merlionTotalCredit;
+    public void setBankATotalCredit(Double bankATotalCredit) {
+        this.bankATotalCredit = bankATotalCredit;
     }
 
-    public Double getOtherBankTotalCredit() {
-        return otherBankTotalCredit;
+    public Double getBankBTotalCredit() {
+        return bankBTotalCredit;
     }
 
-    public void setOtherBankTotalCredit(Double otherBankTotalCredit) {
-        this.otherBankTotalCredit = otherBankTotalCredit;
+    public void setBankBTotalCredit(Double bankBTotalCredit) {
+        this.bankBTotalCredit = bankBTotalCredit;
     }
 
     public String getPaymentMethod() {

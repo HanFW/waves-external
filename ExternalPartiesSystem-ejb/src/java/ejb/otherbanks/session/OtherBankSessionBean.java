@@ -12,7 +12,7 @@ import ws.client.merlionBank.MerlionBankWebService_Service;
 public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
 
     @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl")
-    private MerlionBankWebService_Service service;
+    private MerlionBankWebService_Service service_merlionBank;
 
     @EJB
     private OtherTransactionSessionBeanLocal otherTransactionSessionBeanLocal;
@@ -44,7 +44,7 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
     private BankAccount retrieveBankAccountByNum(java.lang.String bankAccountNum) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service.getMerlionBankWebServicePort();
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
         return port.retrieveBankAccountByNum(bankAccountNum);
     }
 }

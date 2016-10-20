@@ -36,8 +36,8 @@ public class SACHWebService {
         Double dbsTotalCredit = 0 + transferAmt;
         Double merlionTotalCredit = 0 - transferAmt;
 
-        sach.setOtherBankTotalCredit(dbsTotalCredit);
-        sach.setMerlionTotalCredit(merlionTotalCredit);
+        sach.setBankBTotalCredit(dbsTotalCredit);
+        sach.setBankATotalCredit(merlionTotalCredit);
 
         otherBankSessionBeanLocal.actualMTOFastTransfer(fromBankAccountNum, toBankAccountNum, transferAmt);
         mEPSSessionBeanLocal.MEPSSettlementMTD("88776655", "44332211", transferAmt);
@@ -56,7 +56,7 @@ public class SACHWebService {
         Double dbsTotalCredit = 0 + transferAmt;
         Double merlionTotalCredit = 0 - transferAmt;
 
-        sach.setOtherBankTotalCredit(dbsTotalCredit);
-        sach.setMerlionTotalCredit(merlionTotalCredit); 
+        sach.setBankBTotalCredit(dbsTotalCredit);
+        sach.setBankATotalCredit(merlionTotalCredit); 
     }
 }
