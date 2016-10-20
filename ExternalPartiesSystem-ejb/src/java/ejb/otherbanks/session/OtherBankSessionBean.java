@@ -25,7 +25,8 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
 
         OtherBankAccount otherBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(toAccountNum);
         BankAccount bankAccount = retrieveBankAccountByNum(fromAccountNum);
-        Double balance = Double.valueOf(otherBankAccount.getOtherBankAccountBalance()) + transferAmt;
+        Double availableBankAcocuntBalance = Double.valueOf(otherBankAccount.getAvailableBankAccountBalance()) + transferAmt;
+        Double totalBankAcocuntBalance = Double.valueOf(otherBankAccount.getTotalBankAccountBalance()) + transferAmt;
 
         Calendar cal = Calendar.getInstance();
         String otherTransactionCode = "ICT";
@@ -36,7 +37,8 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
         Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(cal.getTime().toString(),
                 otherTransactionCode, otherTransactionRef, otherAccountDebit, otherAccountCredit, otherBankAccount.getOtherBankAccountId());
 
-        otherBankAccount.setOtherBankAccountBalance(balance.toString());
+        otherBankAccount.setAvailableBankAccountBalance(availableBankAcocuntBalance.toString());
+        otherBankAccount.setTotalBankAccountBalance(totalBankAcocuntBalance.toString());
     }
 
     private BankAccount retrieveBankAccountByNum(java.lang.String bankAccountNum) {
