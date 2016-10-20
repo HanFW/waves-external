@@ -46,9 +46,16 @@
                         </p:commandLink>
                     </p:column>
 
-                    <p:column headerText="Balance"> 
+                    <p:column headerText="Available Balance"> 
                         <p:commandLink process="@this" action="/web/otherBanks/dbs/dbsViewTransaction.xhtml?faces-redirect=true" >
-                            <h:outputText value="S$#{dbsBankAccount.otherBankAccountBalance}" />
+                            <h:outputText value="S$#{dbsBankAccount.availableBankAccountBalance}" />
+                            <f:setPropertyActionListener value="#{dbsBankAccount.otherBankAccountNum}" target="#{dBSViewTransactionManagedBean.dbsBankAccountNum}" />
+                        </p:commandLink>
+                    </p:column>
+                    
+                    <p:column headerText="Total Balance"> 
+                        <p:commandLink process="@this" action="/web/otherBanks/dbs/dbsViewTransaction.xhtml?faces-redirect=true" >
+                            <h:outputText value="S$#{dbsBankAccount.totalBankAccountBalance}" />
                             <f:setPropertyActionListener value="#{dbsBankAccount.otherBankAccountNum}" target="#{dBSViewTransactionManagedBean.dbsBankAccountNum}" />
                         </p:commandLink>
                     </p:column>

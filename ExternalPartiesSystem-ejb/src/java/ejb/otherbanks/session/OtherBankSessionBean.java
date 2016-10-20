@@ -21,7 +21,7 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
     private OtherBankAccountSessionBeanLocal otherBankAccountSessionBeanLocal;
 
     @Override
-    public void actualTransfer(String fromAccountNum, String toAccountNum, Double transferAmt) {
+    public void actualMTOFastTransfer(String fromAccountNum, String toAccountNum, Double transferAmt) {
 
         OtherBankAccount otherBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(toAccountNum);
         BankAccount bankAccount = retrieveBankAccountByNum(fromAccountNum);

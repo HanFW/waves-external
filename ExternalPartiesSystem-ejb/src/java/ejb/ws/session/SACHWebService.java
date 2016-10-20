@@ -39,7 +39,7 @@ public class SACHWebService {
         sach.setOtherBankTotalCredit(dbsTotalCredit);
         sach.setMerlionTotalCredit(merlionTotalCredit);
 
-        otherBankSessionBeanLocal.actualTransfer(fromBankAccountNum, toBankAccountNum, transferAmt);
+        otherBankSessionBeanLocal.actualMTOFastTransfer(fromBankAccountNum, toBankAccountNum, transferAmt);
         mEPSSessionBeanLocal.MEPSSettlementMTD("88776655", "44332211", transferAmt);
         
     }

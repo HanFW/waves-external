@@ -16,7 +16,6 @@ import ws.client.fastTransfer.FastTransferWebService_Service;
 
 @Stateless
 public class SACHSessionBean implements SACHSessionBeanLocal {
-
     @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/FastTransferWebService/FastTransferWebService.wsdl")
     private FastTransferWebService_Service service;
 
@@ -43,7 +42,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         sach.setOtherBankTotalCredit(dbsTotalCredit);
         sach.setMerlionTotalCredit(merlionTotalCredit);
 
-        otherBankSessionBeanLocal.actualTransfer(fromBankAccount, toBankAccount, transferAmt);
+        otherBankSessionBeanLocal.actualMTOFastTransfer(fromBankAccount, toBankAccount, transferAmt);
         mEPSSessionBeanLocal.MEPSSettlementMTD("88776655", "44332211", transferAmt);
     }
 
@@ -111,14 +110,14 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         sach.setOtherBankTotalCredit(merlionTotalCredit);
         sach.setMerlionTotalCredit(merlionTotalCredit);
 
-        fastTransfer(fromBankAccount, toBankAccount, transferAmt);
+        actualOTMFastTransfer(fromBankAccount, toBankAccount, transferAmt);
         mEPSSessionBeanLocal.MEPSSettlementDTM("44332211", "88776655", transferAmt);
     }
 
-    private void fastTransfer(java.lang.String fromBankAccountNum, java.lang.String toBankAccountNum, java.lang.Double transferAmt) {
+    private void actualOTMFastTransfer(java.lang.String fromBankAccountNum, java.lang.String toBankAccountNum, java.lang.Double transferAmt) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.fastTransfer.FastTransferWebService port = service.getFastTransferWebServicePort();
-        port.fastTransfer(fromBankAccountNum, toBankAccountNum, transferAmt);
+        port.actualOTMFastTransfer(fromBankAccountNum, toBankAccountNum, transferAmt);
     }
 }
