@@ -20,9 +20,10 @@ import ws.client.merlionBank.MerlionBankWebService_Service;
 @RequestScoped
 
 public class DBSFastTransferManagedBean {
+
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl")
     private MerlionBankWebService_Service service;
-    
+
     @EJB
     private SACHSessionBeanLocal sACHSessionBeanLocal;
 
@@ -41,7 +42,8 @@ public class DBSFastTransferManagedBean {
     private String toBankAccountNumWithType;
     private String fromBankAccountNumWithType;
     private Long transactionId;
-    private String fromAccountBalance;
+    private String fromAccountAvailableBalance;
+    private String fromAccountTotalBalance;
     private Double currentTotalBankAccountBalance;
     private Double currentAvailableBankAccountBalance;
 
@@ -122,14 +124,6 @@ public class DBSFastTransferManagedBean {
         this.transactionId = transactionId;
     }
 
-    public String getFromAccountBalance() {
-        return fromAccountBalance;
-    }
-
-    public void setFromAccountBalance(String fromAccountBalance) {
-        this.fromAccountBalance = fromAccountBalance;
-    }
-
     public Double getCurrentTotalBankAccountBalance() {
         return currentTotalBankAccountBalance;
     }
@@ -146,6 +140,22 @@ public class DBSFastTransferManagedBean {
         this.currentAvailableBankAccountBalance = currentAvailableBankAccountBalance;
     }
 
+    public String getFromAccountAvailableBalance() {
+        return fromAccountAvailableBalance;
+    }
+
+    public void setFromAccountAvailableBalance(String fromAccountAvailableBalance) {
+        this.fromAccountAvailableBalance = fromAccountAvailableBalance;
+    }
+
+    public String getFromAccountTotalBalance() {
+        return fromAccountTotalBalance;
+    }
+
+    public void setFromAccountTotalBalance(String fromAccountTotalBalance) {
+        this.fromAccountTotalBalance = fromAccountTotalBalance;
+    }
+
     public void transfer() throws IOException {
 
         ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -158,7 +168,7 @@ public class DBSFastTransferManagedBean {
 
             currentTotalBankAccountBalance = Double.valueOf(dbsBankAccountFrom.getTotalBankAccountBalance()) - transferAmt;
             currentAvailableBankAccountBalance = Double.valueOf(dbsBankAccountFrom.getAvailableBankAccountBalance()) - transferAmt;
-            
+
             otherBankAccountSessionBeanLocal.updateBankAccountBalance(fromAccountNum, currentAvailableBankAccountBalance.toString(), currentTotalBankAccountBalance.toString());
 
             Calendar cal = Calendar.getInstance();
@@ -171,7 +181,8 @@ public class DBSFastTransferManagedBean {
             sACHSessionBeanLocal.SACHTransferDTM(fromAccountNum, toAccountNum, transferAmt);
 
             statusMessage = "Your transaction has been completed.";
-            fromAccountBalance = currentAvailableBankAccountBalance.toString();
+            fromAccountAvailableBalance = currentAvailableBankAccountBalance.toString();
+            fromAccountTotalBalance = currentTotalBankAccountBalance.toString();
 
             toBankAccountNumWithType = merlionBankAccountTo.getBankAccountNum() + "-" + merlionBankAccountTo.getBankAccountType();
             fromBankAccountNumWithType = fromAccountNum + "-" + "DBS Savings Account";
@@ -183,7 +194,8 @@ public class DBSFastTransferManagedBean {
             ec.getFlash().put("transferAmt", transferAmt);
             ec.getFlash().put("fromAccount", fromAccountNum);
             ec.getFlash().put("toAccount", toAccountNum);
-            ec.getFlash().put("fromAccountBalance", fromAccountBalance);
+            ec.getFlash().put("fromAccountAvailableBalance", fromAccountAvailableBalance);
+            ec.getFlash().put("fromAccountTotalBalance", fromAccountTotalBalance);
 
             ec.redirect(ec.getRequestContextPath() + "/web/otherBanks/dbs/dbsFastTransferDone.xhtml?faces-redirect=true");
         } else {
