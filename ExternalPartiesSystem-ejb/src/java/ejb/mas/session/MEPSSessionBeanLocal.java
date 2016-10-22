@@ -13,5 +13,8 @@ public interface MEPSSessionBeanLocal {
 
     public List<MEPS> getAllMEPS(String bankNames);
 
-    public void MEPSSettlementDTM(String fromMasterBankAccountNum, String toMasterBankAccountNum, Double transferAmt);
+    public void MEPSSettlementDTM(String fromMasterBankAccountNum, String toMasterBankAccountNum,
+            Double transferAmt);
+
+    public void MEPSNonStandingSettlementMTD();
 }

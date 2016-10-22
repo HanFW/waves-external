@@ -16,6 +16,8 @@ import ws.client.fastTransfer.FastTransferWebService_Service;
 
 @Stateless
 public class SACHSessionBean implements SACHSessionBeanLocal {
+    @EJB
+    private SettlementSessionBeanLocal settlementSessionBeanLocal;
 
     @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/FastTransferWebService/FastTransferWebService.wsdl")
     private FastTransferWebService_Service service;
@@ -128,10 +130,10 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         actualOTMFastTransfer(fromBankAccount, toBankAccount, transferAmt);
         mEPSSessionBeanLocal.MEPSSettlementDTM("44332211", "88776655", transferAmt);
     }
-    
+
     @Override
     public void ForwardPaymentInstruction() {
-        
+
         Calendar cal = Calendar.getInstance();
         Long startTime = cal.getTimeInMillis() - 10000;
         Long endTime = cal.getTimeInMillis();
@@ -141,16 +143,17 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         query.setParameter("endTime", endTime);
         query.setParameter("paymentMethod", "FAST");
         List<SACH> sachs = query.getResultList();
-
+        
         for (SACH sach : sachs) {
-            
+
             String creditAccountNum = sach.getCreditAccountNum();
             String creditBank = sach.getCreditBank();
             String debitAccountNum = sach.getDebitAccountNum();
             String debitBank = sach.getDebitBank();
             Double creditAmt = sach.getCreditAmt();
-            
-            if(creditBank.equals("DBS")&&debitBank.equals("Merlion")) {
+
+            if (creditBank.equals("DBS") && debitBank.equals("Merlion")) {
+                settlementSessionBeanLocal.recordSettlementInformation(sachs,creditBank,debitBank);
                 otherBankSessionBeanLocal.creditPaymentToAccountMTD(debitAccountNum, creditAccountNum, creditAmt);
             }
         }

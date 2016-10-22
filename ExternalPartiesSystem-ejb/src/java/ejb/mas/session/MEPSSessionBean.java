@@ -111,4 +111,9 @@ public class MEPSSessionBean implements MEPSSessionBeanLocal {
         merlionMasterBankAccount.setMasterBankAccountBalance(df.format(merlionCurrentBalance));
         dbsMasterBankAccount.setMasterBankAccountBalance(df.format(dbsCurrentBalance));
     }
+    
+    @Override
+    public void MEPSNonStandingSettlementMTD() {
+        
+    }
 }

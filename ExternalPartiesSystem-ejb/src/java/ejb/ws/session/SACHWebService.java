@@ -51,8 +51,8 @@ public class SACHWebService {
 
     @WebMethod(operationName = "SACHNonStandingGIROTransferMTD")
 //    @Oneway
-    public void SACHNonStandingGIROTransferMTD(@WebParam(name = "fromBankAccountNum") String fromBankAccountNum, 
-            @WebParam(name = "toBankAccountNum") String toBankAccountNum, 
+    public void SACHNonStandingGIROTransferMTD(@WebParam(name = "fromBankAccountNum") String fromBankAccountNum,
+            @WebParam(name = "toBankAccountNum") String toBankAccountNum,
             @WebParam(name = "transferAmt") Double transferAmt) {
 
         Calendar cal = Calendar.getInstance();
