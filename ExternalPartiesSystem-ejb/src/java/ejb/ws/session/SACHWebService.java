@@ -15,22 +15,27 @@ import javax.ejb.Stateless;
 @Stateless()
 
 public class SACHWebService {
+
     @EJB
     private OtherBankSessionBeanLocal otherBankSessionBeanLocal;
-    
+
     @EJB
     private MEPSSessionBeanLocal mEPSSessionBeanLocal;
-    
+
     @EJB
     private SACHSessionBeanLocal sACHSessionBeanLocal;
 
     @WebMethod(operationName = "SACHTransferMTD")
 //    @Oneway
     public void SACHTransferMTD(@WebParam(name = "fromBankAccountNum") String fromBankAccountNum, @WebParam(name = "toBankAccountNum") String toBankAccountNum, @WebParam(name = "transferAmt") Double transferAmt) {
-        
+
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
-        Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion", "FAST");
+        Long currentTimeMilis = cal.getTimeInMillis();
+
+        Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
+                "DBS&Merlion", "FAST", toBankAccountNum, "DBS", fromBankAccountNum, "Merlion",
+                currentTimeMilis, transferAmt);
         SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 + transferAmt;
@@ -41,22 +46,28 @@ public class SACHWebService {
 
         otherBankSessionBeanLocal.actualMTOFastTransfer(fromBankAccountNum, toBankAccountNum, transferAmt);
         mEPSSessionBeanLocal.MEPSSettlementMTD("88776655", "44332211", transferAmt);
-        
+
     }
-    
+
     @WebMethod(operationName = "SACHNonStandingGIROTransferMTD")
 //    @Oneway
-    public void SACHNonStandingGIROTransferMTD(@WebParam(name = "fromBankAccountNum") String fromBankAccountNum, @WebParam(name = "toBankAccountNum") String toBankAccountNum, @WebParam(name = "transferAmt") Double transferAmt) {
-        
+    public void SACHNonStandingGIROTransferMTD(@WebParam(name = "fromBankAccountNum") String fromBankAccountNum, 
+            @WebParam(name = "toBankAccountNum") String toBankAccountNum, 
+            @WebParam(name = "transferAmt") Double transferAmt) {
+
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
-        Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion", "Non Standing GIRO");
+        Long currentTimeMilis = cal.getTimeInMillis();
+
+        Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
+                "DBS&Merlion", "Non Standing GIRO", toBankAccountNum, "DBS", fromBankAccountNum,
+                "Merlion", currentTimeMilis, transferAmt);
         SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 + transferAmt;
         Double merlionTotalCredit = 0 - transferAmt;
 
         sach.setBankBTotalCredit(dbsTotalCredit);
-        sach.setBankATotalCredit(merlionTotalCredit); 
+        sach.setBankATotalCredit(merlionTotalCredit);
     }
 }

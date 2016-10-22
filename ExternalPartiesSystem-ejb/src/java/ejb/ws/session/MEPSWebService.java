@@ -1,6 +1,7 @@
 package ejb.ws.session;
 
 import ejb.mas.entity.MEPSMasterBankAccount;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
@@ -14,13 +15,16 @@ import javax.persistence.Query;
 @Stateless()
 
 public class MEPSWebService {
+
     @PersistenceContext(unitName = "ExternalPartiesSystem-ejbPU")
     private EntityManager entityManager;
 
     @WebMethod(operationName = "maintainDailyBalance")
     @Oneway
     public void maintainDailyBalance() {
-        
+
+        DecimalFormat df = new DecimalFormat("#.00");
+
         Query query = entityManager.createQuery("SELECT m FROM MEPSMasterBankAccount m");
         List<MEPSMasterBankAccount> mepsMasterBankAccounts = query.getResultList();
 
@@ -33,7 +37,7 @@ public class MEPSWebService {
                 Double diffBalance = 100000 - Double.valueOf(currentBalance);
                 Double totalBalance = Double.valueOf(currentBalance) + diffBalance;
 
-                mepsMasterBankAccount.setMasterBankAccountBalance(totalBalance.toString());
+                mepsMasterBankAccount.setMasterBankAccountBalance(df.format(totalBalance));
             }
         }
     }

@@ -10,8 +10,8 @@ public interface MEPSSessionBeanLocal {
     public Long addNewMEPS(String settlementRef, String settlementDate, String bankNames);
 
     public void MEPSSettlementMTD(String fromMasterBankAccountNum, String toMasterBankAccountNum, Double transferAmt);
-    
+
     public List<MEPS> getAllMEPS(String bankNames);
-    
+
     public void MEPSSettlementDTM(String fromMasterBankAccountNum, String toMasterBankAccountNum, Double transferAmt);
 }

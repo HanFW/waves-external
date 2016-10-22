@@ -11,10 +11,14 @@ public interface SACHSessionBeanLocal {
 
     public SACH retrieveSACHById(Long sachId);
 
-    public Long addNewSACH(Double otherTotalCredit,Double merlionTotalCredit, 
-            String updateDate, String bankNames, String paymentMethod);
+    public Long addNewSACH(Double otherTotalCredit, Double merlionTotalCredit,
+            String currentTime, String bankNames, String paymentMethod, String creditAccountNum,
+            String creditBank, String debitAccountNum, String debitBank, Long currentTimeMilis,
+            Double creditAmt);
 
     public List<SACH> getAllSACH(String bankNames);
-    
+
     public void SACHTransferDTM(String fromBankAccount, String toBankAccount, Double transferAmt);
+
+    public void ForwardPaymentInstruction();
 }

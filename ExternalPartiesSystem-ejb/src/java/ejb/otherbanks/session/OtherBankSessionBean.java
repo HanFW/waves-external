@@ -1,6 +1,7 @@
 package ejb.otherbanks.session;
 
 import ejb.otherbanks.entity.OtherBankAccount;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -23,6 +24,8 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
     @Override
     public void actualMTOFastTransfer(String fromAccountNum, String toAccountNum, Double transferAmt) {
 
+        DecimalFormat df = new DecimalFormat("#.00");
+
         OtherBankAccount otherBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(toAccountNum);
         BankAccount bankAccount = retrieveBankAccountByNum(fromAccountNum);
         Double availableBankAcocuntBalance = Double.valueOf(otherBankAccount.getAvailableBankAccountBalance()) + transferAmt;
@@ -37,8 +40,32 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
         Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(cal.getTime().toString(),
                 otherTransactionCode, otherTransactionRef, otherAccountDebit, otherAccountCredit, otherBankAccount.getOtherBankAccountId());
 
-        otherBankAccount.setAvailableBankAccountBalance(availableBankAcocuntBalance.toString());
-        otherBankAccount.setTotalBankAccountBalance(totalBankAcocuntBalance.toString());
+        otherBankAccount.setAvailableBankAccountBalance(df.format(availableBankAcocuntBalance));
+        otherBankAccount.setTotalBankAccountBalance(df.format(totalBankAcocuntBalance));
+    }
+
+    @Override
+    public void creditPaymentToAccountMTD(String fromBankAccountNum, String toBankAccountNum, Double paymentAmt) {
+
+        DecimalFormat df = new DecimalFormat("#.00");
+
+        OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(toBankAccountNum);
+        Double currentAvailableBalance = Double.valueOf(dbsBankAccount.getAvailableBankAccountBalance()) + paymentAmt;
+
+        dbsBankAccount.setAvailableBankAccountBalance(df.format(currentAvailableBalance));
+        dbsBankAccount.setTotalBankAccountBalance(df.format(currentAvailableBalance));
+
+        BankAccount bankAccount = retrieveBankAccountByNum(fromBankAccountNum);
+
+        Calendar cal = Calendar.getInstance();
+        String transactionDate = cal.getTime().toString();
+        String transactionCode = "BILL";
+        String accountCredit = paymentAmt.toString();
+        String transactionRef = bankAccount.getBankAccountType() + bankAccount.getBankAccountNum();
+
+        Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
+                transactionRef, " ", accountCredit, dbsBankAccount.getOtherBankAccountId());
+
     }
 
     private BankAccount retrieveBankAccountByNum(java.lang.String bankAccountNum) {

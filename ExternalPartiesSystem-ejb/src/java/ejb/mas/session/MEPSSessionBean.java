@@ -2,6 +2,8 @@ package ejb.mas.session;
 
 import ejb.mas.entity.MEPS;
 import ejb.mas.entity.MEPSMasterBankAccount;
+import ejb.otherbanks.session.OtherBankSessionBeanLocal;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
@@ -13,6 +15,9 @@ import javax.persistence.Query;
 @Stateless
 
 public class MEPSSessionBean implements MEPSSessionBeanLocal {
+
+    @EJB
+    private OtherBankSessionBeanLocal otherBankSessionBeanLocal;
 
     @EJB
     private MEPSMasterAccountTransactionSessionBeanLocal mEPSMasterAccountTransactionSessionBeanLocal;
@@ -41,13 +46,15 @@ public class MEPSSessionBean implements MEPSSessionBeanLocal {
     @Override
     public void MEPSSettlementMTD(String fromMasterBankAccountNum, String toMasterBankAccountNum, Double transferAmt) {
 
+        DecimalFormat df = new DecimalFormat("#.00");
+
         MEPSMasterBankAccount merlionMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveMEPSMasterBankAccountByAccNum(fromMasterBankAccountNum);
         MEPSMasterBankAccount dbsMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveMEPSMasterBankAccountByAccNum(toMasterBankAccountNum);
 
-        String settlementRefMerlion = "Pay " + "S$" + transferAmt+ " to DBS";
-        String settlementRefDBS = "Receive " +"S$" +transferAmt+" from Merlion Bank";
-        String settlementRef = "Merlion Bank pays DBS S$"+transferAmt;
-        
+        String settlementRefMerlion = "Pay " + "S$" + transferAmt + " to DBS";
+        String settlementRefDBS = "Receive " + "S$" + transferAmt + " from Merlion Bank";
+        String settlementRef = "Merlion Bank pays DBS S$" + transferAmt;
+
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
         String bankNames = "DBS&Merlion";
@@ -57,15 +64,15 @@ public class MEPSSessionBean implements MEPSSessionBeanLocal {
         Double merlionCurrentBalance = Double.valueOf(merlionMasterBankAccount.getMasterBankAccountBalance()) - transferAmt;
         Double dbsCurrentBalance = Double.valueOf(dbsMasterBankAccount.getMasterBankAccountBalance()) + transferAmt;
 
-        Long newDBSMasterAccountTransaction = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime, 
+        Long newDBSMasterAccountTransaction = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime,
                 settlementRefDBS, " ", transferAmt.toString(), dbsMasterBankAccount.getMasterBankAccountId());
-        Long newMerlionMasterAccountTransaction = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime, 
+        Long newMerlionMasterAccountTransaction = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime,
                 settlementRefMerlion, transferAmt.toString(), " ", merlionMasterBankAccount.getMasterBankAccountId());
 
-        merlionMasterBankAccount.setMasterBankAccountBalance(merlionCurrentBalance.toString());
-        dbsMasterBankAccount.setMasterBankAccountBalance(dbsCurrentBalance.toString());
+        merlionMasterBankAccount.setMasterBankAccountBalance(df.format(merlionCurrentBalance));
+        dbsMasterBankAccount.setMasterBankAccountBalance(df.format(dbsCurrentBalance));
     }
-    
+
     @Override
     public List<MEPS> getAllMEPS(String bankNames) {
 
@@ -74,17 +81,19 @@ public class MEPSSessionBean implements MEPSSessionBeanLocal {
 
         return query.getResultList();
     }
-    
+
     @Override
     public void MEPSSettlementDTM(String fromMasterBankAccountNum, String toMasterBankAccountNum, Double transferAmt) {
+
+        DecimalFormat df = new DecimalFormat("#.00");
 
         MEPSMasterBankAccount merlionMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveMEPSMasterBankAccountByAccNum(toMasterBankAccountNum);
         MEPSMasterBankAccount dbsMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveMEPSMasterBankAccountByAccNum(fromMasterBankAccountNum);
 
-        String settlementRefMerlion = "Receive " + "S$" + transferAmt+ " from DBS";
-        String settlementRefDBS = "Pay " +"S$" +transferAmt+" to Merlion Bank";
-        String settlementRef = "DBS pays Merlion Bank S$"+transferAmt;
-        
+        String settlementRefMerlion = "Receive " + "S$" + transferAmt + " from DBS";
+        String settlementRefDBS = "Pay " + "S$" + transferAmt + " to Merlion Bank";
+        String settlementRef = "DBS pays Merlion Bank S$" + transferAmt;
+
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
         String bankNames = "DBS&Merlion";
@@ -94,12 +103,12 @@ public class MEPSSessionBean implements MEPSSessionBeanLocal {
         Double merlionCurrentBalance = Double.valueOf(merlionMasterBankAccount.getMasterBankAccountBalance()) + transferAmt;
         Double dbsCurrentBalance = Double.valueOf(dbsMasterBankAccount.getMasterBankAccountBalance()) - transferAmt;
 
-        Long newDBSMasterAccountTransaction = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime, 
+        Long newDBSMasterAccountTransaction = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime,
                 settlementRefDBS, transferAmt.toString(), " ", dbsMasterBankAccount.getMasterBankAccountId());
-        Long newMerlionMasterAccountTransaction = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime, 
+        Long newMerlionMasterAccountTransaction = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime,
                 settlementRefMerlion, " ", transferAmt.toString(), merlionMasterBankAccount.getMasterBankAccountId());
 
-        merlionMasterBankAccount.setMasterBankAccountBalance(merlionCurrentBalance.toString());
-        dbsMasterBankAccount.setMasterBankAccountBalance(dbsCurrentBalance.toString());
+        merlionMasterBankAccount.setMasterBankAccountBalance(df.format(merlionCurrentBalance));
+        dbsMasterBankAccount.setMasterBankAccountBalance(df.format(dbsCurrentBalance));
     }
 }

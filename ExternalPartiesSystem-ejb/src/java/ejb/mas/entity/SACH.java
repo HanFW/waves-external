@@ -14,9 +14,15 @@ public class SACH implements Serializable {
     private Long sachId;
     private Double bankATotalCredit;
     private Double bankBTotalCredit;
-    private String updateDate;
+    private String currentTime;
     private String bankNames;
     private String paymentMethod;
+    private String creditAccountNum;
+    private String creditBank;
+    private String debitAccountNum;
+    private String debitBank;
+    private Long currentTimeMilis;
+    private Double creditAmt;
 
     public Long getSachId() {
         return sachId;
@@ -24,14 +30,6 @@ public class SACH implements Serializable {
 
     public void setSachId(Long sachId) {
         this.sachId = sachId;
-    }
-
-    public String getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate;
     }
 
     public String getBankNames() {
@@ -64,6 +62,62 @@ public class SACH implements Serializable {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public String getCreditAccountNum() {
+        return creditAccountNum;
+    }
+
+    public void setCreditAccountNum(String creditAccountNum) {
+        this.creditAccountNum = creditAccountNum;
+    }
+
+    public String getCreditBank() {
+        return creditBank;
+    }
+
+    public void setCreditBank(String creditBank) {
+        this.creditBank = creditBank;
+    }
+
+    public String getDebitAccountNum() {
+        return debitAccountNum;
+    }
+
+    public void setDebitAccountNum(String debitAccountNum) {
+        this.debitAccountNum = debitAccountNum;
+    }
+
+    public String getDebitBank() {
+        return debitBank;
+    }
+
+    public void setDebitBank(String debitBank) {
+        this.debitBank = debitBank;
+    }
+
+    public String getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(String currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    public Long getCurrentTimeMilis() {
+        return currentTimeMilis;
+    }
+
+    public void setCurrentTimeMilis(Long currentTimeMilis) {
+        this.currentTimeMilis = currentTimeMilis;
+    }
+
+    public Double getCreditAmt() {
+        return creditAmt;
+    }
+
+    public void setCreditAmt(Double creditAmt) {
+        this.creditAmt = creditAmt;
     }
     
     @Override
