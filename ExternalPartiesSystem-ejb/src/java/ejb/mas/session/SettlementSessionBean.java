@@ -1,5 +1,6 @@
 package ejb.mas.session;
 
+import ejb.mas.entity.MEPSMasterBankAccount;
 import ejb.mas.entity.SACH;
 import ejb.mas.entity.Settlement;
 import java.util.Calendar;
@@ -16,7 +17,7 @@ import javax.persistence.Query;
 public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
     @EJB
-    private SACHSessionBeanLocal sACHSessionBean;
+    private MEPSMasterBankAccountSessionBeanLocal mEPSMasterBankAccountSessionBeanLocal;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -46,13 +47,17 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
     @Override
     public Long addNewSettlement(String dailySettlementAmt, String dailySettlementRef,
-            String updateDate, String bankNames) {
+            String updateDate, String bankNames, String settlementStatus, String creditMEPSBank,
+            String creditMEPSBankAccountNum, String debitMEPSBank, String debitMEPSBankAccountNum) {
         Settlement settlement = new Settlement();
 
         settlement.setBankNames(bankNames);
         settlement.setDailySettlementAmt(dailySettlementAmt);
         settlement.setDailySettlementRef(dailySettlementRef);
         settlement.setUpdateDate(updateDate);
+        settlement.setSettlementStatus(settlementStatus);
+        settlement.setCreditMEPSBankAccountNum(creditMEPSBankAccountNum);
+        settlement.setDebitMEPSBankAccountNum(debitMEPSBankAccountNum);
 
         entityManager.persist(settlement);
         entityManager.flush();
@@ -65,6 +70,10 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
         Double dailySettlementAmt = 0.0;
         String dailySettlementRef = "";
+        String creditMEPSBank = "";
+        String creditMEPSBankAccountNum = "";
+        String debitMEPSBank = "";
+        String debitMEPSBankAccountNum = "";
 
         for (int i = 0; i < sachs.size(); i++) {
             dailySettlementAmt = dailySettlementAmt + Double.valueOf(sachs.get(i).getBankATotalCredit());
@@ -72,7 +81,17 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
         if (creditBank.equals("DBS") && debitBank.equals("Merlion")) {
             if (dailySettlementAmt < 0) {
+
                 dailySettlementRef = "Merlion Bank has to pay DBS S$" + dailySettlementAmt * (-1);
+                creditMEPSBank = "DBS";
+                debitMEPSBank = "Merlion";
+
+                MEPSMasterBankAccount dbsMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("DBS");
+                MEPSMasterBankAccount merlionMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("Merlion");
+
+                creditMEPSBankAccountNum = dbsMasterBankAccount.getMasterBankAccountNum();
+                debitMEPSBankAccountNum = merlionMasterBankAccount.getMasterBankAccountNum();
+
             } else if (dailySettlementAmt > 0) {
                 dailySettlementRef = "DBS has to pay Merlion Bank S$" + dailySettlementAmt;
             } else {
@@ -85,7 +104,8 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
         Double dailySettlementAmtPos = dailySettlementAmt * (-1);
 
         Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
-                updateDate, "DBS&Merlion");
+                updateDate, "DBS&Merlion", "New", creditMEPSBank, creditMEPSBankAccountNum,
+                debitMEPSBank, debitMEPSBankAccountNum);
 
     }
 

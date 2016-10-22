@@ -1,5 +1,6 @@
 package ejb.common.util;
 
+import ejb.mas.session.MEPSSessionBeanLocal;
 import ejb.mas.session.SACHSessionBeanLocal;
 import java.util.Collection;
 import javax.annotation.Resource;
@@ -17,6 +18,9 @@ import javax.persistence.PersistenceContext;
 @LocalBean
 
 public class EjbTimerSessionBean implements EjbTimerSessionBeanLocal {
+    @EJB
+    private MEPSSessionBeanLocal mEPSSessionBeanLocal;
+
     @EJB
     private SACHSessionBeanLocal sACHSessionBeanLocal;
 
@@ -72,7 +76,8 @@ public class EjbTimerSessionBean implements EjbTimerSessionBeanLocal {
 
     private void handleTimeout_10000ms() {
         System.out.println("*** 10000MS Timer timeout");
-        
+
         sACHSessionBeanLocal.ForwardPaymentInstruction();
+        mEPSSessionBeanLocal.MEPSSettlement();
     }
 }

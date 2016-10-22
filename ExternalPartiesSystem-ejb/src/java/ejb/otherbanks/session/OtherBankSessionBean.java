@@ -48,9 +48,14 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
     public void creditPaymentToAccountMTD(String fromBankAccountNum, String toBankAccountNum, Double paymentAmt) {
 
         DecimalFormat df = new DecimalFormat("#.00");
+        Double currentAvailableBalance = 0.0;
 
         OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(toBankAccountNum);
-        Double currentAvailableBalance = Double.valueOf(dbsBankAccount.getAvailableBankAccountBalance()) + paymentAmt;
+        if (dbsBankAccount.getAvailableBankAccountBalance() == null) {
+            currentAvailableBalance = 0 + paymentAmt;
+        } else {
+            currentAvailableBalance = Double.valueOf(dbsBankAccount.getAvailableBankAccountBalance()) + paymentAmt;
+        }
 
         dbsBankAccount.setAvailableBankAccountBalance(df.format(currentAvailableBalance));
         dbsBankAccount.setTotalBankAccountBalance(df.format(currentAvailableBalance));

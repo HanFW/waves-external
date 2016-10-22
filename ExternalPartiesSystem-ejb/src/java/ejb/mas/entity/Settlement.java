@@ -17,6 +17,9 @@ public class Settlement implements Serializable {
     private String dailySettlementRef;
     private String updateDate;
     private String bankNames;
+    private String settlementStatus;
+    private String creditMEPSBankAccountNum;
+    private String debitMEPSBankAccountNum;
 
     public Long getSettlementId() {
         return settlementId;
@@ -56,6 +59,30 @@ public class Settlement implements Serializable {
 
     public void setBankNames(String bankNames) {
         this.bankNames = bankNames;
+    }
+
+    public String getSettlementStatus() {
+        return settlementStatus;
+    }
+
+    public void setSettlementStatus(String settlementStatus) {
+        this.settlementStatus = settlementStatus;
+    }
+
+    public String getCreditMEPSBankAccountNum() {
+        return creditMEPSBankAccountNum;
+    }
+
+    public void setCreditMEPSBankAccountNum(String creditMEPSBankAccountNum) {
+        this.creditMEPSBankAccountNum = creditMEPSBankAccountNum;
+    }
+
+    public String getDebitMEPSBankAccountNum() {
+        return debitMEPSBankAccountNum;
+    }
+
+    public void setDebitMEPSBankAccountNum(String debitMEPSBankAccountNum) {
+        this.debitMEPSBankAccountNum = debitMEPSBankAccountNum;
     }
 
     @Override
