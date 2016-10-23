@@ -1,6 +1,10 @@
 package ejb.mas.session;
 
+import ejb.billingprocessor.entity.Bill;
+import ejb.billingprocessor.session.BillSessionBeanLocal;
 import ejb.mas.entity.SACH;
+import ejb.otherbanks.entity.OtherBankAccount;
+import ejb.otherbanks.session.OtherBankAccountSessionBeanLocal;
 import ejb.otherbanks.session.OtherBankSessionBeanLocal;
 import java.util.Calendar;
 import java.util.List;
@@ -13,9 +17,21 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.xml.ws.WebServiceRef;
 import ws.client.fastTransfer.FastTransferWebService_Service;
+import ws.client.merlionBank.BankAccount;
+import ws.client.merlionBank.MerlionBankWebService_Service;
 
 @Stateless
 public class SACHSessionBean implements SACHSessionBeanLocal {
+
+    @EJB
+    private BillSessionBeanLocal billSessionBeanLocal;
+
+    @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl")
+    private MerlionBankWebService_Service service_bankAccount;
+
+    @EJB
+    private OtherBankAccountSessionBeanLocal otherBankAccountSessionBeanLocal;
+
     @EJB
     private SettlementSessionBeanLocal settlementSessionBeanLocal;
 
@@ -143,7 +159,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         query.setParameter("endTime", endTime);
         query.setParameter("paymentMethod", "FAST");
         List<SACH> sachs = query.getResultList();
-        
+
         for (SACH sach : sachs) {
 
             String creditAccountNum = sach.getCreditAccountNum();
@@ -153,9 +169,44 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
             Double creditAmt = sach.getCreditAmt();
 
             if (creditBank.equals("DBS") && debitBank.equals("Merlion")) {
-                settlementSessionBeanLocal.recordSettlementInformation(sachs,creditBank,debitBank);
+                settlementSessionBeanLocal.recordSettlementInformation(sachs, creditBank, debitBank);
                 otherBankSessionBeanLocal.creditPaymentToAccountMTD(debitAccountNum, creditAccountNum, creditAmt);
             }
+        }
+    }
+
+    @Override
+    public void ntucInitiateGIRO(Long billId) {
+
+        System.out.println("********Session bean ntuc initiate GIRO");
+        Bill bill = billSessionBeanLocal.retrieveBillByBillId(billId);
+
+        String debitBank = bill.getDebitBank();
+        String debitBankAccountNum = bill.getDebitBankAccountNum();
+        Double paymentAmt = Double.valueOf(bill.getPaymentAmt());
+        String bankNames = "";
+        String paymentMethod = "";
+
+        Calendar cal = Calendar.getInstance();
+        String currentTime = cal.getTime().toString();
+        Long currentTimeMilis = cal.getTimeInMillis();
+
+        if (debitBank.equals("Merlion")) {
+            BankAccount bankAccount = retrieveBankAccountByNum(debitBankAccountNum);
+            OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum("12345678");
+            bankNames = "DBS&Merlion";
+            paymentMethod = "Standing GIRO";
+
+            Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, dbsBankAccount.getOtherBankAccountNum(), "DBS",
+                    bankAccount.getBankAccountNum(), "Merlion", currentTimeMilis, paymentAmt);
+
+            SACH sach = retrieveSACHById(sachId);
+
+            Double dbsTotalCredit = 0 + paymentAmt;
+            Double merlionTotalCredit = 0 - paymentAmt;
+
+            sach.setBankBTotalCredit(dbsTotalCredit);
+            sach.setBankATotalCredit(merlionTotalCredit);
         }
     }
 
@@ -164,5 +215,12 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.fastTransfer.FastTransferWebService port = service.getFastTransferWebServicePort();
         port.actualOTMFastTransfer(fromBankAccountNum, toBankAccountNum, transferAmt);
+    }
+
+    private BankAccount retrieveBankAccountByNum(java.lang.String bankAccountNum) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_bankAccount.getMerlionBankWebServicePort();
+        return port.retrieveBankAccountByNum(bankAccountNum);
     }
 }

@@ -45,7 +45,7 @@ public class OtherBankAccountSessionBean implements OtherBankAccountSessionBeanL
 
         return otherBankAccount;
     }
-    
+
     @Override
     public OtherBankAccount retrieveBankAccountById(Long otherBankAccountId) {
         OtherBankAccount otherBankAccount = new OtherBankAccount();
@@ -68,12 +68,12 @@ public class OtherBankAccountSessionBean implements OtherBankAccountSessionBeanL
 
         return otherBankAccount;
     }
-    
+
     @Override
-    public void updateBankAccountBalance(String otherBankAccountNum,String availableBankAccountBalance,
+    public void updateBankAccountBalance(String otherBankAccountNum, String availableBankAccountBalance,
             String totalBankAccountBalance) {
         OtherBankAccount otherBankAccount = retrieveBankAccountByNum(otherBankAccountNum);
-        
+
         otherBankAccount.setAvailableBankAccountBalance(availableBankAccountBalance);
         otherBankAccount.setTotalBankAccountBalance(totalBankAccountBalance);
     }

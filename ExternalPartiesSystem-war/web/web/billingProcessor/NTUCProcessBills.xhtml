@@ -21,45 +21,42 @@
                     <p:menuitem value="DBS Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />
                     <p:menuitem value="DBS View Transaction" url="/web/otherBanks/dbs/dbsViewAccount.xhtml" />
                 </p:submenu>
-                
+
                 <p:submenu label="Billing Processor" >
                     <p:menuitem value="NTUC" url="/web/billingProcessor/NTUCProcessBills.xhtml" />
                 </p:submenu>
             </p:menubar>
         </h:form>
-        
+
         <h:form>
-            <h:outputText value="View DBS Master Account Transaction" />
+            <h:outputText value="NTUC Process Bills" />
             <br/>
             <br/>
-            <p:dataTable var="dbsMasterAccountTransaction" 
-                         value="#{dBSMasterAccountTransactionManagedBean.dbsMasterAccountTransactions}" 
+            <p:dataTable var="ntucBill" 
+                         value="#{nTUCProcessBillsManagedBean.allNTUCBills}" 
                          reflow="true" paginator="true" rows="10" emptyMessage="No Transaction">
-                <p:column headerText="Transaction Id"> 
-                    <h:outputText value="#{dbsMasterAccountTransaction.transactionId}" />
+                <p:column headerText="Customer Name"> 
+                    <h:outputText value="#{ntucBill.customerName}" />
                 </p:column>
 
-                <p:column headerText="Transaction Date"> 
-                    <h:outputText value="#{dbsMasterAccountTransaction.transactionDate}" />
+                <p:column headerText="Billing Service"> 
+                    <h:outputText value="#{ntucBill.billingOrganizationName}" />
+                </p:column>
+                
+                <p:column headerText="Bill Reference"> 
+                    <h:outputText value="#{ntucBill.billReference}" />
                 </p:column>
 
-                <p:column headerText="Transaction Ref"> 
-                    <h:outputText value="#{dbsMasterAccountTransaction.transactionRef}" />
-                </p:column>
-
-                <p:column headerText="Account Debit(S$)(Withdrawal)"> 
-                    <h:outputText value="#{dbsMasterAccountTransaction.accountDebit}" />
-                </p:column>
-
-                <p:column headerText="Account Credit(S$)(Deposit)"> 
-                    <h:outputText value="#{dbsMasterAccountTransaction.accountCredit}" />
+                <p:column headerText="Action" style="width: 10%"> 
+                    <center>
+                        <p:commandButton process="@this" action="/web/billingProcessor/NTUCProcessBillsDone.xhtml?faces-redirect=true"
+                                         ajax="false" value="Billing"> 
+                            <f:setPropertyActionListener target="#{nTUCProcessBillsDoneManagedBean.billId}" value="#{ntucBill.billId}" />
+                        </p:commandButton>
+                    </center>
                 </p:column>
             </p:dataTable>
-            <br/>
-            <p:commandButton id="backBtn" value="Back" 
-                             action="/web/index.xhtml?faces-redirect=true" 
-                             ajax="true"/>
+
         </h:form>
     </h:body>
 </html>
-

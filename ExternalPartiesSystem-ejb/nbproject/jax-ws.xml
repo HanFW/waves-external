@@ -10,6 +10,9 @@
     <service name="MEPSWebService">
       <implementation-class>ejb.ws.session.MEPSWebService</implementation-class>
     </service>
+    <service name="BillWebService">
+      <implementation-class>ejb.ws.session.BillWebService</implementation-class>
+    </service>
   </services>
   <clients>
     <client name="MerlionBankWebService">

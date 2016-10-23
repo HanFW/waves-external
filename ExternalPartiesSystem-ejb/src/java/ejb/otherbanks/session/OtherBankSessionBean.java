@@ -1,5 +1,6 @@
 package ejb.otherbanks.session;
 
+import ejb.mas.session.SACHSessionBeanLocal;
 import ejb.otherbanks.entity.OtherBankAccount;
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -11,6 +12,9 @@ import ws.client.merlionBank.MerlionBankWebService_Service;
 
 @Stateless
 public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
+
+    @EJB
+    private SACHSessionBeanLocal sACHSessionBeanLocal;
 
     @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl")
     private MerlionBankWebService_Service service_merlionBank;
@@ -71,6 +75,11 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
         Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
                 transactionRef, " ", accountCredit, dbsBankAccount.getOtherBankAccountId());
 
+    }
+
+    @Override
+    public void askForCreditOtherBankAccount(Long billId) {
+        sACHSessionBeanLocal.ntucInitiateGIRO(billId);
     }
 
     private BankAccount retrieveBankAccountByNum(java.lang.String bankAccountNum) {

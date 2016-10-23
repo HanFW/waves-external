@@ -21,4 +21,6 @@ public interface SACHSessionBeanLocal {
     public void SACHTransferDTM(String fromBankAccount, String toBankAccount, Double transferAmt);
 
     public void ForwardPaymentInstruction();
+
+    public void ntucInitiateGIRO(Long billId);
 }
