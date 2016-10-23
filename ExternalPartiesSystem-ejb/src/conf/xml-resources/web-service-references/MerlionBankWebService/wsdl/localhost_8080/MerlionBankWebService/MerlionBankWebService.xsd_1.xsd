@@ -2,6 +2,10 @@
 
 <xs:element name="bankAccount" type="tns:bankAccount"/>
 
+<xs:element name="debitBankAccount" type="tns:debitBankAccount"/>
+
+<xs:element name="debitBankAccountResponse" type="tns:debitBankAccountResponse"/>
+
 <xs:element name="retrieveBankAccountByNum" type="tns:retrieveBankAccountByNum"/>
 
 <xs:element name="retrieveBankAccountByNumResponse" type="tns:retrieveBankAccountByNumResponse"/>
@@ -339,5 +343,16 @@
 <xs:element name="statementId" type="xs:long" minOccurs="0"/>
 <xs:element name="statementType" type="xs:string" minOccurs="0"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="debitBankAccount">
+<xs:sequence>
+<xs:element name="debitBankAccountNum" type="xs:string" minOccurs="0"/>
+<xs:element name="debitAmt" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="debitBankAccountResponse">
+<xs:sequence/>
 </xs:complexType>
 </xs:schema>

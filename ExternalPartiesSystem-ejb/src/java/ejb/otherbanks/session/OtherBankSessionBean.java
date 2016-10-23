@@ -64,16 +64,16 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
         dbsBankAccount.setAvailableBankAccountBalance(df.format(currentAvailableBalance));
         dbsBankAccount.setTotalBankAccountBalance(df.format(currentAvailableBalance));
 
-        BankAccount bankAccount = retrieveBankAccountByNum(fromBankAccountNum);
+//        BankAccount bankAccount = retrieveBankAccountByNum(fromBankAccountNum);
 
-        Calendar cal = Calendar.getInstance();
-        String transactionDate = cal.getTime().toString();
-        String transactionCode = "BILL";
-        String accountCredit = paymentAmt.toString();
-        String transactionRef = bankAccount.getBankAccountType() + bankAccount.getBankAccountNum();
-
-        Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
-                transactionRef, " ", accountCredit, dbsBankAccount.getOtherBankAccountId());
+//        Calendar cal = Calendar.getInstance();
+//        String transactionDate = cal.getTime().toString();
+//        String transactionCode = "BILL";
+//        String accountCredit = paymentAmt.toString();
+//        String transactionRef = bankAccount.getBankAccountType() + bankAccount.getBankAccountNum();
+//
+//        Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
+//                transactionRef, " ", accountCredit, dbsBankAccount.getOtherBankAccountId());
 
     }
 

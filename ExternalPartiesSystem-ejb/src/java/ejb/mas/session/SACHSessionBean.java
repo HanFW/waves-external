@@ -171,6 +171,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
             if (creditBank.equals("DBS") && debitBank.equals("Merlion")) {
                 settlementSessionBeanLocal.recordSettlementInformation(sachs, creditBank, debitBank);
                 otherBankSessionBeanLocal.creditPaymentToAccountMTD(debitAccountNum, creditAccountNum, creditAmt);
+                debitBankAccount(debitAccountNum, creditAmt);
             }
         }
     }
@@ -178,7 +179,6 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
     @Override
     public void ntucInitiateGIRO(Long billId) {
 
-        System.out.println("********Session bean ntuc initiate GIRO");
         Bill bill = billSessionBeanLocal.retrieveBillByBillId(billId);
 
         String debitBank = bill.getDebitBank();
@@ -192,6 +192,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         Long currentTimeMilis = cal.getTimeInMillis();
 
         if (debitBank.equals("Merlion")) {
+
             BankAccount bankAccount = retrieveBankAccountByNum(debitBankAccountNum);
             OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum("12345678");
             bankNames = "DBS&Merlion";
@@ -207,6 +208,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
 
             sach.setBankBTotalCredit(dbsTotalCredit);
             sach.setBankATotalCredit(merlionTotalCredit);
+
         }
     }
 
@@ -222,5 +224,12 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_bankAccount.getMerlionBankWebServicePort();
         return port.retrieveBankAccountByNum(bankAccountNum);
+    }
+
+    private void debitBankAccount(java.lang.String debitBankAccountNum, java.lang.Double debitAmt) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_bankAccount.getMerlionBankWebServicePort();
+        port.debitBankAccount(debitBankAccountNum, debitAmt);
     }
 }
