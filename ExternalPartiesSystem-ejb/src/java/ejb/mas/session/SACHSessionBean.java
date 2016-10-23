@@ -16,6 +16,8 @@ import ws.client.fastTransfer.FastTransferWebService_Service;
 
 @Stateless
 public class SACHSessionBean implements SACHSessionBeanLocal {
+    @EJB
+    private SettlementSessionBeanLocal settlementSessionBeanLocal;
 
     @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/FastTransferWebService/FastTransferWebService.wsdl")
     private FastTransferWebService_Service service;
@@ -34,16 +36,19 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
 
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
-        Long sachId = addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion");
+        Long currentTimeMilis = cal.getTimeInMillis();
+
+        Long sachId = addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion", "FAST",
+                toBankAccount, "DBS", fromBankAccount, "Merlion", currentTimeMilis, transferAmt);
         SACH sach = retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 + transferAmt;
         Double merlionTotalCredit = 0 - transferAmt;
 
-        sach.setOtherBankTotalCredit(dbsTotalCredit);
-        sach.setMerlionTotalCredit(merlionTotalCredit);
+        sach.setBankBTotalCredit(dbsTotalCredit);
+        sach.setBankATotalCredit(merlionTotalCredit);
 
-        otherBankSessionBeanLocal.actualTransfer(fromBankAccount, toBankAccount, transferAmt);
+        otherBankSessionBeanLocal.actualMTOFastTransfer(fromBankAccount, toBankAccount, transferAmt);
         mEPSSessionBeanLocal.MEPSSettlementMTD("88776655", "44332211", transferAmt);
     }
 
@@ -71,14 +76,24 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
     }
 
     @Override
-    public Long addNewSACH(Double otherTotalCredit, Double merlionTotalCredit, String updateDate, String bankNames) {
+    public Long addNewSACH(Double otherTotalCredit, Double merlionTotalCredit,
+            String currentTime, String bankNames, String paymentMethod, String creditAccountNum,
+            String creditBank, String debitAccountNum, String debitBank, Long currentTimeMilis,
+            Double creditAmt) {
 
         SACH sach = new SACH();
 
-        sach.setOtherBankTotalCredit(otherTotalCredit);
-        sach.setMerlionTotalCredit(merlionTotalCredit);
-        sach.setUpdateDate(updateDate);
+        sach.setBankBTotalCredit(otherTotalCredit);
+        sach.setBankATotalCredit(merlionTotalCredit);
+        sach.setCurrentTime(currentTime);
         sach.setBankNames(bankNames);
+        sach.setPaymentMethod(paymentMethod);
+        sach.setCreditAccountNum(creditAccountNum);
+        sach.setCreditBank(creditBank);
+        sach.setDebitAccountNum(debitAccountNum);
+        sach.setDebitBank(debitBank);
+        sach.setCurrentTimeMilis(currentTimeMilis);
+        sach.setCreditAmt(creditAmt);
 
         entityManager.persist(sach);
         entityManager.flush();
@@ -100,23 +115,54 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
 
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
-        Long sachId = addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion");
+        Long currentTimeMilis = cal.getTimeInMillis();
+
+        Long sachId = addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion", "FAST", toBankAccount,
+                "Merlion", fromBankAccount, "DBS", currentTimeMilis, transferAmt);
         SACH sach = retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 - transferAmt;
         Double merlionTotalCredit = 0 + transferAmt;
 
-        sach.setOtherBankTotalCredit(merlionTotalCredit);
-        sach.setMerlionTotalCredit(merlionTotalCredit);
+        sach.setBankBTotalCredit(dbsTotalCredit);
+        sach.setBankATotalCredit(merlionTotalCredit);
 
-        fastTransfer(fromBankAccount, toBankAccount, transferAmt);
+        actualOTMFastTransfer(fromBankAccount, toBankAccount, transferAmt);
         mEPSSessionBeanLocal.MEPSSettlementDTM("44332211", "88776655", transferAmt);
     }
 
-    private void fastTransfer(java.lang.String fromBankAccountNum, java.lang.String toBankAccountNum, java.lang.Double transferAmt) {
+    @Override
+    public void ForwardPaymentInstruction() {
+
+        Calendar cal = Calendar.getInstance();
+        Long startTime = cal.getTimeInMillis() - 10000;
+        Long endTime = cal.getTimeInMillis();
+
+        Query query = entityManager.createQuery("SELECT s FROM SACH s WHERE s.currentTimeMilis >= :startTime And s.currentTimeMilis<=:endTime And s.paymentMethod<>:paymentMethod");
+        query.setParameter("startTime", startTime);
+        query.setParameter("endTime", endTime);
+        query.setParameter("paymentMethod", "FAST");
+        List<SACH> sachs = query.getResultList();
+        
+        for (SACH sach : sachs) {
+
+            String creditAccountNum = sach.getCreditAccountNum();
+            String creditBank = sach.getCreditBank();
+            String debitAccountNum = sach.getDebitAccountNum();
+            String debitBank = sach.getDebitBank();
+            Double creditAmt = sach.getCreditAmt();
+
+            if (creditBank.equals("DBS") && debitBank.equals("Merlion")) {
+                settlementSessionBeanLocal.recordSettlementInformation(sachs,creditBank,debitBank);
+                otherBankSessionBeanLocal.creditPaymentToAccountMTD(debitAccountNum, creditAccountNum, creditAmt);
+            }
+        }
+    }
+
+    private void actualOTMFastTransfer(java.lang.String fromBankAccountNum, java.lang.String toBankAccountNum, java.lang.Double transferAmt) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.fastTransfer.FastTransferWebService port = service.getFastTransferWebServicePort();
-        port.fastTransfer(fromBankAccountNum, toBankAccountNum, transferAmt);
+        port.actualOTMFastTransfer(fromBankAccountNum, toBankAccountNum, transferAmt);
     }
 }

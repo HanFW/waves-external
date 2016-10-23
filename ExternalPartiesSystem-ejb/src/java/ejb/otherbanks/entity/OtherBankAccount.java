@@ -18,11 +18,16 @@ public class OtherBankAccount implements Serializable {
     private Long otherBankAccountId;
     private String otherBankAccountNum;
     private String otherBankAccountType;
-    private String otherBankAccountBalance;
+    private String totalBankAccountBalance;
+    private String availableBankAccountBalance;
     private String bankName;
+    private String swiftCode;
     
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "otherBankAccount")
     private List<OtherBankAccountTransaction> otherBankAccountTransaction;
+    
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "otherBankAccount")
+    private List<IssuedCheque> issuedCheque;
 
     public Long getOtherBankAccountId() {
         return otherBankAccountId;
@@ -48,14 +53,6 @@ public class OtherBankAccount implements Serializable {
         this.otherBankAccountType = otherBankAccountType;
     }
 
-    public String getOtherBankAccountBalance() {
-        return otherBankAccountBalance;
-    }
-
-    public void setOtherBankAccountBalance(String otherBankAccountBalance) {
-        this.otherBankAccountBalance = otherBankAccountBalance;
-    }
-
     public List<OtherBankAccountTransaction> getOtherBankAccountTransaction() {
         return otherBankAccountTransaction;
     }
@@ -70,6 +67,38 @@ public class OtherBankAccount implements Serializable {
 
     public void setBankName(String bankName) {
         this.bankName = bankName;
+    }
+
+    public String getSwiftCode() {
+        return swiftCode;
+    }
+
+    public void setSwiftCode(String swiftCode) {
+        this.swiftCode = swiftCode;
+    }
+
+    public List<IssuedCheque> getIssuedCheque() {
+        return issuedCheque;
+    }
+
+    public void setIssuedCheque(List<IssuedCheque> issuedCheque) {
+        this.issuedCheque = issuedCheque;
+    }
+
+    public String getTotalBankAccountBalance() {
+        return totalBankAccountBalance;
+    }
+
+    public void setTotalBankAccountBalance(String totalBankAccountBalance) {
+        this.totalBankAccountBalance = totalBankAccountBalance;
+    }
+
+    public String getAvailableBankAccountBalance() {
+        return availableBankAccountBalance;
+    }
+
+    public void setAvailableBankAccountBalance(String availableBankAccountBalance) {
+        this.availableBankAccountBalance = availableBankAccountBalance;
     }
 
     @Override

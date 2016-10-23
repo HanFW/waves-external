@@ -4,5 +4,6 @@ import javax.ejb.Local;
 
 @Local
 public interface OtherBankSessionBeanLocal {
-    public void actualTransfer(String fromAccountNum, String toAccountNum, Double transferAmt);
+    public void actualMTOFastTransfer(String fromAccountNum, String toAccountNum, Double transferAmt);
+    public void creditPaymentToAccountMTD(String fromBankAccountNum, String toBankAccountNum, Double paymentAmt);
 }

@@ -17,8 +17,8 @@ public class DBSFastTransferDoneManagedBean {
     private String transactionId;
     private String toBankAccountNumWithType;
     private String fromBankAccountNumWithType;
-    private String fromBankAccountBalance;
-    private String toBankAccountBalance;
+    private String fromAccountAvailableBalance;
+    private String fromAccountTotalBalance;
 
     public DBSFastTransferDoneManagedBean() {
     }
@@ -32,7 +32,8 @@ public class DBSFastTransferDoneManagedBean {
         transferAmt = "S$" + FacesContext.getCurrentInstance().getExternalContext().getFlash().get("transferAmt").toString();
         fromAccount = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("fromAccount").toString();
         toAccount = FacesContext.getCurrentInstance().getExternalContext().getFlash().get("toAccount").toString();
-        fromBankAccountBalance = "S$"+FacesContext.getCurrentInstance().getExternalContext().getFlash().get("fromAccountBalance").toString();
+        fromAccountAvailableBalance = "S$" + FacesContext.getCurrentInstance().getExternalContext().getFlash().get("fromAccountAvailableBalance").toString();
+        fromAccountTotalBalance = "S$" + FacesContext.getCurrentInstance().getExternalContext().getFlash().get("fromAccountTotalBalance").toString();
     }
 
     public String getStatusMessage() {
@@ -91,19 +92,19 @@ public class DBSFastTransferDoneManagedBean {
         this.fromBankAccountNumWithType = fromBankAccountNumWithType;
     }
 
-    public String getFromBankAccountBalance() {
-        return fromBankAccountBalance;
+    public String getFromAccountAvailableBalance() {
+        return fromAccountAvailableBalance;
     }
 
-    public void setFromBankAccountBalance(String fromBankAccountBalance) {
-        this.fromBankAccountBalance = fromBankAccountBalance;
+    public void setFromAccountAvailableBalance(String fromAccountAvailableBalance) {
+        this.fromAccountAvailableBalance = fromAccountAvailableBalance;
     }
 
-    public String getToBankAccountBalance() {
-        return toBankAccountBalance;
+    public String getFromAccountTotalBalance() {
+        return fromAccountTotalBalance;
     }
 
-    public void setToBankAccountBalance(String toBankAccountBalance) {
-        this.toBankAccountBalance = toBankAccountBalance;
+    public void setFromAccountTotalBalance(String fromAccountTotalBalance) {
+        this.fromAccountTotalBalance = fromAccountTotalBalance;
     }
 }

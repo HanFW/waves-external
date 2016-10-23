@@ -32,18 +32,42 @@
                          reflow="true" paginator="true" rows="10" emptyMessage="No Record" >
 
                 <p:column headerText="Date"> 
-                    <h:outputText value="#{dbsAndMerlionSACH.updateDate}" />
+                    <h:outputText value="#{dbsAndMerlionSACH.currentTime}" />
                 </p:column>
 
-                <p:column headerText="DBS Total Credit"> 
-                    <h:outputText value="#{dbsAndMerlionSACH.otherBankTotalCredit}" />
+                <p:column headerText="DBS Credit(S$)"> 
+                    <h:outputText value="#{dbsAndMerlionSACH.bankBTotalCredit}" />
                 </p:column>
 
-                <p:column headerText="Merlion Total Credit"> 
-                    <h:outputText value="#{dbsAndMerlionSACH.merlionTotalCredit}" />
+                <p:column headerText="Merlion Credit(S$)"> 
+                    <h:outputText value="#{dbsAndMerlionSACH.bankATotalCredit}" />
+                </p:column>
+                
+                <p:column headerText="Payment Method"> 
+                    <h:outputText value="#{dbsAndMerlionSACH.paymentMethod}" />
                 </p:column>
             </p:dataTable>
             <br/>
+            <br/>
+            <p:dataTable var="settlement" value="#{sACHHistoryRecordManagedBean.allSettlement}" 
+                         reflow="true" paginator="true" rows="10" emptyMessage="No Record" >
+
+                <p:column headerText="Date"> 
+                    <h:outputText value="#{settlement.updateDate}" />
+                </p:column>
+
+                <p:column headerText="Transfer Amount(S$)"> 
+                    <h:outputText value="#{settlement.dailySettlementAmt}" />
+                </p:column>
+
+                <p:column headerText="Reference"> 
+                    <h:outputText value="#{settlement.dailySettlementRef}" />
+                </p:column>
+                
+                <p:column headerText="Bank"> 
+                    <h:outputText value="#{settlement.bankNames}" />
+                </p:column>
+            </p:dataTable>
             <p:commandButton id="backBtn" value="Back" action="/web/index.xhtml?faces-redirect=true" 
                              ajax="true"/>
         </h:form>

@@ -12,11 +12,17 @@ public class SACH implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sachId;
-    private Double otherBankTotalCredit;
-    private Double merlionTotalCredit;
-    private String updateDate;
+    private Double bankATotalCredit;
+    private Double bankBTotalCredit;
+    private String currentTime;
     private String bankNames;
-    private String fastTransferRef;
+    private String paymentMethod;
+    private String creditAccountNum;
+    private String creditBank;
+    private String debitAccountNum;
+    private String debitBank;
+    private Long currentTimeMilis;
+    private Double creditAmt;
 
     public Long getSachId() {
         return sachId;
@@ -24,14 +30,6 @@ public class SACH implements Serializable {
 
     public void setSachId(Long sachId) {
         this.sachId = sachId;
-    }
-
-    public String getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate;
     }
 
     public String getBankNames() {
@@ -42,28 +40,84 @@ public class SACH implements Serializable {
         this.bankNames = bankNames;
     }
 
-    public Double getMerlionTotalCredit() {
-        return merlionTotalCredit;
+    public Double getBankATotalCredit() {
+        return bankATotalCredit;
     }
 
-    public void setMerlionTotalCredit(Double merlionTotalCredit) {
-        this.merlionTotalCredit = merlionTotalCredit;
+    public void setBankATotalCredit(Double bankATotalCredit) {
+        this.bankATotalCredit = bankATotalCredit;
     }
 
-    public Double getOtherBankTotalCredit() {
-        return otherBankTotalCredit;
+    public Double getBankBTotalCredit() {
+        return bankBTotalCredit;
     }
 
-    public void setOtherBankTotalCredit(Double otherBankTotalCredit) {
-        this.otherBankTotalCredit = otherBankTotalCredit;
+    public void setBankBTotalCredit(Double bankBTotalCredit) {
+        this.bankBTotalCredit = bankBTotalCredit;
     }
 
-    public String getFastTransferRef() {
-        return fastTransferRef;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setFastTransferRef(String fastTransferRef) {
-        this.fastTransferRef = fastTransferRef;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getCreditAccountNum() {
+        return creditAccountNum;
+    }
+
+    public void setCreditAccountNum(String creditAccountNum) {
+        this.creditAccountNum = creditAccountNum;
+    }
+
+    public String getCreditBank() {
+        return creditBank;
+    }
+
+    public void setCreditBank(String creditBank) {
+        this.creditBank = creditBank;
+    }
+
+    public String getDebitAccountNum() {
+        return debitAccountNum;
+    }
+
+    public void setDebitAccountNum(String debitAccountNum) {
+        this.debitAccountNum = debitAccountNum;
+    }
+
+    public String getDebitBank() {
+        return debitBank;
+    }
+
+    public void setDebitBank(String debitBank) {
+        this.debitBank = debitBank;
+    }
+
+    public String getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(String currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    public Long getCurrentTimeMilis() {
+        return currentTimeMilis;
+    }
+
+    public void setCurrentTimeMilis(Long currentTimeMilis) {
+        this.currentTimeMilis = currentTimeMilis;
+    }
+
+    public Double getCreditAmt() {
+        return creditAmt;
+    }
+
+    public void setCreditAmt(Double creditAmt) {
+        this.creditAmt = creditAmt;
     }
     
     @Override

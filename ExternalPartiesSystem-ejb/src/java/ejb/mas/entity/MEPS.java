@@ -15,7 +15,7 @@ public class MEPS implements Serializable {
     private String settlementRef;
     private String settlementDate;
     private String bankNames;
-
+    
     public Long getMepsId() {
         return mepsId;
     }

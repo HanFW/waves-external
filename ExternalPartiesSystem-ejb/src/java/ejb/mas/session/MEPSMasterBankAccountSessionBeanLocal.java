@@ -9,4 +9,5 @@ public interface MEPSMasterBankAccountSessionBeanLocal {
     public MEPSMasterBankAccount retrieveMEPSMasterBankAccountByAccNum(String masterBankAccountNum);
     public MEPSMasterBankAccount retrieveMEPSMasterBankAccountById(Long masterBankAccountId);
     public void maintainDailyBalance();
+    public MEPSMasterBankAccount retrieveBankAccountByBankName(String bankName);
 }

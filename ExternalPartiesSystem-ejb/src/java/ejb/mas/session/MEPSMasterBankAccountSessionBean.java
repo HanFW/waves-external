@@ -106,4 +106,27 @@ public class MEPSMasterBankAccountSessionBean implements MEPSMasterBankAccountSe
             }
         }
     }
+    
+    @Override
+    public MEPSMasterBankAccount retrieveBankAccountByBankName(String bankName) {
+        MEPSMasterBankAccount mEPSMasterBankAccount = new MEPSMasterBankAccount();
+
+        try {
+            Query query = entityManager.createQuery("Select m From MEPSMasterBankAccount m Where m.bankName=:bankName");
+            query.setParameter("bankName", bankName);
+
+            if (query.getResultList().isEmpty()) {
+                return new MEPSMasterBankAccount();
+            } else {
+                mEPSMasterBankAccount = (MEPSMasterBankAccount) query.getSingleResult();
+            }
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("Entity not found error: " + enfe.getMessage());
+            return new MEPSMasterBankAccount();
+        } catch (NonUniqueResultException nure) {
+            System.out.println("Non unique result error: " + nure.getMessage());
+        }
+
+        return mEPSMasterBankAccount;
+    }
 }

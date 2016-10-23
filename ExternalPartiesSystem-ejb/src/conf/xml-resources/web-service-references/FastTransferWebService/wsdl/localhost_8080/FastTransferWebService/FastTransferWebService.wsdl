@@ -4,21 +4,21 @@
 <xsd:import namespace="http://session.ws.ejb/" schemaLocation="http://localhost:8080/FastTransferWebService/FastTransferWebService?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="fastTransfer">
-<part name="parameters" element="tns:fastTransfer"/>
+<message name="actualOTMFastTransfer">
+<part name="parameters" element="tns:actualOTMFastTransfer"/>
 </message>
-<message name="fastTransferResponse">
-<part name="parameters" element="tns:fastTransferResponse"/>
+<message name="actualOTMFastTransferResponse">
+<part name="parameters" element="tns:actualOTMFastTransferResponse"/>
 </message>
 <portType name="FastTransferWebService">
-<operation name="fastTransfer">
-<input wsam:Action="http://session.ws.ejb/FastTransferWebService/fastTransferRequest" message="tns:fastTransfer"/>
-<output wsam:Action="http://session.ws.ejb/FastTransferWebService/fastTransferResponse" message="tns:fastTransferResponse"/>
+<operation name="actualOTMFastTransfer">
+<input wsam:Action="http://session.ws.ejb/FastTransferWebService/actualOTMFastTransferRequest" message="tns:actualOTMFastTransfer"/>
+<output wsam:Action="http://session.ws.ejb/FastTransferWebService/actualOTMFastTransferResponse" message="tns:actualOTMFastTransferResponse"/>
 </operation>
 </portType>
 <binding name="FastTransferWebServicePortBinding" type="tns:FastTransferWebService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="fastTransfer">
+<operation name="actualOTMFastTransfer">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

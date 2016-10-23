@@ -23,7 +23,8 @@
 <xs:element name="bankAccountId" type="xs:long" minOccurs="0"/>
 <xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
 <xs:element name="bankAccountType" type="xs:string" minOccurs="0"/>
-<xs:element name="bankAccountBalance" type="xs:string" minOccurs="0"/>
+<xs:element name="totalBankAccountBalance" type="xs:string" minOccurs="0"/>
+<xs:element name="availableBankAccountBalance" type="xs:string" minOccurs="0"/>
 <xs:element name="transferDailyLimit" type="xs:string" minOccurs="0"/>
 <xs:element name="transferBalance" type="xs:string" minOccurs="0"/>
 <xs:element name="bankAccountStatus" type="xs:string" minOccurs="0"/>
@@ -93,6 +94,7 @@
 <xs:complexType name="customerBasic">
 <xs:sequence>
 <xs:element name="bankAccount" type="tns:bankAccount" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="cheque" type="tns:cheque" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="creditCard" type="tns:creditCard" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="customerAddress" type="xs:string" minOccurs="0"/>
 <xs:element name="customerAdvanced" type="tns:customerAdvanced" minOccurs="0"/>
@@ -125,6 +127,16 @@
 <xs:element name="messageBox" type="tns:messageBox" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="newCustomer" type="xs:string" minOccurs="0"/>
 <xs:element name="payee" type="tns:payee" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cheque">
+<xs:sequence>
+<xs:element name="chequeId" type="xs:long" minOccurs="0"/>
+<xs:element name="chequeMICRData" type="xs:string" minOccurs="0"/>
+<xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
+<xs:element name="transactionAmt" type="xs:string" minOccurs="0"/>
+<xs:element name="transactionDate" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -276,7 +288,7 @@
 <xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
 <xs:element name="bankAccountNumWithType" type="xs:string" minOccurs="0"/>
 <xs:element name="billReference" type="xs:string" minOccurs="0"/>
-<xs:element name="billingOrganization" type="xs:string" minOccurs="0"/>
+<xs:element name="billingOrganizationName" type="xs:string" minOccurs="0"/>
 <xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
 <xs:element name="giroId" type="xs:long" minOccurs="0"/>
 <xs:element name="giroType" type="xs:string" minOccurs="0"/>

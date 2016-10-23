@@ -70,9 +70,11 @@ public class OtherBankAccountSessionBean implements OtherBankAccountSessionBeanL
     }
     
     @Override
-    public void updateBankAccountBalance(String otherBankAccountNum,String otherBankAccountBalance) {
+    public void updateBankAccountBalance(String otherBankAccountNum,String availableBankAccountBalance,
+            String totalBankAccountBalance) {
         OtherBankAccount otherBankAccount = retrieveBankAccountByNum(otherBankAccountNum);
         
-        otherBankAccount.setOtherBankAccountBalance(otherBankAccountBalance);
+        otherBankAccount.setAvailableBankAccountBalance(availableBankAccountBalance);
+        otherBankAccount.setTotalBankAccountBalance(totalBankAccountBalance);
     }
 }
