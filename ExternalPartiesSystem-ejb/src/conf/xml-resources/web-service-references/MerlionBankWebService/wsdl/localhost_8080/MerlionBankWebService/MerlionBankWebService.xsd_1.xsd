@@ -22,7 +22,6 @@
 <xs:sequence>
 <xs:element name="bankAccountId" type="xs:long" minOccurs="0"/>
 <xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
-<xs:element name="bankAccountPwd" type="xs:string" minOccurs="0"/>
 <xs:element name="bankAccountType" type="xs:string" minOccurs="0"/>
 <xs:element name="bankAccountBalance" type="xs:string" minOccurs="0"/>
 <xs:element name="transferDailyLimit" type="xs:string" minOccurs="0"/>
@@ -33,10 +32,48 @@
 <xs:element name="currentFixedDepositPeriod" type="xs:string" minOccurs="0"/>
 <xs:element name="fixedDepositStatus" type="xs:string" minOccurs="0"/>
 <xs:element name="statementDateDouble" type="xs:double" minOccurs="0"/>
+<xs:element name="debitCards" type="tns:debitCard" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="accTransaction" type="tns:accTransaction" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
 <xs:element name="interest" type="tns:interest" minOccurs="0"/>
 <xs:element name="statement" type="tns:statement" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="debitCard">
+<xs:complexContent>
+<xs:extension base="tns:card">
+<xs:sequence>
+<xs:element name="bankAccount" type="tns:bankAccount" minOccurs="0"/>
+<xs:element name="debitCardPwd" type="xs:string" minOccurs="0"/>
+<xs:element name="debitCardType" type="tns:debitCardType" minOccurs="0"/>
+<xs:element name="transactionLimit" type="xs:int"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="card">
+<xs:sequence>
+<xs:element name="cardExpiryDate" type="xs:string" minOccurs="0"/>
+<xs:element name="cardHolderName" type="xs:string" minOccurs="0"/>
+<xs:element name="cardId" type="xs:long" minOccurs="0"/>
+<xs:element name="cardNum" type="xs:string" minOccurs="0"/>
+<xs:element name="cardSecurityCode" type="xs:string" minOccurs="0"/>
+<xs:element name="predecessor" type="xs:long" minOccurs="0"/>
+<xs:element name="remainingExpirationMonths" type="xs:int"/>
+<xs:element name="status" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="debitCardType">
+<xs:sequence>
+<xs:element name="annualFeeWaiver" type="xs:string" minOccurs="0"/>
+<xs:element name="cashBackRate" type="xs:double"/>
+<xs:element name="debitCardTypeId" type="xs:long" minOccurs="0"/>
+<xs:element name="debitCardTypeName" type="xs:string" minOccurs="0"/>
+<xs:element name="debitCards" type="tns:debitCard" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="principal" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -56,6 +93,7 @@
 <xs:complexType name="customerBasic">
 <xs:sequence>
 <xs:element name="bankAccount" type="tns:bankAccount" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="creditCard" type="tns:creditCard" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="customerAddress" type="xs:string" minOccurs="0"/>
 <xs:element name="customerAdvanced" type="tns:customerAdvanced" minOccurs="0"/>
 <xs:element name="customerAge" type="xs:string" minOccurs="0"/>
@@ -85,22 +123,66 @@
 <xs:element name="fastPayee" type="tns:fastPayee" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="giro" type="tns:giro" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="messageBox" type="tns:messageBox" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="newCustomer" type="xs:string" minOccurs="0"/>
 <xs:element name="payee" type="tns:payee" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="creditCard">
+<xs:complexContent>
+<xs:extension base="tns:card">
+<xs:sequence>
+<xs:element name="creditCardType" type="tns:creditCardType" minOccurs="0"/>
+<xs:element name="creditLimit" type="xs:double"/>
+<xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
+<xs:element name="outstandingBalance" type="xs:double"/>
+<xs:element name="supplementaryCard" type="tns:supplementaryCard" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="creditCardType">
+<xs:sequence>
+<xs:element name="annualFee" type="xs:double"/>
+<xs:element name="cardNetwork" type="xs:string" minOccurs="0"/>
+<xs:element name="creditCard" type="tns:creditCard" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="creditCardTypeId" type="xs:long" minOccurs="0"/>
+<xs:element name="creditCardTypeName" type="xs:string" minOccurs="0"/>
+<xs:element name="interestCharge" type="xs:double"/>
+<xs:element name="latePaymentCharge" type="xs:double"/>
+<xs:element name="maxLiability" type="xs:double"/>
+<xs:element name="minSum" type="xs:double"/>
+<xs:element name="rebate" type="xs:double"/>
+<xs:element name="rebateType" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="supplementaryCard">
+<xs:complexContent>
+<xs:extension base="tns:card">
+<xs:sequence>
+<xs:element name="creditCard" type="tns:creditCard" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
 </xs:complexType>
 
 <xs:complexType name="customerAdvanced">
 <xs:sequence>
 <xs:element name="customerAdvancedId" type="xs:long" minOccurs="0"/>
 <xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
-<xs:element name="customerCreditReport" type="xs:string" minOccurs="0"/>
-<xs:element name="customerEmploymentDetails" type="xs:string" minOccurs="0"/>
-<xs:element name="customerFamilyInfo" type="xs:string" minOccurs="0"/>
-<xs:element name="customerFinanacialAssets" type="xs:string" minOccurs="0"/>
-<xs:element name="customerFinanacialGoals" type="xs:string" minOccurs="0"/>
-<xs:element name="customerFinancialRiskRating" type="xs:string" minOccurs="0"/>
 <xs:element name="customerOnlineBankingAccountNum" type="xs:string" minOccurs="0"/>
+<xs:element name="education" type="xs:string" minOccurs="0"/>
 <xs:element name="employee" type="tns:employee" minOccurs="0"/>
+<xs:element name="incomeMonthly" type="xs:string" minOccurs="0"/>
+<xs:element name="jobDuration" type="xs:string" minOccurs="0"/>
+<xs:element name="jobIndustry" type="xs:string" minOccurs="0"/>
+<xs:element name="jobStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="jobType" type="xs:string" minOccurs="0"/>
+<xs:element name="numOfDependent" type="xs:string" minOccurs="0"/>
+<xs:element name="residentialStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="yearInResidence" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -110,6 +192,7 @@
 <xs:element name="employeeAccountNum" type="xs:string" minOccurs="0"/>
 <xs:element name="employeeDepartment" type="xs:string" minOccurs="0"/>
 <xs:element name="employeeEmail" type="xs:string" minOccurs="0"/>
+<xs:element name="employeeGender" type="xs:string" minOccurs="0"/>
 <xs:element name="employeeId" type="xs:long" minOccurs="0"/>
 <xs:element name="employeeMobileNum" type="xs:string" minOccurs="0"/>
 <xs:element name="employeeNRIC" type="xs:string" minOccurs="0"/>
