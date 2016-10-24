@@ -171,7 +171,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
             if (creditBank.equals("DBS") && debitBank.equals("Merlion")) {
                 settlementSessionBeanLocal.recordSettlementInformation(sachs, creditBank, debitBank);
                 otherBankSessionBeanLocal.creditPaymentToAccountMTD(debitAccountNum, creditAccountNum, creditAmt);
-                debitBankAccount(debitAccountNum, creditAmt);
+//                debitBankAccount(debitAccountNum, creditAmt);
             }
         }
     }
@@ -224,12 +224,5 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_bankAccount.getMerlionBankWebServicePort();
         return port.retrieveBankAccountByNum(bankAccountNum);
-    }
-
-    private void debitBankAccount(java.lang.String debitBankAccountNum, java.lang.Double debitAmt) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_bankAccount.getMerlionBankWebServicePort();
-        port.debitBankAccount(debitBankAccountNum, debitAmt);
     }
 }
