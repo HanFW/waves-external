@@ -1,76 +1,59 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        <h:form>
-            <p:menubar>
-                <p:submenu label="MAS">
-                    <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
-                    <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
-                </p:submenu>
-                
-                <p:submenu label="Other Banks" >
-                    <p:menuitem value="DBS Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />
-                    <p:menuitem value="DBS View Transaction" url="/web/otherBanks/dbs/dbsViewAccount.xhtml" />
-                </p:submenu>
-            </p:menubar>
-        </h:form>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/dbsTemplate.xhtml">
+    <ui:define name="content">
+        <h:body>
+            <h:form id="formMain"> 
+               
+                    <p:dataTable var="dbsTransaction" value="#{dBSViewTransactionManagedBean.DBSTransaction}" 
+                                 reflow="true" paginator="true" rows="20" emptyMessage="No Transaction Record"
+                                 rowsPerPageTemplate="5,10,15,20"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-        <h:form id="formMain"> 
-            <p:messages/>
+                        <p:column headerText="Transaction ID">
+                            <h:outputText value="#{dbsTransaction.otherTransactionId}" /> 
+                        </p:column>
 
-            <p:panel>
+                        <p:column headerText="Transaction Date">
+                            <h:outputText value="#{dbsTransaction.otherTransactionDate}" />
+                        </p:column>
 
-                <p:dataTable var="dbsTransaction" value="#{dBSViewTransactionManagedBean.DBSTransaction}" 
-                             reflow="true" paginator="true" rows="20" emptyMessage="No Transaction Record"
-                             rowsPerPageTemplate="5,10,15,20"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+                        <p:column headerText="Transaction Code"> 
+                            <h:outputText value="#{dbsTransaction.otherTransactionCode}" />
+                        </p:column>
 
-                    <p:column headerText="Transaction ID">
-                        <h:outputText value="#{dbsTransaction.otherTransactionId}" /> 
-                    </p:column>
+                        <p:column headerText="Transaction Ref"> 
+                            <h:outputText value="#{dbsTransaction.otherTransactionRef}" />
+                        </p:column>
 
-                    <p:column headerText="Transaction Date">
-                        <h:outputText value="#{dbsTransaction.otherTransactionDate}" />
-                    </p:column>
+                        <p:column headerText="Account Debit(Withdrawal)"> 
+                            <h:outputText value="#{dbsTransaction.otherAccountDebit}">
+                                <f:convertNumber type="currency" currencyCode="$" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
 
-                    <p:column headerText="Transaction Code"> 
-                        <h:outputText value="#{dbsTransaction.otherTransactionCode}" />
-                    </p:column>
+                        <p:column headerText="Account Credit(Deposit)"> 
+                            <h:outputText value="#{dbsTransaction.otherAccountCredit}">
+                                <f:convertNumber type="currency" currencyCode="SGD" />
+                            </h:outputText>
+                        </p:column>
 
-                    <p:column headerText="Transaction Ref"> 
-                        <h:outputText value="#{dbsTransaction.otherTransactionRef}" />
-                    </p:column>
-
-                    <p:column headerText="Account Debit(Withdrawal)"> 
-                        <h:outputText value="#{dbsTransaction.otherAccountDebit}">
-                            <f:convertNumber type="currency" currencyCode="$" minFractionDigits="2" />
-                        </h:outputText>
-                    </p:column>
-
-                    <p:column headerText="Account Credit(Deposit)"> 
-                        <h:outputText value="#{dbsTransaction.otherAccountCredit}">
-                            <f:convertNumber type="currency" currencyCode="SGD" />
-                        </h:outputText>
-                    </p:column>
-
-                </p:dataTable>
-                <br/>
+                    </p:dataTable>
+                    <br/>
+    <!--                <div align="center">
                 <p:commandButton id="backBtn" value="Back" 
                                  action="/web/index.xhtml?faces-redirect=true" 
-                                 ajax="true"/>
+                                 ajax="true" style="width:30%"/>
+                </div>-->
 
-            </p:panel>
-        </h:form>
-    </h:body>
-</html>
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>
 
 
 

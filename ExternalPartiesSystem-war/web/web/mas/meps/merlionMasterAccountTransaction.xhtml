@@ -1,29 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        <h:form>
-            <p:menubar>
-                <p:submenu label="MAS">
-                    <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
-                    <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
-                </p:submenu>
-                
-                <p:submenu label="Other Banks" >
-                    <p:menuitem value="DBS Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />
-                    <p:menuitem value="DBS View Transaction" url="/web/otherBanks/dbs/dbsViewAccount.xhtml" />
-                </p:submenu>
-            </p:menubar>
-        </h:form>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/masTemplate.xhtml">
 
+    <ui:define name="content">
+    <h:body>
         <h:form>
             <h:outputText value="View Merlion Master Account Transaction" />
             <br/>
@@ -51,9 +36,13 @@
                 </p:column>
             </p:dataTable>
             <br/>
-            <p:commandButton id="backBtn" value="Back" action="/web/index.xhtml?faces-redirect=true"
-                             ajax="true"/>
+           <!--                <div align="center">
+                <p:commandButton id="backBtn" value="Back" 
+                                 action="/web/index.xhtml?faces-redirect=true" 
+                                 ajax="true" style="width:30%"/>
+                </div>-->
         </h:form>
     </h:body>
-</html>
+    </ui:define>
+</ui:composition>
 

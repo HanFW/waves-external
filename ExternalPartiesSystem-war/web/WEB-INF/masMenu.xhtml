@@ -1,0 +1,27 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pu="http://primefaces.org/ultima">
+
+    <h:form id="menuform"> 
+        <div class="layout-menu #{externalPreferences.menuClass}">
+            <pu:menu widgetVar="me">
+
+                <p:submenu label="MAS">
+                    <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
+                    <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
+                    <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
+                    <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
+                </p:submenu>
+                <p:submenu label="DBS">
+                    <p:menuitem value="Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />
+                    <p:menuitem value="View Transaction" url="/web/otherBanks/dbs/dbsViewAccount.xhtml" />
+                </p:submenu>
+
+            </pu:menu>
+        </div>
+    </h:form>
+</ui:composition>
