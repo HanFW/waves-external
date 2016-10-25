@@ -1,31 +1,37 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        <h:form>
-            <p:menubar>
-                <p:submenu label="MAS">
-                    <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
-                    <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
-                </p:submenu>
-                
-                <p:submenu label="Other Banks" >
-                    <p:menuitem value="DBS Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />
-                    <p:menuitem value="DBS View Transaction" url="/web/otherBanks/dbs/dbsViewAccount.xhtml" />
-                </p:submenu>
-            </p:menubar>
-        </h:form>
+      xmlns:f="http://java.sun.com/jsf/core">
 
-        <h:form>
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <link rel="shortcut icon" href="#{resource['ultima-layout:images/favicon.png']}"/>   
+        <title>Simulation Systems</title>
+        <h:outputScript name="js/ripple.js" library="ultima-layout" />
+        <h:outputScript name="js/layout.js" library="ultima-layout" />  
+    </h:head>
+    <h:body styleClass="login-body">        
+        <h:form id="formMain">
+            <div class="card login-panel ui-fluid">
+                <div class="ui-g">
+
+                    <h:panelGrid columns="1" cellpadding="5" >
+                        <p:button outcome="/web/mas/masMainPage.xhtml" value="Monetary Authority of Singapore" icon="ui-icon-arrow-forward" iconPos="right"/>
+                        <p:button outcome="/web/otherBanks/dbs/dbsMainPage.xhtml" value="DBS Bank" icon="ui-icon-arrow-forward" iconPos="right" />
+                    </h:panelGrid>
+
+                </div>
+            </div>
+            <h:outputStylesheet name="css/ripple.css" library="ultima-layout" />
+            <h:outputStylesheet name="css/layout-#{externalPreferences.theme}.css" library="ultima-layout" />
 
         </h:form>
     </h:body>
 </html>
+
