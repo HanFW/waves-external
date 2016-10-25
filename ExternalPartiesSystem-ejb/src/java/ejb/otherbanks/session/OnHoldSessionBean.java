@@ -14,7 +14,8 @@ public class OnHoldSessionBean implements OnHoldSessionBeanLocal {
     @Override
     public Long addNewRecord(String bankName, String bankAccountNum, 
             String debitOrCredit, String paymentAmt, String onHoldStatus,
-            String debitOrCreditBankName, String debitOrCreditBankAccountNum) {
+            String debitOrCreditBankName, String debitOrCreditBankAccountNum,
+            String paymentMethod) {
         
         OtherBankOnHoldRecord onHoldRecord = new OtherBankOnHoldRecord();
         
@@ -25,6 +26,7 @@ public class OnHoldSessionBean implements OnHoldSessionBeanLocal {
         onHoldRecord.setOnHoldStatus(onHoldStatus);
         onHoldRecord.setDebitOrCreditBankName(debitOrCreditBankName);
         onHoldRecord.setDebitOrCreditBankAccountNum(debitOrCreditBankAccountNum);
+        onHoldRecord.setPaymentMethod(paymentMethod);
         
         entityManager.persist(onHoldRecord);
         entityManager.flush();

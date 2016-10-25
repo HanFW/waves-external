@@ -4,29 +4,17 @@
 <xsd:import namespace="http://session.ws.ejb/" schemaLocation="http://localhost:8080/MerlionBankWebService/MerlionBankWebService?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="settleEachBankAccount">
-<part name="parameters" element="tns:settleEachBankAccount"/>
-</message>
-<message name="settleEachBankAccountResponse">
-<part name="parameters" element="tns:settleEachBankAccountResponse"/>
-</message>
 <message name="retrieveBankAccountByNum">
 <part name="parameters" element="tns:retrieveBankAccountByNum"/>
 </message>
 <message name="retrieveBankAccountByNumResponse">
 <part name="parameters" element="tns:retrieveBankAccountByNumResponse"/>
 </message>
-<message name="debitBankAccount">
-<part name="parameters" element="tns:debitBankAccount"/>
+<message name="retrieveOnHoldRecordById">
+<part name="parameters" element="tns:retrieveOnHoldRecordById"/>
 </message>
-<message name="debitBankAccountResponse">
-<part name="parameters" element="tns:debitBankAccountResponse"/>
-</message>
-<message name="addNewRecord">
-<part name="parameters" element="tns:addNewRecord"/>
-</message>
-<message name="addNewRecordResponse">
-<part name="parameters" element="tns:addNewRecordResponse"/>
+<message name="retrieveOnHoldRecordByIdResponse">
+<part name="parameters" element="tns:retrieveOnHoldRecordByIdResponse"/>
 </message>
 <message name="updateAvailableBalance">
 <part name="parameters" element="tns:updateAvailableBalance"/>
@@ -34,39 +22,92 @@
 <message name="updateAvailableBalanceResponse">
 <part name="parameters" element="tns:updateAvailableBalanceResponse"/>
 </message>
+<message name="retrieveChequeById">
+<part name="parameters" element="tns:retrieveChequeById"/>
+</message>
+<message name="retrieveChequeByIdResponse">
+<part name="parameters" element="tns:retrieveChequeByIdResponse"/>
+</message>
+<message name="retrieveReceivedChequeById">
+<part name="parameters" element="tns:retrieveReceivedChequeById"/>
+</message>
+<message name="retrieveReceivedChequeByIdResponse">
+<part name="parameters" element="tns:retrieveReceivedChequeByIdResponse"/>
+</message>
+<message name="addNewRecord">
+<part name="parameters" element="tns:addNewRecord"/>
+</message>
+<message name="addNewRecordResponse">
+<part name="parameters" element="tns:addNewRecordResponse"/>
+</message>
+<message name="settleEachBankAccount">
+<part name="parameters" element="tns:settleEachBankAccount"/>
+</message>
+<message name="settleEachBankAccountResponse">
+<part name="parameters" element="tns:settleEachBankAccountResponse"/>
+</message>
+<message name="updateOnHoldChequeId">
+<part name="parameters" element="tns:updateOnHoldChequeId"/>
+</message>
+<message name="updateOnHoldChequeIdResponse">
+<part name="parameters" element="tns:updateOnHoldChequeIdResponse"/>
+</message>
+<message name="debitBankAccount">
+<part name="parameters" element="tns:debitBankAccount"/>
+</message>
+<message name="debitBankAccountResponse">
+<part name="parameters" element="tns:debitBankAccountResponse"/>
+</message>
+<message name="updateReceivedChequeStatus">
+<part name="parameters" element="tns:updateReceivedChequeStatus"/>
+</message>
+<message name="updateReceivedChequeStatusResponse">
+<part name="parameters" element="tns:updateReceivedChequeStatusResponse"/>
+</message>
 <portType name="MerlionBankWebService">
-<operation name="settleEachBankAccount">
-<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/settleEachBankAccountRequest" message="tns:settleEachBankAccount"/>
-<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/settleEachBankAccountResponse" message="tns:settleEachBankAccountResponse"/>
-</operation>
 <operation name="retrieveBankAccountByNum">
 <input wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveBankAccountByNumRequest" message="tns:retrieveBankAccountByNum"/>
 <output wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveBankAccountByNumResponse" message="tns:retrieveBankAccountByNumResponse"/>
 </operation>
-<operation name="debitBankAccount">
-<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/debitBankAccountRequest" message="tns:debitBankAccount"/>
-<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/debitBankAccountResponse" message="tns:debitBankAccountResponse"/>
-</operation>
-<operation name="addNewRecord">
-<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/addNewRecordRequest" message="tns:addNewRecord"/>
-<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/addNewRecordResponse" message="tns:addNewRecordResponse"/>
+<operation name="retrieveOnHoldRecordById">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveOnHoldRecordByIdRequest" message="tns:retrieveOnHoldRecordById"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveOnHoldRecordByIdResponse" message="tns:retrieveOnHoldRecordByIdResponse"/>
 </operation>
 <operation name="updateAvailableBalance">
 <input wsam:Action="http://session.ws.ejb/MerlionBankWebService/updateAvailableBalanceRequest" message="tns:updateAvailableBalance"/>
 <output wsam:Action="http://session.ws.ejb/MerlionBankWebService/updateAvailableBalanceResponse" message="tns:updateAvailableBalanceResponse"/>
 </operation>
+<operation name="retrieveChequeById">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveChequeByIdRequest" message="tns:retrieveChequeById"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveChequeByIdResponse" message="tns:retrieveChequeByIdResponse"/>
+</operation>
+<operation name="retrieveReceivedChequeById">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveReceivedChequeByIdRequest" message="tns:retrieveReceivedChequeById"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveReceivedChequeByIdResponse" message="tns:retrieveReceivedChequeByIdResponse"/>
+</operation>
+<operation name="addNewRecord">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/addNewRecordRequest" message="tns:addNewRecord"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/addNewRecordResponse" message="tns:addNewRecordResponse"/>
+</operation>
+<operation name="settleEachBankAccount">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/settleEachBankAccountRequest" message="tns:settleEachBankAccount"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/settleEachBankAccountResponse" message="tns:settleEachBankAccountResponse"/>
+</operation>
+<operation name="updateOnHoldChequeId">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/updateOnHoldChequeIdRequest" message="tns:updateOnHoldChequeId"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/updateOnHoldChequeIdResponse" message="tns:updateOnHoldChequeIdResponse"/>
+</operation>
+<operation name="debitBankAccount">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/debitBankAccountRequest" message="tns:debitBankAccount"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/debitBankAccountResponse" message="tns:debitBankAccountResponse"/>
+</operation>
+<operation name="updateReceivedChequeStatus">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/updateReceivedChequeStatusRequest" message="tns:updateReceivedChequeStatus"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/updateReceivedChequeStatusResponse" message="tns:updateReceivedChequeStatusResponse"/>
+</operation>
 </portType>
 <binding name="MerlionBankWebServicePortBinding" type="tns:MerlionBankWebService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="settleEachBankAccount">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="retrieveBankAccountByNum">
 <soap:operation soapAction=""/>
 <input>
@@ -76,7 +117,34 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="debitBankAccount">
+<operation name="retrieveOnHoldRecordById">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="updateAvailableBalance">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="retrieveChequeById">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="retrieveReceivedChequeById">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -94,7 +162,34 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="updateAvailableBalance">
+<operation name="settleEachBankAccount">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="updateOnHoldChequeId">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="debitBankAccount">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="updateReceivedChequeStatus">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

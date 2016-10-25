@@ -107,7 +107,7 @@ public class Settlement implements Serializable {
 
     @Override
     public String toString() {
-        return "ejb.mas.entity.SettlementInfo[ id=" + settlementId + " ]";
+        return "ejb.mas.entity.Settlement[ id=" + settlementId + " ]";
     }
 
 }

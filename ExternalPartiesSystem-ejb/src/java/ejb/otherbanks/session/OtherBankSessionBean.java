@@ -111,6 +111,7 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
             String currenttTotalBalance = dbsBankAccount.getTotalBankAccountBalance();
 
             if (debitOrCredit.equals("Credit") && debitOrCreditBankName.equals("Merlion")) {
+
                 Double totalAvailableBalance = Double.valueOf(currentAvailableBalance) + Double.valueOf(paymentAmt);
                 Double totalBalance = Double.valueOf(currenttTotalBalance) + Double.valueOf(paymentAmt);
 
@@ -128,6 +129,26 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
 
                 Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
                         transactionRef, " ", accountCredit, dbsBankAccount.getOtherBankAccountId());
+
+            } else if (debitOrCredit.equals("Debit") && debitOrCreditBankName.equals("Merlion")) {
+
+                Double totalAvailableBalance = Double.valueOf(currentAvailableBalance) - Double.valueOf(paymentAmt);
+                Double totalBalance = Double.valueOf(currenttTotalBalance) - Double.valueOf(paymentAmt);
+
+                dbsBankAccount.setAvailableBankAccountBalance(totalAvailableBalance.toString());
+                dbsBankAccount.setTotalBankAccountBalance(totalBalance.toString());
+
+                onHoldRecord.setOnHoldStatus("Done");
+
+                BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
+                Calendar cal = Calendar.getInstance();
+                String transactionDate = cal.getTime().toString();
+                String transactionCode = "BILL";
+                String accountdebit = paymentAmt;
+                String transactionRef = bankAccount.getBankAccountType() + bankAccount.getBankAccountNum();
+
+                Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
+                        transactionRef, accountdebit, " ", dbsBankAccount.getOtherBankAccountId());
             }
         }
     }
