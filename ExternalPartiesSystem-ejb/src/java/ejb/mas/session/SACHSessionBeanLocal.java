@@ -23,6 +23,8 @@ public interface SACHSessionBeanLocal {
     public void ForwardPaymentInstructionToMEPS();
 
     public void ntucInitiateGIRO(Long billId);
-    
-    public void clearReceivedCheque(Long chequeId);
+
+    public void clearMerlionReceivedCheque(Long chequeId);
+
+    public void clearDBSReceivedCheque(Long chequeId);
 }

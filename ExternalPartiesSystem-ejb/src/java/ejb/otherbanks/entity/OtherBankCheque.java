@@ -10,15 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class IssuedCheque implements Serializable {
+public class OtherBankCheque implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chequeId;
-    private String chequeMICRData;
     private String transactionDate;
     private String transactionAmt;
-    private String issuedChequeStatus;
+    private String receivedBankAccountNum;
+    private String receivedCustomerName;
+    private String receivedCustomerMobile;
+    private String issuedBankAccountNum;
 
     @ManyToOne(cascade={CascadeType.PERSIST},fetch=FetchType.EAGER)
     private OtherBankAccount otherBankAccount;
@@ -29,14 +31,6 @@ public class IssuedCheque implements Serializable {
 
     public void setChequeId(Long chequeId) {
         this.chequeId = chequeId;
-    }
-
-    public String getChequeMICRData() {
-        return chequeMICRData;
-    }
-
-    public void setChequeMICRData(String chequeMICRData) {
-        this.chequeMICRData = chequeMICRData;
     }
 
     public String getTransactionDate() {
@@ -55,12 +49,28 @@ public class IssuedCheque implements Serializable {
         this.transactionAmt = transactionAmt;
     }
 
-    public String getIssuedChequeStatus() {
-        return issuedChequeStatus;
+    public String getReceivedBankAccountNum() {
+        return receivedBankAccountNum;
     }
 
-    public void setIssuedChequeStatus(String issuedChequeStatus) {
-        this.issuedChequeStatus = issuedChequeStatus;
+    public void setReceivedBankAccountNum(String receivedBankAccountNum) {
+        this.receivedBankAccountNum = receivedBankAccountNum;
+    }
+
+    public String getReceivedCustomerName() {
+        return receivedCustomerName;
+    }
+
+    public void setReceivedCustomerName(String receivedCustomerName) {
+        this.receivedCustomerName = receivedCustomerName;
+    }
+
+    public String getReceivedCustomerMobile() {
+        return receivedCustomerMobile;
+    }
+
+    public void setReceivedCustomerMobile(String receivedCustomerMobile) {
+        this.receivedCustomerMobile = receivedCustomerMobile;
     }
 
     public OtherBankAccount getOtherBankAccount() {
@@ -69,6 +79,14 @@ public class IssuedCheque implements Serializable {
 
     public void setOtherBankAccount(OtherBankAccount otherBankAccount) {
         this.otherBankAccount = otherBankAccount;
+    }
+
+    public String getIssuedBankAccountNum() {
+        return issuedBankAccountNum;
+    }
+
+    public void setIssuedBankAccountNum(String issuedBankAccountNum) {
+        this.issuedBankAccountNum = issuedBankAccountNum;
     }
 
     @Override
@@ -81,10 +99,10 @@ public class IssuedCheque implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IssuedCheque)) {
+        if (!(object instanceof OtherBankCheque)) {
             return false;
         }
-        IssuedCheque other = (IssuedCheque) object;
+        OtherBankCheque other = (OtherBankCheque) object;
         if ((this.chequeId == null && other.chequeId != null) || (this.chequeId != null && !this.chequeId.equals(other.chequeId))) {
             return false;
         }
@@ -93,7 +111,7 @@ public class IssuedCheque implements Serializable {
 
     @Override
     public String toString() {
-        return "ejb.otherbanks.entity.IssuedCheque[ id=" + chequeId + " ]";
+        return "ejb.otherbanks.entity.OtherBankCheque[ id=" + chequeId + " ]";
     }
     
 }

@@ -89,8 +89,8 @@ public class SACHWebService {
                 fromBankAccountNum, "Non Standing GIRO");
     }
 
-    @WebMethod(operationName = "clearReceivedCheque")
-    public void clearReceivedCheque(@WebParam(name = "chequeId") Long chequeId) {
+    @WebMethod(operationName = "clearMerlionReceivedCheque")
+    public void clearMerlionReceivedCheque(@WebParam(name = "chequeId") Long chequeId) {
 
         ReceivedCheque receivedCheque = retrieveReceivedChequeById(chequeId);
 
@@ -118,7 +118,6 @@ public class SACHWebService {
                 "Credit", transactionAmt.toString(), "New", "DBS",
                 "11111111", "Cheque");
         
-        OnHoldRecord onHoldRecord = retrieveOnHoldRecordById(bankAccountOnHoldId);
         updateOnHoldChequeId(bankAccountOnHoldId, chequeId);
     }
 

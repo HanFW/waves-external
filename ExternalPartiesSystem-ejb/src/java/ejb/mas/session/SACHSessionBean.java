@@ -4,8 +4,10 @@ import ejb.billingprocessor.entity.Bill;
 import ejb.billingprocessor.session.BillSessionBeanLocal;
 import ejb.mas.entity.SACH;
 import ejb.otherbanks.entity.OtherBankAccount;
+import ejb.otherbanks.entity.OtherBankCheque;
 import ejb.otherbanks.session.OnHoldSessionBeanLocal;
 import ejb.otherbanks.session.OtherBankAccountSessionBeanLocal;
+import ejb.otherbanks.session.OtherBankChequeSessionBeanLocal;
 import ejb.otherbanks.session.OtherBankSessionBeanLocal;
 import java.util.Calendar;
 import java.util.List;
@@ -26,6 +28,9 @@ import ws.client.merlionBank.ReceivedCheque;
 
 @Stateless
 public class SACHSessionBean implements SACHSessionBeanLocal {
+
+    @EJB
+    private OtherBankChequeSessionBeanLocal otherBankChequeSessionBeanLocal;
 
     @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl")
     private MerlionBankWebService_Service service_merlionBank;
@@ -217,19 +222,20 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
     }
 
     @Override
-    public void clearReceivedCheque(Long chequeId) {
+    public void clearMerlionReceivedCheque(Long chequeId) {
 
         ReceivedCheque receivedCheque = retrieveReceivedChequeById(chequeId);
 
         Double transactionAmt = Double.valueOf(receivedCheque.getTransactionAmt());
-        String bankAccountNum = receivedCheque.getReceivedBankAccountNum();
+        String receivedBankAccountNum = receivedCheque.getReceivedBankAccountNum();
+
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
         String bankNames = "DBS&Merlion";
         String paymentMethod = "Cheque";
 
-        Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, bankAccountNum, "Merlion",
-                "11111111", "DBS", cal.getTimeInMillis(), transactionAmt);
+        Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, receivedBankAccountNum,
+                "Merlion", "11111111", "DBS", cal.getTimeInMillis(), transactionAmt);
         SACH sach = retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 - transactionAmt;
@@ -240,12 +246,45 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
 
         Long otherAccountOnHoldId = onHoldSessionBeanLocal.addNewRecord("DBS", "11111111",
                 "Debit", transactionAmt.toString(), "New", "Merlion",
-                bankAccountNum, "Cheque");
-        Long bankAccountOnHoldId = addNewRecord("Merlion", bankAccountNum,
+                receivedBankAccountNum, "Cheque");
+        Long bankAccountOnHoldId = addNewRecord("Merlion", receivedBankAccountNum,
                 "Credit", transactionAmt.toString(), "New", "DBS",
                 "11111111", "Cheque");
-        
-        OnHoldRecord onHoldRecord = retrieveOnHoldRecordById(bankAccountOnHoldId);
+
+        updateOnHoldChequeId(bankAccountOnHoldId, chequeId);
+    }
+
+    @Override
+    public void clearDBSReceivedCheque(Long chequeId) {
+
+        OtherBankCheque otherBankCheque = otherBankChequeSessionBeanLocal.retrieveReceivedChequeById(chequeId);
+
+        Double transactionAmt = Double.valueOf(otherBankCheque.getTransactionAmt());
+        String receivedBankAccountNum = otherBankCheque.getReceivedBankAccountNum();
+        String issuedBankAccountNum = otherBankCheque.getIssuedBankAccountNum();
+
+        Calendar cal = Calendar.getInstance();
+        String currentTime = cal.getTime().toString();
+        String bankNames = "DBS&Merlion";
+        String paymentMethod = "Cheque";
+
+        Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, receivedBankAccountNum,
+                "DBS", issuedBankAccountNum, "Merlion", cal.getTimeInMillis(), transactionAmt);
+        SACH sach = retrieveSACHById(sachId);
+
+        Double dbsTotalCredit = 0 - transactionAmt;
+        Double merlionTotalCredit = 0 + transactionAmt;
+
+        sach.setBankBTotalCredit(dbsTotalCredit);
+        sach.setBankATotalCredit(merlionTotalCredit);
+
+        Long otherAccountOnHoldId = onHoldSessionBeanLocal.addNewRecord("DBS", receivedBankAccountNum,
+                "Credit", transactionAmt.toString(), "New", "Merlion",
+                issuedBankAccountNum, "Cheque");
+        Long bankAccountOnHoldId = addNewRecord("Merlion", issuedBankAccountNum,
+                "Debit", transactionAmt.toString(), "New", "DBS",
+                receivedBankAccountNum, "Cheque");
+
         updateOnHoldChequeId(bankAccountOnHoldId, chequeId);
     }
 

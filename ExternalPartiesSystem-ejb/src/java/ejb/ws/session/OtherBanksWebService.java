@@ -41,6 +41,7 @@ public class OtherBanksWebService {
         
         entityManager.detach(otherBankAccount);
         otherBankAccount.setOtherBankAccountTransaction(null);
+        otherBankAccount.setOtherBankCheque(null);
 
         return otherBankAccount;
     }

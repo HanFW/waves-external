@@ -100,7 +100,6 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
         for (OtherBankOnHoldRecord onHoldRecord : onHoldRecords) {
 
             String bankAccountNum = onHoldRecord.getBankAccountNum();
-            String bankName = onHoldRecord.getBankName();
             String paymentAmt = onHoldRecord.getPaymentAmt();
             String debitOrCredit = onHoldRecord.getDebitOrCredit();
             String debitOrCreditBankAccountNum = onHoldRecord.getDebitOrCreditBankAccountNum();
@@ -108,12 +107,12 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
 
             OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(bankAccountNum);
             String currentAvailableBalance = dbsBankAccount.getAvailableBankAccountBalance();
-            String currenttTotalBalance = dbsBankAccount.getTotalBankAccountBalance();
+            String currentTotalBalance = dbsBankAccount.getTotalBankAccountBalance();
 
             if (debitOrCredit.equals("Credit") && debitOrCreditBankName.equals("Merlion")) {
 
                 Double totalAvailableBalance = Double.valueOf(currentAvailableBalance) + Double.valueOf(paymentAmt);
-                Double totalBalance = Double.valueOf(currenttTotalBalance) + Double.valueOf(paymentAmt);
+                Double totalBalance = Double.valueOf(currentTotalBalance) + Double.valueOf(paymentAmt);
 
                 dbsBankAccount.setAvailableBankAccountBalance(totalAvailableBalance.toString());
                 dbsBankAccount.setTotalBankAccountBalance(totalBalance.toString());
@@ -133,7 +132,7 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
             } else if (debitOrCredit.equals("Debit") && debitOrCreditBankName.equals("Merlion")) {
 
                 Double totalAvailableBalance = Double.valueOf(currentAvailableBalance) - Double.valueOf(paymentAmt);
-                Double totalBalance = Double.valueOf(currenttTotalBalance) - Double.valueOf(paymentAmt);
+                Double totalBalance = Double.valueOf(currentTotalBalance) - Double.valueOf(paymentAmt);
 
                 dbsBankAccount.setAvailableBankAccountBalance(totalAvailableBalance.toString());
                 dbsBankAccount.setTotalBankAccountBalance(totalBalance.toString());
