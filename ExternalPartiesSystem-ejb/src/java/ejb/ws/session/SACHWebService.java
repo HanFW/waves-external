@@ -3,6 +3,7 @@ package ejb.ws.session;
 import ejb.mas.entity.SACH;
 import ejb.mas.session.MEPSSessionBeanLocal;
 import ejb.mas.session.SACHSessionBeanLocal;
+import ejb.otherbanks.session.OnHoldSessionBeanLocal;
 import ejb.otherbanks.session.OtherBankSessionBeanLocal;
 import java.util.Calendar;
 import javax.ejb.EJB;
@@ -10,20 +11,28 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
+import javax.xml.ws.WebServiceRef;
+import ws.client.merlionBank.MerlionBankWebService_Service;
 
 @WebService(serviceName = "SACHWebService")
 @Stateless()
 
 public class SACHWebService {
 
+    @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl")
+    private MerlionBankWebService_Service service_merlionBank;
+
+    @EJB
+    private SACHSessionBeanLocal sACHSessionBeanLocal;
+
+    @EJB
+    private OnHoldSessionBeanLocal onHoldSessionBeanLocal;
+
     @EJB
     private OtherBankSessionBeanLocal otherBankSessionBeanLocal;
 
     @EJB
     private MEPSSessionBeanLocal mEPSSessionBeanLocal;
-
-    @EJB
-    private SACHSessionBeanLocal sACHSessionBeanLocal;
 
     @WebMethod(operationName = "SACHTransferMTD")
 //    @Oneway
@@ -69,5 +78,18 @@ public class SACHWebService {
 
         sach.setBankBTotalCredit(dbsTotalCredit);
         sach.setBankATotalCredit(merlionTotalCredit);
+
+        addNewRecord("Merlion", fromBankAccountNum, "Debit",
+                transferAmt.toString(), "New", "DBS", toBankAccountNum);
+        onHoldSessionBeanLocal.addNewRecord("DBS", toBankAccountNum,
+                "Credit", transferAmt.toString(), "New", "Merlion", fromBankAccountNum);
     }
+
+    private Long addNewRecord(java.lang.String bankName, java.lang.String bankAccountNum, java.lang.String debitOrCredit, java.lang.String paymentAmt, java.lang.String onHoldStatus, java.lang.String debitOrCreditBankName, java.lang.String debitOrCreditBankAccountNum) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        return port.addNewRecord(bankName, bankAccountNum, debitOrCredit, paymentAmt, onHoldStatus, debitOrCreditBankName, debitOrCreditBankAccountNum);
+    }
+
 }

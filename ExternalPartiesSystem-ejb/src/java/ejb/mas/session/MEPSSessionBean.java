@@ -135,7 +135,7 @@ public class MEPSSessionBean implements MEPSSessionBeanLocal {
             debitMasterBankAccount.setMasterBankAccountBalance(totalDebitBankAccountBalance.toString());
 
             settlement.setSettlementStatus("Done");
-
+            
             Calendar cal = Calendar.getInstance();
             String currentTime = cal.getTime().toString();
             String settlementRef = debitMasterBankAccount.getBankName() + " pays S$" + dailySettlementAmt + " to "

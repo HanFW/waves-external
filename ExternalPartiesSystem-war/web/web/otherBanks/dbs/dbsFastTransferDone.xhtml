@@ -16,12 +16,12 @@
                     <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
                     <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
                 </p:submenu>
-                
+
                 <p:submenu label="Other Banks" >
                     <p:menuitem value="DBS Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />
                     <p:menuitem value="DBS View Transaction" url="/web/otherBanks/dbs/dbsViewAccount.xhtml" />
                 </p:submenu>
-                
+
                 <p:submenu label="Billing Processor" >
                     <p:menuitem value="NTUC" url="/web/billingProcessor/NTUCProcessBills.xhtml" />
                 </p:submenu>
@@ -67,8 +67,11 @@
                                 <h:outputText style="font-weight: bold" value="Account Number: "/>
                                 <h:outputText value="#{dBSFastTransferDoneManagedBean.toBankAccountNumWithType}"/>
                                 <br/>
-                                <h:outputText style="font-weight: bold" value="Lastest Account Balance: "/>
-                                <h:outputText value="#{dBSFastTransferDoneManagedBean.toBankAccountBalance}"/>
+                                <h:outputText style="font-weight: bold" value="Lastest Available Balance: "/>
+                                <h:outputText value="#{dBSFastTransferDoneManagedBean.fromAccountAvailableBalance}"/>
+                                <br/>
+                                <h:outputText style="font-weight: bold" value="Lastest Total Balance: "/>
+                                <h:outputText value="#{dBSFastTransferDoneManagedBean.fromAccountTotalBalance}"/>
                                 <br/>
                                 <h:outputText style="font-weight: bold" value="Transfer Amount: "/>
                                 <h:outputText value="#{dBSFastTransferDoneManagedBean.transferAmt}"/>

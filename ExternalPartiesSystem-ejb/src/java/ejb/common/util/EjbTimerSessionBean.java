@@ -2,6 +2,7 @@ package ejb.common.util;
 
 import ejb.mas.session.MEPSSessionBeanLocal;
 import ejb.mas.session.SACHSessionBeanLocal;
+import ejb.otherbanks.session.OtherBankSessionBeanLocal;
 import java.util.Collection;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -13,11 +14,20 @@ import javax.ejb.Timer;
 import javax.ejb.TimerService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.xml.ws.WebServiceRef;
+import ws.client.merlionBank.MerlionBankWebService_Service;
 
 @Stateless
 @LocalBean
 
 public class EjbTimerSessionBean implements EjbTimerSessionBeanLocal {
+
+    @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl")
+    private MerlionBankWebService_Service service_merlionBank;
+
+    @EJB
+    private OtherBankSessionBeanLocal otherBankSessionBeanLocal;
+
     @EJB
     private MEPSSessionBeanLocal mEPSSessionBeanLocal;
 
@@ -77,7 +87,16 @@ public class EjbTimerSessionBean implements EjbTimerSessionBeanLocal {
     private void handleTimeout_10000ms() {
         System.out.println("*** 10000MS Timer timeout");
 
-        sACHSessionBeanLocal.ForwardPaymentInstruction();
+        sACHSessionBeanLocal.ForwardPaymentInstructionToMEPS();
         mEPSSessionBeanLocal.MEPSSettlement();
+        otherBankSessionBeanLocal.settleEachOtherBankAccount();
+        settleEachBankAccount();
+    }
+
+    private void settleEachBankAccount() {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        port.settleEachBankAccount();
     }
 }
