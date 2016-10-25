@@ -231,13 +231,6 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         return port.retrieveBankAccountByNum(bankAccountNum);
     }
 
-    private void debitBankAccount(java.lang.String debitBankAccountNum, java.lang.Double debitAmt) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        port.debitBankAccount(debitBankAccountNum, debitAmt);
-    }
-
     private Long addNewRecord(java.lang.String bankName, java.lang.String bankAccountNum, java.lang.String debitOrCredit, java.lang.String paymentAmt, java.lang.String onHoldStatus, java.lang.String debitOrDebitBankAccountNum, java.lang.String debitOrDebitBankName) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
