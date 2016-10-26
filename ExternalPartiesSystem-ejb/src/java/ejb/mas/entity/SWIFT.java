@@ -8,12 +8,19 @@ import javax.persistence.Id;
 
 @Entity
 public class SWIFT implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long swiftId;
     private String swiftMessage;
     private String transactionDate;
+    private String swiftCodeA;
+    private String swiftCodeB;
+    private String organizationA;
+    private String organizationB;
+    private String countryA;
+    private String countryB;
 
     public Long getSwiftId() {
         return swiftId;
@@ -37,6 +44,54 @@ public class SWIFT implements Serializable {
 
     public void setTransactionDate(String transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public String getSwiftCodeA() {
+        return swiftCodeA;
+    }
+
+    public void setSwiftCodeA(String swiftCodeA) {
+        this.swiftCodeA = swiftCodeA;
+    }
+
+    public String getSwiftCodeB() {
+        return swiftCodeB;
+    }
+
+    public void setSwiftCodeB(String swiftCodeB) {
+        this.swiftCodeB = swiftCodeB;
+    }
+
+    public String getOrganizationA() {
+        return organizationA;
+    }
+
+    public void setOrganizationA(String organizationA) {
+        this.organizationA = organizationA;
+    }
+
+    public String getOrganizationB() {
+        return organizationB;
+    }
+
+    public void setOrganizationB(String organizationB) {
+        this.organizationB = organizationB;
+    }
+
+    public String getCountryA() {
+        return countryA;
+    }
+
+    public void setCountryA(String countryA) {
+        this.countryA = countryA;
+    }
+
+    public String getCountryB() {
+        return countryB;
+    }
+
+    public void setCountryB(String countryB) {
+        this.countryB = countryB;
     }
 
     @Override
@@ -63,5 +118,5 @@ public class SWIFT implements Serializable {
     public String toString() {
         return "ejb.mas.entity.SWIFT[ id=" + swiftId + " ]";
     }
-    
+
 }

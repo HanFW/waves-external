@@ -66,7 +66,7 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
     }
 
     @Override
-    public void recordSettlementInformation(List<SACH> sachs, String creditBank, String debitBank) {
+    public void recordSettlementInformation(List<SACH> sachs) {
 
         Double dailySettlementAmt = 0.0;
         String dailySettlementRef = "";
@@ -79,34 +79,49 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
             dailySettlementAmt = dailySettlementAmt + Double.valueOf(sachs.get(i).getBankATotalCredit());
         }
 
-        if (creditBank.equals("DBS") && debitBank.equals("Merlion")) {
-            if (dailySettlementAmt < 0) {
+        if (dailySettlementAmt < 0) {
 
-                dailySettlementRef = "Merlion Bank has to pay DBS S$" + dailySettlementAmt * (-1);
-                creditMEPSBank = "DBS";
-                debitMEPSBank = "Merlion";
+            dailySettlementRef = "Merlion Bank has to pay DBS S$" + dailySettlementAmt * (-1);
+            creditMEPSBank = "DBS";
+            debitMEPSBank = "Merlion";
 
-                MEPSMasterBankAccount dbsMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("DBS");
-                MEPSMasterBankAccount merlionMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("Merlion");
+            MEPSMasterBankAccount dbsMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("DBS");
+            MEPSMasterBankAccount merlionMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("Merlion");
 
-                creditMEPSBankAccountNum = dbsMasterBankAccount.getMasterBankAccountNum();
-                debitMEPSBankAccountNum = merlionMasterBankAccount.getMasterBankAccountNum();
+            creditMEPSBankAccountNum = dbsMasterBankAccount.getMasterBankAccountNum();
+            debitMEPSBankAccountNum = merlionMasterBankAccount.getMasterBankAccountNum();
 
-            } else if (dailySettlementAmt > 0) {
-                dailySettlementRef = "DBS has to pay Merlion Bank S$" + dailySettlementAmt;
-            } else {
-                dailySettlementRef = "Not Applicable";
-            }
+            Calendar cal = Calendar.getInstance();
+            String updateDate = cal.getTime().toString();
+            Double dailySettlementAmtPos = dailySettlementAmt * (-1);
+
+            Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
+                    updateDate, "DBS&Merlion", "New", creditMEPSBank, creditMEPSBankAccountNum,
+                    debitMEPSBank, debitMEPSBankAccountNum);
+
+        } else if (dailySettlementAmt > 0) {
+
+            dailySettlementRef = "DBS has to pay Merlion Bank S$" + dailySettlementAmt * (-1);
+            creditMEPSBank = "Merlion";
+            debitMEPSBank = "DBS";
+
+            MEPSMasterBankAccount dbsMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("DBS");
+            MEPSMasterBankAccount merlionMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("Merlion");
+
+            debitMEPSBankAccountNum = dbsMasterBankAccount.getMasterBankAccountNum();
+            creditMEPSBankAccountNum = merlionMasterBankAccount.getMasterBankAccountNum();
+
+            Calendar cal = Calendar.getInstance();
+            String updateDate = cal.getTime().toString();
+            Double dailySettlementAmtPos = dailySettlementAmt * (-1);
+
+            Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
+                    updateDate, "DBS&Merlion", "New", creditMEPSBank, creditMEPSBankAccountNum,
+                    debitMEPSBank, debitMEPSBankAccountNum);
+
+        } else {
+            dailySettlementRef = "Not Applicable";
         }
-
-        Calendar cal = Calendar.getInstance();
-        String updateDate = cal.getTime().toString();
-        Double dailySettlementAmtPos = dailySettlementAmt * (-1);
-
-        Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
-                updateDate, "DBS&Merlion", "New", creditMEPSBank, creditMEPSBankAccountNum,
-                debitMEPSBank, debitMEPSBankAccountNum);
-
     }
 
     @Override

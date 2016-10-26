@@ -116,43 +116,47 @@ public class MEPSSessionBean implements MEPSSessionBeanLocal {
         query.setParameter("settlementStatus", "New");
         List<Settlement> settlements = query.getResultList();
 
-        for (Settlement settlement : settlements) {
+        if (settlements.isEmpty()) {
+            System.out.println("No settlement");
+        } else {
+            for (Settlement settlement : settlements) {
 
-            String creditMEPSBankAccountNum = settlement.getCreditMEPSBankAccountNum();
-            String dailySettlementAmt = settlement.getDailySettlementAmt();
-            String debitMEPSBankAccountNum = settlement.getDebitMEPSBankAccountNum();
+                String creditMEPSBankAccountNum = settlement.getCreditMEPSBankAccountNum();
+                String dailySettlementAmt = settlement.getDailySettlementAmt();
+                String debitMEPSBankAccountNum = settlement.getDebitMEPSBankAccountNum();
 
-            MEPSMasterBankAccount creditMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveMEPSMasterBankAccountByAccNum(creditMEPSBankAccountNum);
-            MEPSMasterBankAccount debitMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveMEPSMasterBankAccountByAccNum(debitMEPSBankAccountNum);
+                MEPSMasterBankAccount creditMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveMEPSMasterBankAccountByAccNum(creditMEPSBankAccountNum);
+                MEPSMasterBankAccount debitMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveMEPSMasterBankAccountByAccNum(debitMEPSBankAccountNum);
 
-            String currentCreditBankAccountBalance = creditMasterBankAccount.getMasterBankAccountBalance();
-            String currentDebitBankAccountBalance = debitMasterBankAccount.getMasterBankAccountBalance();
+                String currentCreditBankAccountBalance = creditMasterBankAccount.getMasterBankAccountBalance();
+                String currentDebitBankAccountBalance = debitMasterBankAccount.getMasterBankAccountBalance();
 
-            Double totalCreditBankAccountBalance = Double.valueOf(currentCreditBankAccountBalance) + Double.valueOf(dailySettlementAmt);
-            Double totalDebitBankAccountBalance = Double.valueOf(currentDebitBankAccountBalance) + Double.valueOf(dailySettlementAmt);
+                Double totalCreditBankAccountBalance = Double.valueOf(currentCreditBankAccountBalance) + Double.valueOf(dailySettlementAmt);
+                Double totalDebitBankAccountBalance = Double.valueOf(currentDebitBankAccountBalance) + Double.valueOf(dailySettlementAmt);
 
-            creditMasterBankAccount.setMasterBankAccountBalance(totalCreditBankAccountBalance.toString());
-            debitMasterBankAccount.setMasterBankAccountBalance(totalDebitBankAccountBalance.toString());
+                creditMasterBankAccount.setMasterBankAccountBalance(totalCreditBankAccountBalance.toString());
+                debitMasterBankAccount.setMasterBankAccountBalance(totalDebitBankAccountBalance.toString());
 
-            settlement.setSettlementStatus("Done");
+                settlement.setSettlementStatus("Done");
 
-            Calendar cal = Calendar.getInstance();
-            String currentTime = cal.getTime().toString();
-            String settlementRef = debitMasterBankAccount.getBankName() + " pays S$" + dailySettlementAmt + " to "
-                    + creditMasterBankAccount.getBankName();
-            String bankNames = creditMasterBankAccount.getBankName() + "&" + debitMasterBankAccount.getBankName();
-            Long newMepsId = addNewMEPS(settlementRef, currentTime, bankNames);
+                Calendar cal = Calendar.getInstance();
+                String currentTime = cal.getTime().toString();
+                String settlementRef = debitMasterBankAccount.getBankName() + " pays S$" + dailySettlementAmt + " to "
+                        + creditMasterBankAccount.getBankName();
+                String bankNames = creditMasterBankAccount.getBankName() + "&" + debitMasterBankAccount.getBankName();
+                Long newMepsId = addNewMEPS(settlementRef, currentTime, bankNames);
 
-            String creditTransactionRef = creditMasterBankAccount.getBankName() + " had received S$" + dailySettlementAmt + " from "
-                    + debitMasterBankAccount.getBankName();
-            String debitTransactionRef = debitMasterBankAccount.getBankName() + " had paid S$" + dailySettlementAmt + " to "
-                    + creditMasterBankAccount.getBankName();
+                String creditTransactionRef = creditMasterBankAccount.getBankName() + " had received S$" + dailySettlementAmt + " from "
+                        + debitMasterBankAccount.getBankName();
+                String debitTransactionRef = debitMasterBankAccount.getBankName() + " had paid S$" + dailySettlementAmt + " to "
+                        + creditMasterBankAccount.getBankName();
 
-            Long creditAccountTransactionId = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime,
-                    creditTransactionRef, " ", dailySettlementAmt, creditMasterBankAccount.getMasterBankAccountId());
-            Long debitAccountTransactionId = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime,
-                    debitTransactionRef, dailySettlementAmt, " ", debitMasterBankAccount.getMasterBankAccountId());
+                Long creditAccountTransactionId = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime,
+                        creditTransactionRef, " ", dailySettlementAmt, creditMasterBankAccount.getMasterBankAccountId());
+                Long debitAccountTransactionId = mEPSMasterAccountTransactionSessionBeanLocal.addNewMasterAccountTransaction(currentTime,
+                        debitTransactionRef, dailySettlementAmt, " ", debitMasterBankAccount.getMasterBankAccountId());
 
+            }
         }
     }
 }

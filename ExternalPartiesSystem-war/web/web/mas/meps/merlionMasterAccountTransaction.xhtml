@@ -6,43 +6,39 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/masTemplate.xhtml">
-
     <ui:define name="content">
-    <h:body>
-        <h:form>
-            <h:outputText value="View Merlion Master Account Transaction" />
-            <br/>
-            <br/>
-            <p:dataTable var="merlionMasterAccountTransaction" value="#{merlionMasterAccountTransactionManagedBean.merlionMasterAccountTransactions}" 
-                         reflow="true" paginator="true" rows="10" emptyMessage="No Transaction" >
-                <p:column headerText="Transaction Id"> 
-                    <h:outputText value="#{merlionMasterAccountTransaction.transactionId}" />
-                </p:column>
+        <h:body>
+            <h:form>
+                <h:outputText value="View Merlion Master Account Transaction" />
+                <br/>
+                <br/>
+                <p:messages globalOnly="true"/>
+                
+                <p:dataTable var="merlionMasterAccountTransaction" value="#{merlionMasterAccountTransactionManagedBean.merlionMasterAccountTransactions}" 
+                             reflow="true" paginator="true" rows="10" emptyMessage="No Transaction" >
+                    <p:column headerText="Transaction Id"> 
+                        <h:outputText value="#{merlionMasterAccountTransaction.transactionId}" />
+                    </p:column>
 
-                <p:column headerText="Transaction Date"> 
-                    <h:outputText value="#{merlionMasterAccountTransaction.transactionDate}" />
-                </p:column>
+                    <p:column headerText="Transaction Date"> 
+                        <h:outputText value="#{merlionMasterAccountTransaction.transactionDate}" />
+                    </p:column>
 
-                <p:column headerText="Transaction Ref"> 
-                    <h:outputText value="#{merlionMasterAccountTransaction.transactionRef}" />
-                </p:column>
+                    <p:column headerText="Transaction Ref"> 
+                        <h:outputText value="#{merlionMasterAccountTransaction.transactionRef}" />
+                    </p:column>
 
-                <p:column headerText="Account Debit(S$)(Withdrawal)"> 
-                    <h:outputText value="#{merlionMasterAccountTransaction.accountDebit}" />
-                </p:column>
+                    <p:column headerText="Account Debit(S$)(Withdrawal)"> 
+                        <h:outputText value="#{merlionMasterAccountTransaction.accountDebit}" />
+                    </p:column>
 
-                <p:column headerText="Account Credit(S$)(Deposit)"> 
-                    <h:outputText value="#{merlionMasterAccountTransaction.accountCredit}" />
-                </p:column>
-            </p:dataTable>
-            <br/>
-           <!--                <div align="center">
-                <p:commandButton id="backBtn" value="Back" 
-                                 action="/web/index.xhtml?faces-redirect=true" 
-                                 ajax="true" style="width:30%"/>
-                </div>-->
-        </h:form>
-    </h:body>
+                    <p:column headerText="Account Credit(S$)(Deposit)"> 
+                        <h:outputText value="#{merlionMasterAccountTransaction.accountCredit}" />
+                    </p:column>
+                </p:dataTable>
+                <br/>
+            </h:form>
+        </h:body>
     </ui:define>
 </ui:composition>
 

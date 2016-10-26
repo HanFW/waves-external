@@ -17,6 +17,6 @@ public class initSessionBean {
 
     @PostConstruct
     public void init() {
-//        ejbTimerSessionLocal.createTimer10000MS();  
+//        ejbTimerSessionLocal.createTimer10000MS(); 
     }
 }

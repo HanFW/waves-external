@@ -13,6 +13,8 @@
                 <h:outputText value="View DBS Master Account Transaction" />
                 <br/>
                 <br/>
+                <p:messages globalOnly="true"/>
+                
                 <p:dataTable var="dbsMasterAccountTransaction" 
                              value="#{dBSMasterAccountTransactionManagedBean.dbsMasterAccountTransactions}" 
                              reflow="true" paginator="true" rows="10" emptyMessage="No Transaction">
@@ -37,11 +39,6 @@
                     </p:column>
                 </p:dataTable>
                 <br/>
-<!--                <div align="center">
-                <p:commandButton id="backBtn" value="Back" 
-                                 action="/web/index.xhtml?faces-redirect=true" 
-                                 ajax="true" style="width:30%"/>
-                </div>-->
             </h:form>
         </h:body>
     </ui:define>

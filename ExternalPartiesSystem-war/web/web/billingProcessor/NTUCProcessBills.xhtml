@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:menubar>
+                <p:submenu label="MAS">
+                    <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
+                    <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
+                    <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
+                    <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
+                </p:submenu>
+
+                <p:submenu label="Other Banks" >
+                    <p:menuitem value="DBS Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />
+                    <p:menuitem value="DBS View Transaction" url="/web/otherBanks/dbs/dbsViewAccount.xhtml" />
+                </p:submenu>
+
+                <p:submenu label="Billing Processor" >
+                    <p:menuitem value="NTUC" url="/web/billingProcessor/NTUCProcessBills.xhtml" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+
+        <h:form>
+            <h:outputText value="NTUC Process Bills" />
+            <br/>
+            <br/>
+            <p:dataTable var="ntucBill" 
+                         value="#{nTUCProcessBillsManagedBean.allNTUCBills}" 
+                         reflow="true" paginator="true" rows="10" emptyMessage="No Transaction">
+                <p:column headerText="Customer Name"> 
+                    <h:outputText value="#{ntucBill.customerName}" />
+                </p:column>
+
+                <p:column headerText="Billing Service"> 
+                    <h:outputText value="#{ntucBill.billingOrganizationName}" />
+                </p:column>
+                
+                <p:column headerText="Bill Reference"> 
+                    <h:outputText value="#{ntucBill.billReference}" />
+                </p:column>
+
+                <p:column headerText="Action" style="width: 10%"> 
+                    <center>
+                        <p:commandButton process="@this" action="/web/billingProcessor/NTUCProcessBillsDone.xhtml?faces-redirect=true"
+                                         ajax="false" value="Billing"> 
+                            <f:setPropertyActionListener target="#{nTUCProcessBillsDoneManagedBean.billId}" value="#{ntucBill.billId}" />
+                        </p:commandButton>
+                    </center>
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+    </h:body>
+</html>

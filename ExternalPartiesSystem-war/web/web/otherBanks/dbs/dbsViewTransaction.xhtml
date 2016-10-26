@@ -8,48 +8,43 @@
     <ui:define name="content">
         <h:body>
             <h:form id="formMain"> 
-               
-                    <p:dataTable var="dbsTransaction" value="#{dBSViewTransactionManagedBean.DBSTransaction}" 
-                                 reflow="true" paginator="true" rows="20" emptyMessage="No Transaction Record"
-                                 rowsPerPageTemplate="5,10,15,20"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+                <p:messages globalOnly="true"/>
+                
+                <p:dataTable var="dbsTransaction" value="#{dBSViewTransactionManagedBean.DBSTransaction}" 
+                             reflow="true" paginator="true" rows="20" emptyMessage="No Transaction Record"
+                             rowsPerPageTemplate="5,10,15,20"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-                        <p:column headerText="Transaction ID">
-                            <h:outputText value="#{dbsTransaction.otherTransactionId}" /> 
-                        </p:column>
+                    <p:column headerText="Transaction ID">
+                        <h:outputText value="#{dbsTransaction.otherTransactionId}" /> 
+                    </p:column>
 
-                        <p:column headerText="Transaction Date">
-                            <h:outputText value="#{dbsTransaction.otherTransactionDate}" />
-                        </p:column>
+                    <p:column headerText="Transaction Date">
+                        <h:outputText value="#{dbsTransaction.otherTransactionDate}" />
+                    </p:column>
 
-                        <p:column headerText="Transaction Code"> 
-                            <h:outputText value="#{dbsTransaction.otherTransactionCode}" />
-                        </p:column>
+                    <p:column headerText="Transaction Code"> 
+                        <h:outputText value="#{dbsTransaction.otherTransactionCode}" />
+                    </p:column>
 
-                        <p:column headerText="Transaction Ref"> 
-                            <h:outputText value="#{dbsTransaction.otherTransactionRef}" />
-                        </p:column>
+                    <p:column headerText="Transaction Ref"> 
+                        <h:outputText value="#{dbsTransaction.otherTransactionRef}" />
+                    </p:column>
 
-                        <p:column headerText="Account Debit(Withdrawal)"> 
-                            <h:outputText value="#{dbsTransaction.otherAccountDebit}">
-                                <f:convertNumber type="currency" currencyCode="$" minFractionDigits="2" />
-                            </h:outputText>
-                        </p:column>
+                    <p:column headerText="Account Debit(Withdrawal)"> 
+                        <h:outputText value="#{dbsTransaction.otherAccountDebit}">
+                            <f:convertNumber type="currency" currencyCode="$" minFractionDigits="2" />
+                        </h:outputText>
+                    </p:column>
 
-                        <p:column headerText="Account Credit(Deposit)"> 
-                            <h:outputText value="#{dbsTransaction.otherAccountCredit}">
-                                <f:convertNumber type="currency" currencyCode="SGD" />
-                            </h:outputText>
-                        </p:column>
+                    <p:column headerText="Account Credit(Deposit)"> 
+                        <h:outputText value="#{dbsTransaction.otherAccountCredit}">
+                            <f:convertNumber type="currency" currencyCode="SGD" />
+                        </h:outputText>
+                    </p:column>
 
-                    </p:dataTable>
-                    <br/>
-    <!--                <div align="center">
-                <p:commandButton id="backBtn" value="Back" 
-                                 action="/web/index.xhtml?faces-redirect=true" 
-                                 ajax="true" style="width:30%"/>
-                </div>-->
-
+                </p:dataTable>
+                <br/>
             </h:form>
         </h:body>
     </ui:define>

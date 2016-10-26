@@ -8,34 +8,31 @@
                 template="/WEB-INF/masTemplate.xhtml">
 
     <ui:define name="content">
-    <h:body>
-        <h:form>
-            <h:outputText value="View MEPS Settlement History" />
-            <br/>
-            <br/>
-            <p:dataTable var="dbsAndMerlionMEPS" value="#{mEPSHistoryRecordManagedBean.dbsAndMerlionMEPSs}" 
-                         reflow="true" paginator="true" rows="10" emptyMessage="No Record" >
+        <h:body>
+            <h:form>
+                <h:outputText value="View MEPS Settlement History" />
+                <br/>
+                <br/>
+                <p:messages globalOnly="true"/>
                 
-                <p:column headerText="Settlement Date"> 
-                    <h:outputText value="#{dbsAndMerlionMEPS.settlementDate}" />
-                </p:column>
-                
-                <p:column headerText="Settlement Reference"> 
-                    <h:outputText value="#{dbsAndMerlionMEPS.settlementRef}" />
-                </p:column>
-                
-                <p:column headerText="Bank"> 
-                    <h:outputText value="#{dbsAndMerlionMEPS.bankNames}" />
-                </p:column>
-            </p:dataTable>
-            <br/>
-         <!--                <div align="center">
-                <p:commandButton id="backBtn" value="Back" 
-                                 action="/web/index.xhtml?faces-redirect=true" 
-                                 ajax="true" style="width:30%"/>
-                </div>-->
-        </h:form>
-    </h:body>
+                <p:dataTable var="dbsAndMerlionMEPS" value="#{mEPSHistoryRecordManagedBean.dbsAndMerlionMEPSs}" 
+                             reflow="true" paginator="true" rows="10" emptyMessage="No Record" >
+
+                    <p:column headerText="Settlement Date"> 
+                        <h:outputText value="#{dbsAndMerlionMEPS.settlementDate}" />
+                    </p:column>
+
+                    <p:column headerText="Settlement Reference"> 
+                        <h:outputText value="#{dbsAndMerlionMEPS.settlementRef}" />
+                    </p:column>
+
+                    <p:column headerText="Bank"> 
+                        <h:outputText value="#{dbsAndMerlionMEPS.bankNames}" />
+                    </p:column>
+                </p:dataTable>
+                <br/>
+            </h:form>
+        </h:body>
     </ui:define>
 </ui:composition>
 

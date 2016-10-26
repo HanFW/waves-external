@@ -11,4 +11,5 @@ public interface OtherBankAccountSessionBeanLocal {
     public OtherBankAccount retrieveBankAccountById(Long otherBankAccountId);
     public void updateBankAccountBalance(String otherBankAccountNum,String availableBankAccountBalance,
             String totalBankAccountBalance);
+    public void updateAvailableAccountBalance(String otherBankAccountNum, String availableBankAccountBalance);
 }

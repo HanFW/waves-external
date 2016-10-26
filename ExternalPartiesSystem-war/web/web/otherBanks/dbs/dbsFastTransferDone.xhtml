@@ -7,12 +7,13 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/dbsTemplate.xhtml">
     <ui:define name="content">
-    <h:body>
-        <h:form id="formMain"> 
-              <h:outputText value="DBS Fast Transfer" />
+        <h:body>
+            <h:form id="formMain"> 
+                <h:outputText value="DBS Fast Transfer" />
                 <br/>
                 <br/>
                 <panelGrid>
+                    <p:messages globalOnly="true"/>
                     <h:form id="formMain">
                         <h:outputText value="#{dBSFastTransferDoneManagedBean.statusMessage}" style="font-size: 24px"/>
                         <br/>
@@ -49,8 +50,11 @@
                                 <h:outputText style="font-weight: bold" value="Account Number: "/>
                                 <h:outputText value="#{dBSFastTransferDoneManagedBean.toBankAccountNumWithType}"/>
                                 <br/>
-                                <h:outputText style="font-weight: bold" value="Lastest Account Balance: "/>
-                                <h:outputText value="#{dBSFastTransferDoneManagedBean.toBankAccountBalance}"/>
+                                <h:outputText style="font-weight: bold" value="Lastest Available Balance: "/>
+                                <h:outputText value="#{dBSFastTransferDoneManagedBean.fromAccountAvailableBalance}"/>
+                                <br/>
+                                <h:outputText style="font-weight: bold" value="Lastest Total Balance: "/>
+                                <h:outputText value="#{dBSFastTransferDoneManagedBean.fromAccountTotalBalance}"/>
                                 <br/>
                                 <h:outputText style="font-weight: bold" value="Transfer Amount: "/>
                                 <h:outputText value="#{dBSFastTransferDoneManagedBean.transferAmt}"/>
@@ -61,8 +65,8 @@
                         </p:accordionPanel>
                     </h:form>
                 </panelGrid>
-        </h:form>
-    </h:body>
+            </h:form>
+        </h:body>
     </ui:define>
 </ui:composition>
 

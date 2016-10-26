@@ -14,7 +14,7 @@ public interface SettlementSessionBeanLocal {
             String updateDate, String bankNames, String settlementStatus, String creditMEPSBank,
             String creditMEPSBankAccountNum, String debitMEPSBank, String debitMEPSBankAccountNum);
 
-    public void recordSettlementInformation(List<SACH> sachs, String creditBank, String debitBank);
+    public void recordSettlementInformation(List<SACH> sachs);
     
     public List<Settlement> getAllSettlement();
 }
