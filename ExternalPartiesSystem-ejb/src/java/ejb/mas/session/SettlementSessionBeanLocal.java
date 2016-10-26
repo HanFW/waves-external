@@ -1,5 +1,6 @@
 package ejb.mas.session;
 
+import ejb.mas.entity.CHIPS;
 import ejb.mas.entity.SACH;
 import ejb.mas.entity.Settlement;
 import java.util.List;
@@ -15,6 +16,8 @@ public interface SettlementSessionBeanLocal {
             String creditMEPSBankAccountNum, String debitMEPSBank, String debitMEPSBankAccountNum);
 
     public void recordSettlementInformation(List<SACH> sachs);
-    
+
     public List<Settlement> getAllSettlement();
+    
+    public void recordSettlementInformationCHIPS(List<CHIPS> chips);
 }

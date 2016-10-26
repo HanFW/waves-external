@@ -21,6 +21,8 @@ public class SWIFT implements Serializable {
     private String organizationB;
     private String countryA;
     private String countryB;
+    private String paymentAmt;
+    private String transferedBankAccountNum;
 
     public Long getSwiftId() {
         return swiftId;
@@ -92,6 +94,22 @@ public class SWIFT implements Serializable {
 
     public void setCountryB(String countryB) {
         this.countryB = countryB;
+    }
+
+    public String getPaymentAmt() {
+        return paymentAmt;
+    }
+
+    public void setPaymentAmt(String paymentAmt) {
+        this.paymentAmt = paymentAmt;
+    }
+
+    public String getTransferedBankAccountNum() {
+        return transferedBankAccountNum;
+    }
+
+    public void setTransferedBankAccountNum(String transferedBankAccountNum) {
+        this.transferedBankAccountNum = transferedBankAccountNum;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ejb.mas.session;
 
+import ejb.mas.entity.CHIPS;
 import ejb.mas.entity.MEPSMasterBankAccount;
 import ejb.mas.entity.SACH;
 import ejb.mas.entity.Settlement;
@@ -117,6 +118,63 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
             Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
                     updateDate, "DBS&Merlion", "New", creditMEPSBank, creditMEPSBankAccountNum,
+                    debitMEPSBank, debitMEPSBankAccountNum);
+
+        } else {
+            dailySettlementRef = "Not Applicable";
+        }
+    }
+
+    @Override
+    public void recordSettlementInformationCHIPS(List<CHIPS> chips) {
+
+        Double dailySettlementAmt = 0.0;
+        String dailySettlementRef = "";
+        String creditMEPSBank = "";
+        String creditMEPSBankAccountNum = "";
+        String debitMEPSBank = "";
+        String debitMEPSBankAccountNum = "";
+
+        for (int i = 0; i < chips.size(); i++) {
+            dailySettlementAmt = dailySettlementAmt + Double.valueOf(chips.get(i).getBankATotalCredit());
+        }
+
+        if (dailySettlementAmt < 0) {
+            dailySettlementRef = "Merlion Bank has to pay Bank of Korea S$" + dailySettlementAmt * (-1);
+            creditMEPSBank = "Bank of Korea";
+            debitMEPSBank = "Merlion";
+
+            MEPSMasterBankAccount koreaMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("Bank of Korea");
+            MEPSMasterBankAccount merlionMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("Merlion");
+
+            creditMEPSBankAccountNum = koreaMasterBankAccount.getMasterBankAccountNum();
+            debitMEPSBankAccountNum = merlionMasterBankAccount.getMasterBankAccountNum();
+
+            Calendar cal = Calendar.getInstance();
+            String updateDate = cal.getTime().toString();
+            Double dailySettlementAmtPos = dailySettlementAmt * (-1);
+
+            Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
+                    updateDate, "Merlion&BankofKorea", "New", creditMEPSBank, creditMEPSBankAccountNum,
+                    debitMEPSBank, debitMEPSBankAccountNum);
+
+        } else if (dailySettlementAmt > 0) {
+            dailySettlementRef = "Bank of Korea has to pay Merlion Bank S$" + dailySettlementAmt * (-1);
+            creditMEPSBank = "Merlion";
+            debitMEPSBank = "Bank of Korea";
+
+            MEPSMasterBankAccount koreaMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("Bank of Korea");
+            MEPSMasterBankAccount merlionMasterBankAccount = mEPSMasterBankAccountSessionBeanLocal.retrieveBankAccountByBankName("Merlion");
+
+            debitMEPSBankAccountNum = koreaMasterBankAccount.getMasterBankAccountNum();
+            creditMEPSBankAccountNum = merlionMasterBankAccount.getMasterBankAccountNum();
+
+            Calendar cal = Calendar.getInstance();
+            String updateDate = cal.getTime().toString();
+            Double dailySettlementAmtPos = dailySettlementAmt * (-1);
+
+            Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
+                    updateDate, "Merlion&BankofKorea", "New", creditMEPSBank, creditMEPSBankAccountNum,
                     debitMEPSBank, debitMEPSBankAccountNum);
 
         } else {

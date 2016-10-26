@@ -14,8 +14,9 @@ public class SWIFTCode implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long swiftCodeId;
     private String swiftCode;
-    private String organizationName;
+    private String recipient;
     private String country;
+    private String bankAccountNum;
 
     public Long getSwiftCodeId() {
         return swiftCodeId;
@@ -33,20 +34,28 @@ public class SWIFTCode implements Serializable {
         this.swiftCode = swiftCode;
     }
 
-    public String getOrganizationName() {
-        return organizationName;
-    }
-
-    public void setOrganizationName(String organizationName) {
-        this.organizationName = organizationName;
-    }
-
     public String getCountry() {
         return country;
     }
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    public String getBankAccountNum() {
+        return bankAccountNum;
+    }
+
+    public void setBankAccountNum(String bankAccountNum) {
+        this.bankAccountNum = bankAccountNum;
     }
 
     @Override

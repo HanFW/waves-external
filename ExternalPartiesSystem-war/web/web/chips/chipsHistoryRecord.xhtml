@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/masTemplate.xhtml">
+    <ui:define name="content">
+        <h:body>
+            <h:form>
+                <h:outputText value="View Merlion and Bank of Korea CHIPS Clearance History" />
+                <br/>
+                <br/>
+                <p:messages globalOnly="true"/>
+                
+                <p:dataTable var="dbsAndMerlionCHIPS" value="#{chipsHistoryRecordManagedBean.dbsAndMerlionCHIPS}" 
+                             reflow="true" paginator="true" rows="10" emptyMessage="No Record" >
+
+                    <p:column headerText="Date"> 
+                        <h:outputText value="#{dbsAndMerlionCHIPS.currentTime}" />
+                    </p:column>
+
+                    <p:column headerText="DBS Credit(S$)"> 
+                        <h:outputText value="#{dbsAndMerlionCHIPS.bankBTotalCredit}" />
+                    </p:column>
+
+                    <p:column headerText="Merlion Credit(S$)"> 
+                        <h:outputText value="#{dbsAndMerlionCHIPS.bankATotalCredit}" />
+                    </p:column>
+
+                    <p:column headerText="Payment Method"> 
+                        <h:outputText value="#{dbsAndMerlionCHIPS.paymentMethod}" />
+                    </p:column>
+                </p:dataTable>
+                <br/>
+                <br/>
+                <p:dataTable var="settlement" value="#{chipsHistoryRecordManagedBean.allSettlement}" 
+                             reflow="true" paginator="true" rows="10" emptyMessage="No Record" >
+
+                    <p:column headerText="Date"> 
+                        <h:outputText value="#{settlement.updateDate}" />
+                    </p:column>
+
+                    <p:column headerText="Transfer Amount(S$)"> 
+                        <h:outputText value="#{settlement.dailySettlementAmt}" />
+                    </p:column>
+
+                    <p:column headerText="Reference"> 
+                        <h:outputText value="#{settlement.dailySettlementRef}" />
+                    </p:column>
+
+                    <p:column headerText="Bank"> 
+                        <h:outputText value="#{settlement.bankNames}" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>

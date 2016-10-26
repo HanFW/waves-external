@@ -1,5 +1,6 @@
 package ejb.common.util;
 
+import ejb.mas.session.CHIPSSessionBeanLocal;
 import ejb.mas.session.MEPSSessionBeanLocal;
 import ejb.mas.session.SACHSessionBeanLocal;
 import ejb.otherbanks.session.OtherBankSessionBeanLocal;
@@ -21,6 +22,9 @@ import ws.client.merlionBank.MerlionBankWebService_Service;
 @LocalBean
 
 public class EjbTimerSessionBean implements EjbTimerSessionBeanLocal {
+
+    @EJB
+    private CHIPSSessionBeanLocal cHIPSSessionBeanLocal;
 
     @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl")
     private MerlionBankWebService_Service service_merlionBank;
@@ -88,6 +92,7 @@ public class EjbTimerSessionBean implements EjbTimerSessionBeanLocal {
         System.out.println("*** 10000MS Timer timeout");
 
         sACHSessionBeanLocal.ForwardPaymentInstructionToMEPS();
+        cHIPSSessionBeanLocal.ForwardPaymentInstructionToMEPS();
         mEPSSessionBeanLocal.MEPSSettlement();
         otherBankSessionBeanLocal.settleEachOtherBankAccount();
         settleEachBankAccount();

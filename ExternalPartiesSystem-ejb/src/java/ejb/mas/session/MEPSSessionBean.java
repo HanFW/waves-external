@@ -143,7 +143,13 @@ public class MEPSSessionBean implements MEPSSessionBeanLocal {
                 String currentTime = cal.getTime().toString();
                 String settlementRef = debitMasterBankAccount.getBankName() + " pays S$" + dailySettlementAmt + " to "
                         + creditMasterBankAccount.getBankName();
-                String bankNames = creditMasterBankAccount.getBankName() + "&" + debitMasterBankAccount.getBankName();
+
+                String bankNames = "";
+                if (creditMasterBankAccount.getBankName().equals("Bank of Korea")) {
+                    bankNames = "Merlion&BankofKorea";
+                } else {
+                    bankNames = creditMasterBankAccount.getBankName() + "&" + debitMasterBankAccount.getBankName();
+                }
                 Long newMepsId = addNewMEPS(settlementRef, currentTime, bankNames);
 
                 String creditTransactionRef = creditMasterBankAccount.getBankName() + " had received S$" + dailySettlementAmt + " from "

@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/masTemplate.xhtml">
+
+    <ui:define name="content">
+        <h:body>
+            <h:form>
+                <h:outputText value="View Merlion and Bank of Korea MEPS Settlement History" />
+                <br/>
+                <br/>
+                <p:messages globalOnly="true"/>
+                
+                <p:dataTable var="koreaAndMerlionMEPS" value="#{mEPSHistoryRecordManagedBean.koreaAndMerlionMEPSs}" 
+                             reflow="true" paginator="true" rows="10" emptyMessage="No Record" >
+
+                    <p:column headerText="Settlement Date"> 
+                        <h:outputText value="#{koreaAndMerlionMEPS.settlementDate}" />
+                    </p:column>
+
+                    <p:column headerText="Settlement Reference"> 
+                        <h:outputText value="#{koreaAndMerlionMEPS.settlementRef}" />
+                    </p:column>
+
+                    <p:column headerText="Bank"> 
+                        <h:outputText value="#{koreaAndMerlionMEPS.bankNames}" />
+                    </p:column>
+                </p:dataTable>
+                <br/>
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <p:menubar>
+                <p:submenu label="MAS">
+                    <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
+                    <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
+                    <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
+                    <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
+                </p:submenu>
+                <p:submenu label="DBS">
+                    <p:menuitem value="Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />
+                    <p:menuitem value="View Transaction" url="/web/otherBanks/dbs/dbsViewAccount.xhtml" />
+                    <p:menuitem value="Enter Cheque Information" url="/web/otherBanks/dbs/dbsEnterReceivedChequeInformation.xhtml" />
+                </p:submenu>
+                <p:submenu label="SWIFT">
+                    <p:menuitem value="View SWIFT Message" url="/web/swift/viewSWIFTMessage.xhtml" />
+                </p:submenu>
+                <p:submenu label="Bank of Korea">
+                    <p:menuitem value="View Transaction" url="/web/otherBanks/bankofkorea/viewAccount.xhtml" />
+                </p:submenu>
+                <p:submenu label="CHIPS">
+                    <p:menuitem value="View Merlion and Bank of Korea CHIPS History Records" url="/web/chips/chipsHistoryRecord.xhtml" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+
+        <h:form id="formMain"> 
+            <p:messages globalOnly="true"/>
+
+            <p:panel>
+                <p:outputLabel value="View SWIFT Message" style="font-weight: bold"/>
+                <br/>
+                <br/>
+                <p:dataTable var="allSWIFTMessage" value="#{viewSWIFTMessageManagedBean.allSWIFTMessage}" 
+                             reflow="true" paginator="true" rows="20" emptyMessage="No Transaction Record"
+                             rowsPerPageTemplate="5,10,15,20"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+                    <p:column headerText="Transaction Date">
+                        <h:outputText value="#{allSWIFTMessage.transactionDate}" /> 
+                    </p:column>
+
+                    <p:column headerText="Transfered Institution">
+                        <h:outputText value="#{allSWIFTMessage.organizationA}" /> 
+                    </p:column>
+
+                    <p:column headerText="Transfered SWIFT Code">
+                        <h:outputText value="#{allSWIFTMessage.swiftCodeA}" /> 
+                    </p:column>
+
+                    <p:column headerText="Transfered Country">
+                        <h:outputText value="#{allSWIFTMessage.countryA}" /> 
+                    </p:column>
+
+                    <p:column headerText="Received Institution">
+                        <h:outputText value="#{allSWIFTMessage.organizationB}" /> 
+                    </p:column>
+
+                    <p:column headerText="Received SWIFT Code">
+                        <h:outputText value="#{allSWIFTMessage.swiftCodeB}" /> 
+                    </p:column>
+
+                    <p:column headerText="Received Country">
+                        <h:outputText value="#{allSWIFTMessage.countryB}" /> 
+                    </p:column>
+
+                    <p:column headerText="Message Content">
+                        <h:outputText value="#{allSWIFTMessage.swiftMessage}" /> 
+                    </p:column>
+                </p:dataTable>
+                <br/>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
