@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://localhost:8080/MerlionBankWebService/MerlionBankWebService?wsdl" uri="src/conf/xml-resources/web-service-references/MerlionBankWebService/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl"/>
-    <system systemId="http://localhost:8080/MerlionBankWebService/MerlionBankWebService?xsd=1" uri="src/conf/xml-resources/web-service-references/MerlionBankWebService/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/FastTransferWebService/FastTransferWebService?wsdl" uri="src/conf/xml-resources/web-service-references/FastTransferWebService/wsdl/localhost_8080/FastTransferWebService/FastTransferWebService.wsdl"/>
     <system systemId="http://localhost:8080/FastTransferWebService/FastTransferWebService?xsd=1" uri="src/conf/xml-resources/web-service-references/FastTransferWebService/wsdl/localhost_8080/FastTransferWebService/FastTransferWebService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/MerlionBankWebService/MerlionBankWebService?wsdl" uri="src/conf/xml-resources/web-service-references/MerlionBankWebService/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl"/>
+    <system systemId="http://localhost:8080/MerlionBankWebService/MerlionBankWebService?xsd=1" uri="src/conf/xml-resources/web-service-references/MerlionBankWebService/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.xsd_1.xsd"/>
 </catalog>
