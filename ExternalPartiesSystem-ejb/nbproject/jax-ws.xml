@@ -13,6 +13,12 @@
     <service name="BillWebService">
       <implementation-class>ejb.ws.session.BillWebService</implementation-class>
     </service>
+    <service name="SWIFTWebService">
+      <implementation-class>ejb.ws.session.SWIFTWebService</implementation-class>
+    </service>
+    <service name="CHIPSWebService">
+      <implementation-class>ejb.ws.session.CHIPSWebService</implementation-class>
+    </service>
   </services>
   <clients>
     <client name="FastTransferWebService">

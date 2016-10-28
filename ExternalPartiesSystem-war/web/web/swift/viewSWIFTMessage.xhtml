@@ -1,12 +1,14 @@
-<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+
     <h:head>
         <title>Facelet Title</title>
     </h:head>
+
     <h:body>
         <h:form>
             <p:menubar>
@@ -38,35 +40,53 @@
             </p:menubar>
         </h:form>
 
-        <h:form>
-            <h:outputText value="NTUC Process Bills" />
-            <br/>
-            <br/>
-            <p:dataTable var="ntucBill" 
-                         value="#{nTUCProcessBillsManagedBean.allNTUCBills}" 
-                         reflow="true" paginator="true" rows="10" emptyMessage="No Transaction">
-                <p:column headerText="Customer Name"> 
-                    <h:outputText value="#{ntucBill.customerName}" />
-                </p:column>
+        <h:form id="formMain"> 
+            <p:messages globalOnly="true"/>
 
-                <p:column headerText="Billing Service"> 
-                    <h:outputText value="#{ntucBill.billingOrganizationName}" />
-                </p:column>
-                
-                <p:column headerText="Bill Reference"> 
-                    <h:outputText value="#{ntucBill.billReference}" />
-                </p:column>
+            <p:panel>
+                <p:outputLabel value="View SWIFT Message" style="font-weight: bold"/>
+                <br/>
+                <br/>
+                <p:dataTable var="allSWIFTMessage" value="#{viewSWIFTMessageManagedBean.allSWIFTMessage}" 
+                             reflow="true" paginator="true" rows="20" emptyMessage="No Transaction Record"
+                             rowsPerPageTemplate="5,10,15,20"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
-                <p:column headerText="Action" style="width: 10%"> 
-                    <center>
-                        <p:commandButton process="@this" action="/web/billingProcessor/NTUCProcessBillsDone.xhtml?faces-redirect=true"
-                                         ajax="false" value="Billing"> 
-                            <f:setPropertyActionListener target="#{nTUCProcessBillsDoneManagedBean.billId}" value="#{ntucBill.billId}" />
-                        </p:commandButton>
-                    </center>
-                </p:column>
-            </p:dataTable>
+                    <p:column headerText="Transaction Date">
+                        <h:outputText value="#{allSWIFTMessage.transactionDate}" /> 
+                    </p:column>
 
+                    <p:column headerText="Transfered Institution">
+                        <h:outputText value="#{allSWIFTMessage.organizationA}" /> 
+                    </p:column>
+
+                    <p:column headerText="Transfered SWIFT Code">
+                        <h:outputText value="#{allSWIFTMessage.swiftCodeA}" /> 
+                    </p:column>
+
+                    <p:column headerText="Transfered Country">
+                        <h:outputText value="#{allSWIFTMessage.countryA}" /> 
+                    </p:column>
+
+                    <p:column headerText="Received Institution">
+                        <h:outputText value="#{allSWIFTMessage.organizationB}" /> 
+                    </p:column>
+
+                    <p:column headerText="Received SWIFT Code">
+                        <h:outputText value="#{allSWIFTMessage.swiftCodeB}" /> 
+                    </p:column>
+
+                    <p:column headerText="Received Country">
+                        <h:outputText value="#{allSWIFTMessage.countryB}" /> 
+                    </p:column>
+
+                    <p:column headerText="Message Content">
+                        <h:outputText value="#{allSWIFTMessage.swiftMessage}" /> 
+                    </p:column>
+                </p:dataTable>
+                <br/>
+            </p:panel>
         </h:form>
     </h:body>
 </html>

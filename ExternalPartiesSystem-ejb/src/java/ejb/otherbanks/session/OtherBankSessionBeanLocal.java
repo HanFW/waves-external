@@ -13,4 +13,6 @@ public interface OtherBankSessionBeanLocal {
     public void askForCreditOtherBankAccount(Long billId);
 
     public void settleEachOtherBankAccount();
+
+    public void creditPayementToAccountMTK(String fromBankAccountNum, String toBankAccountNum, Double paymentAmt);
 }

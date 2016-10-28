@@ -1,8 +1,8 @@
-package managedbean.mas;
+package managedbean.chips;
 
-import ejb.mas.entity.SACH;
+import ejb.chips.entity.CHIPS;
 import ejb.mas.entity.Settlement;
-import ejb.mas.session.SACHSessionBeanLocal;
+import ejb.chips.session.CHIPSSessionBeanLocal;
 import ejb.mas.session.SettlementSessionBeanLocal;
 import java.io.IOException;
 import java.util.List;
@@ -12,34 +12,34 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-@Named(value = "sACHHistoryRecordManagedBean")
+@Named(value = "chipsHistoryRecordManagedBean")
 @RequestScoped
 
-public class SACHHistoryRecordManagedBean {
+public class chipsHistoryRecordManagedBean {
 
     @EJB
     private SettlementSessionBeanLocal settlementSessionBeanLocal;
 
     @EJB
-    private SACHSessionBeanLocal sACHSessionBeanLocal;
+    private CHIPSSessionBeanLocal cHIPSSessionBeanLocal;
 
     private ExternalContext ec;
 
-    public SACHHistoryRecordManagedBean() {
+    public chipsHistoryRecordManagedBean() {
     }
 
-    public List<SACH> getDbsAndMerlionSACHs() throws IOException {
+    public List<CHIPS> getDbsAndMerlionCHIPS() throws IOException {
 
         ec = FacesContext.getCurrentInstance().getExternalContext();
-        List<SACH> sachs = sACHSessionBeanLocal.getAllSACH("DBS&Merlion");
+        List<CHIPS> chips = cHIPSSessionBeanLocal.getAllCHIPS("Merlion&BankofKorea");
 
-        return sachs;
+        return chips;
     }
 
     public List<Settlement> getAllSettlement() throws IOException {
 
         ec = FacesContext.getCurrentInstance().getExternalContext();
-        List<Settlement> settlements = settlementSessionBeanLocal.getAllSACHSettlement();
+        List<Settlement> settlements = settlementSessionBeanLocal.getAllCHIPSSettlement();
 
         return settlements;
     }

@@ -86,12 +86,30 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
     }
 
     @Override
+    public void creditPayementToAccountMTK(String fromBankAccountNum, String toBankAccountNum, Double paymentAmt) {
+
+        DecimalFormat df = new DecimalFormat("#.00");
+        Double currentAvailableBalance = 0.0;
+
+        OtherBankAccount koreaBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(toBankAccountNum);
+        if (koreaBankAccount.getAvailableBankAccountBalance() == null) {
+            currentAvailableBalance = 0 + paymentAmt;
+        } else {
+            currentAvailableBalance = Double.valueOf(koreaBankAccount.getAvailableBankAccountBalance()) + paymentAmt;
+        }
+
+        koreaBankAccount.setAvailableBankAccountBalance(df.format(currentAvailableBalance));
+    }
+
+    @Override
     public void askForCreditOtherBankAccount(Long billId) {
         sACHSessionBeanLocal.ntucInitiateGIRO(billId);
     }
 
     @Override
     public void settleEachOtherBankAccount() {
+
+        DecimalFormat df = new DecimalFormat("#.00");
 
         Query query = entityManager.createQuery("SELECT o FROM OtherBankOnHoldRecord o WHERE o.onHoldStatus = :onHoldStatus");
         query.setParameter("onHoldStatus", "New");
@@ -124,7 +142,7 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
                 String transactionDate = cal.getTime().toString();
                 String transactionCode = "BILL";
                 String accountCredit = paymentAmt;
-                String transactionRef = bankAccount.getBankAccountType() + bankAccount.getBankAccountNum();
+                String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
 
                 Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
                         transactionRef, " ", accountCredit, dbsBankAccount.getOtherBankAccountId());
@@ -144,10 +162,27 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
                 String transactionDate = cal.getTime().toString();
                 String transactionCode = "BILL";
                 String accountdebit = paymentAmt;
-                String transactionRef = bankAccount.getBankAccountType() + bankAccount.getBankAccountNum();
+                String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
 
                 Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
                         transactionRef, accountdebit, " ", dbsBankAccount.getOtherBankAccountId());
+
+            } else if (debitOrCredit.equals("Credit") && debitOrCreditBankName.equals("Bank of Korea")) {
+
+                Double totalBalance = Double.valueOf(currentTotalBalance) + Double.valueOf(paymentAmt);
+                dbsBankAccount.setTotalBankAccountBalance(df.format(totalBalance));
+
+                onHoldRecord.setOnHoldStatus("Done");
+
+                BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
+                Calendar cal = Calendar.getInstance();
+                String transactionDate = cal.getTime().toString();
+                String transactionCode = "SWIFT";
+                String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
+
+                Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
+                        transactionRef, " ", paymentAmt, dbsBankAccount.getOtherBankAccountId());
+
             }
         }
     }
