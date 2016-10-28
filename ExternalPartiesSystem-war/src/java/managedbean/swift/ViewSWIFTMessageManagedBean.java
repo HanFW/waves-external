@@ -1,7 +1,7 @@
 package managedbean.swift;
 
-import ejb.mas.entity.SWIFT;
-import ejb.mas.session.SWIFTSessionBeanLocal;
+import ejb.swift.entity.SWIFT;
+import ejb.swift.session.SWIFTSessionBeanLocal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;

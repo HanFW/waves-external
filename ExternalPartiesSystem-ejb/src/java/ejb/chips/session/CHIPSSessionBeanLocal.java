@@ -1,6 +1,6 @@
-package ejb.mas.session;
+package ejb.chips.session;
 
-import ejb.mas.entity.CHIPS;
+import ejb.chips.entity.CHIPS;
 import java.util.List;
 import javax.ejb.Local;
 

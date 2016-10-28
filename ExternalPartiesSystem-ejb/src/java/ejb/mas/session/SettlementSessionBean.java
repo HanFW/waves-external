@@ -1,6 +1,6 @@
 package ejb.mas.session;
 
-import ejb.mas.entity.CHIPS;
+import ejb.chips.entity.CHIPS;
 import ejb.mas.entity.MEPSMasterBankAccount;
 import ejb.mas.entity.SACH;
 import ejb.mas.entity.Settlement;
@@ -49,7 +49,8 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
     @Override
     public Long addNewSettlement(String dailySettlementAmt, String dailySettlementRef,
             String updateDate, String bankNames, String settlementStatus, String creditMEPSBank,
-            String creditMEPSBankAccountNum, String debitMEPSBank, String debitMEPSBankAccountNum) {
+            String creditMEPSBankAccountNum, String debitMEPSBank, String debitMEPSBankAccountNum,
+            String clearanceSystem) {
         Settlement settlement = new Settlement();
 
         settlement.setBankNames(bankNames);
@@ -59,6 +60,7 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
         settlement.setSettlementStatus(settlementStatus);
         settlement.setCreditMEPSBankAccountNum(creditMEPSBankAccountNum);
         settlement.setDebitMEPSBankAccountNum(debitMEPSBankAccountNum);
+        settlement.setClearanceSystem(clearanceSystem);
 
         entityManager.persist(settlement);
         entityManager.flush();
@@ -98,7 +100,7 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
             Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
                     updateDate, "DBS&Merlion", "New", creditMEPSBank, creditMEPSBankAccountNum,
-                    debitMEPSBank, debitMEPSBankAccountNum);
+                    debitMEPSBank, debitMEPSBankAccountNum, "SACH");
 
         } else if (dailySettlementAmt > 0) {
 
@@ -118,7 +120,7 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
             Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
                     updateDate, "DBS&Merlion", "New", creditMEPSBank, creditMEPSBankAccountNum,
-                    debitMEPSBank, debitMEPSBankAccountNum);
+                    debitMEPSBank, debitMEPSBankAccountNum, "SACH");
 
         } else {
             dailySettlementRef = "Not Applicable";
@@ -156,7 +158,7 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
             Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
                     updateDate, "Merlion&BankofKorea", "New", creditMEPSBank, creditMEPSBankAccountNum,
-                    debitMEPSBank, debitMEPSBankAccountNum);
+                    debitMEPSBank, debitMEPSBankAccountNum, "CHIPS");
 
         } else if (dailySettlementAmt > 0) {
             dailySettlementRef = "Bank of Korea has to pay Merlion Bank S$" + dailySettlementAmt * (-1);
@@ -175,7 +177,7 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
             Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
                     updateDate, "Merlion&BankofKorea", "New", creditMEPSBank, creditMEPSBankAccountNum,
-                    debitMEPSBank, debitMEPSBankAccountNum);
+                    debitMEPSBank, debitMEPSBankAccountNum, "CHIPS");
 
         } else {
             dailySettlementRef = "Not Applicable";
@@ -183,10 +185,20 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
     }
 
     @Override
-    public List<Settlement> getAllSettlement() {
+    public List<Settlement> getAllSACHSettlement() {
 
-        Query query = entityManager.createQuery("SELECT s FROM Settlement s");
+        Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem");
+        query.setParameter("clearanceSystem", "SACH");
+        
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<Settlement> getAllCHIPSSettlement() {
 
+        Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem");
+        query.setParameter("clearanceSystem", "CHIPS");
+        
         return query.getResultList();
     }
 }

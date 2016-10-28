@@ -1,6 +1,6 @@
-package ejb.mas.session;
+package ejb.swift.session;
 
-import ejb.mas.entity.SWIFT;
+import ejb.swift.entity.SWIFT;
 import java.util.List;
 import javax.ejb.Local;
 

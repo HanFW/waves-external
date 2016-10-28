@@ -39,7 +39,7 @@ public class SACHHistoryRecordManagedBean {
     public List<Settlement> getAllSettlement() throws IOException {
 
         ec = FacesContext.getCurrentInstance().getExternalContext();
-        List<Settlement> settlements = settlementSessionBeanLocal.getAllSettlement();
+        List<Settlement> settlements = settlementSessionBeanLocal.getAllSACHSettlement();
 
         return settlements;
     }

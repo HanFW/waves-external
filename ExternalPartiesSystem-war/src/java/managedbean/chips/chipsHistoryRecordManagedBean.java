@@ -1,8 +1,8 @@
 package managedbean.chips;
 
-import ejb.mas.entity.CHIPS;
+import ejb.chips.entity.CHIPS;
 import ejb.mas.entity.Settlement;
-import ejb.mas.session.CHIPSSessionBeanLocal;
+import ejb.chips.session.CHIPSSessionBeanLocal;
 import ejb.mas.session.SettlementSessionBeanLocal;
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +39,7 @@ public class chipsHistoryRecordManagedBean {
     public List<Settlement> getAllSettlement() throws IOException {
 
         ec = FacesContext.getCurrentInstance().getExternalContext();
-        List<Settlement> settlements = settlementSessionBeanLocal.getAllSettlement();
+        List<Settlement> settlements = settlementSessionBeanLocal.getAllCHIPSSettlement();
 
         return settlements;
     }

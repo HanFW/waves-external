@@ -1,7 +1,7 @@
 package ejb.ws.session;
 
-import ejb.mas.entity.SWIFT;
-import ejb.mas.session.SWIFTSessionBeanLocal;
+import ejb.swift.entity.SWIFT;
+import ejb.swift.session.SWIFTSessionBeanLocal;
 import javax.ejb.EJB;
 import javax.jws.WebService;
 import javax.jws.WebMethod;

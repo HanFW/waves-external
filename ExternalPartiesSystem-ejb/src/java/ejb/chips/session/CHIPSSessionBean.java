@@ -1,8 +1,11 @@
-package ejb.mas.session;
+package ejb.chips.session;
 
-import ejb.mas.entity.CHIPS;
-import ejb.mas.entity.SWIFT;
-import ejb.mas.entity.SWIFTCode;
+import ejb.swift.session.SWIFTSessionBeanLocal;
+import ejb.swift.session.SWIFTCodeSessionBeanLocal;
+import ejb.chips.entity.CHIPS;
+import ejb.mas.session.SettlementSessionBeanLocal;
+import ejb.swift.entity.SWIFT;
+import ejb.swift.entity.SWIFTCode;
 import ejb.otherbanks.session.OnHoldSessionBeanLocal;
 import java.util.Calendar;
 import java.util.List;
@@ -88,6 +91,7 @@ public class CHIPSSessionBean implements CHIPSSessionBeanLocal {
 
     @Override
     public void clearSWIFTTransferMTK(Long swiftId) {
+        
         SWIFT swift = sWIFTSessionBeanLocal.retrieveSWIFTById(swiftId);
 
         Double transactionAmt = Double.valueOf(swift.getPaymentAmt());

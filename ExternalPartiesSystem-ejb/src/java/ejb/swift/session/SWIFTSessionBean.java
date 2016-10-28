@@ -1,7 +1,7 @@
-package ejb.mas.session;
+package ejb.swift.session;
 
-import ejb.mas.entity.SWIFT;
-import ejb.mas.entity.SWIFTCode;
+import ejb.swift.entity.SWIFT;
+import ejb.swift.entity.SWIFTCode;
 import ejb.otherbanks.session.OtherBankSessionBeanLocal;
 import java.util.List;
 import javax.ejb.EJB;

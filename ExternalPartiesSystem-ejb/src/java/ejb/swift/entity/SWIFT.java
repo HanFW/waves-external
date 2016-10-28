@@ -1,4 +1,4 @@
-package ejb.mas.entity;
+package ejb.swift.entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;

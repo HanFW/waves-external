@@ -1,6 +1,6 @@
 package ejb.common.util;
 
-import ejb.mas.session.CHIPSSessionBeanLocal;
+import ejb.chips.session.CHIPSSessionBeanLocal;
 import ejb.mas.session.MEPSSessionBeanLocal;
 import ejb.mas.session.SACHSessionBeanLocal;
 import ejb.otherbanks.session.OtherBankSessionBeanLocal;

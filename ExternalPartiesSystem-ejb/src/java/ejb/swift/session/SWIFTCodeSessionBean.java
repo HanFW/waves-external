@@ -1,6 +1,6 @@
-package ejb.mas.session;
+package ejb.swift.session;
 
-import ejb.mas.entity.SWIFTCode;
+import ejb.swift.entity.SWIFTCode;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;

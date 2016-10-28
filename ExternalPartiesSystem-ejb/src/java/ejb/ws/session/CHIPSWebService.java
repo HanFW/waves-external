@@ -1,11 +1,11 @@
 package ejb.ws.session;
 
-import ejb.mas.entity.CHIPS;
-import ejb.mas.entity.SWIFT;
-import ejb.mas.entity.SWIFTCode;
-import ejb.mas.session.CHIPSSessionBeanLocal;
-import ejb.mas.session.SWIFTCodeSessionBeanLocal;
-import ejb.mas.session.SWIFTSessionBeanLocal;
+import ejb.chips.entity.CHIPS;
+import ejb.swift.entity.SWIFT;
+import ejb.swift.entity.SWIFTCode;
+import ejb.chips.session.CHIPSSessionBeanLocal;
+import ejb.swift.session.SWIFTCodeSessionBeanLocal;
+import ejb.swift.session.SWIFTSessionBeanLocal;
 import ejb.otherbanks.session.OnHoldSessionBeanLocal;
 import java.util.Calendar;
 import javax.ejb.EJB;
