@@ -22,6 +22,14 @@ public class OtherBankAccountSessionBean implements OtherBankAccountSessionBeanL
 
         return query.getResultList();
     }
+    
+    @Override
+    public List<OtherBankAccount> getAllBankOfKoreaBankAccount() {
+        Query query = entityManager.createQuery("SELECT o FROM OtherBankAccount o Where o.bankName=:bankName");
+        query.setParameter("bankName", "Bank of Korea");
+
+        return query.getResultList();
+    }
 
     @Override
     public OtherBankAccount retrieveBankAccountByNum(String otherBankAccountNum) {

@@ -20,6 +20,7 @@ public class Settlement implements Serializable {
     private String settlementStatus;
     private String creditMEPSBankAccountNum;
     private String debitMEPSBankAccountNum;
+    private String clearanceSystem;
 
     public Long getSettlementId() {
         return settlementId;
@@ -83,6 +84,14 @@ public class Settlement implements Serializable {
 
     public void setDebitMEPSBankAccountNum(String debitMEPSBankAccountNum) {
         this.debitMEPSBankAccountNum = debitMEPSBankAccountNum;
+    }
+
+    public String getClearanceSystem() {
+        return clearanceSystem;
+    }
+
+    public void setClearanceSystem(String clearanceSystem) {
+        this.clearanceSystem = clearanceSystem;
     }
 
     @Override

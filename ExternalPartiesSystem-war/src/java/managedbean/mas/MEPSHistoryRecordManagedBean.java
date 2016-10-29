@@ -30,4 +30,12 @@ public class MEPSHistoryRecordManagedBean {
 
         return mepses;
     }
+    
+    public List<MEPS> getKoreaAndMerlionMEPSs() throws IOException {
+        
+        ec = FacesContext.getCurrentInstance().getExternalContext();
+        List<MEPS> mepses = mEPSSessionBeanLocal.getAllMEPS("Merlion&BankofKorea");
+
+        return mepses;
+    }
 }
