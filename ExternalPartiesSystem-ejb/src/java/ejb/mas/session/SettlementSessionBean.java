@@ -189,16 +189,16 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
         Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem");
         query.setParameter("clearanceSystem", "SACH");
-        
+
         return query.getResultList();
     }
-    
+
     @Override
     public List<Settlement> getAllCHIPSSettlement() {
 
         Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem");
         query.setParameter("clearanceSystem", "CHIPS");
-        
+
         return query.getResultList();
     }
 }

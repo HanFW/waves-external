@@ -13,7 +13,6 @@ import javax.jws.WebParam;
 import javax.ejb.Stateless;
 import javax.xml.ws.WebServiceRef;
 import ws.client.merlionBank.MerlionBankWebService_Service;
-import ws.client.merlionBank.OnHoldRecord;
 import ws.client.merlionBank.ReceivedCheque;
 
 @WebService(serviceName = "SACHWebService")
@@ -133,13 +132,6 @@ public class SACHWebService {
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
         return port.addNewRecord(bankName, bankAccountNum, debitOrCredit, paymentAmt, onHoldStatus, debitOrCreditBankName, debitOrCreditBankAccountNum, paymentMethod);
-    }
-
-    private OnHoldRecord retrieveOnHoldRecordById(java.lang.Long onHoldRecordId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.retrieveOnHoldRecordById(onHoldRecordId);
     }
 
     private void updateOnHoldChequeId(java.lang.Long onHoldRecordId, java.lang.Long chequeId) {

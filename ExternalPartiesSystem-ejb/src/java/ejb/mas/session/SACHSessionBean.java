@@ -21,9 +21,7 @@ import javax.persistence.Query;
 import javax.xml.ws.WebServiceRef;
 import ws.client.fastTransfer.FastTransferWebService_Service;
 import ws.client.merlionBank.BankAccount;
-import ws.client.merlionBank.Cheque;
 import ws.client.merlionBank.MerlionBankWebService_Service;
-import ws.client.merlionBank.OnHoldRecord;
 import ws.client.merlionBank.ReceivedCheque;
 
 @Stateless
@@ -309,13 +307,6 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         port.updateAvailableBalance(bankAccountNum, paymentAmt);
     }
 
-    private Cheque retrieveChequeById(java.lang.Long chequeId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.retrieveChequeById(chequeId);
-    }
-
     private ReceivedCheque retrieveReceivedChequeById(java.lang.Long chequeId) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
@@ -328,13 +319,6 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
         return port.addNewRecord(bankName, bankAccountNum, debitOrCredit, paymentAmt, onHoldStatus, debitOrCreditBankName, debitOrCreditBankAccountNum, paymentMethod);
-    }
-
-    private OnHoldRecord retrieveOnHoldRecordById(java.lang.Long onHoldRecordId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.retrieveOnHoldRecordById(onHoldRecordId);
     }
 
     private void updateOnHoldChequeId(java.lang.Long onHoldRecordId, java.lang.Long chequeId) {
