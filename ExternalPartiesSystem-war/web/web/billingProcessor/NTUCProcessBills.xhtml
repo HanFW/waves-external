@@ -42,6 +42,8 @@
             <h:outputText value="NTUC Process Bills" />
             <br/>
             <br/>
+            <p:messages globalOnly="true"/>
+
             <p:dataTable var="ntucBill" 
                          value="#{nTUCProcessBillsManagedBean.allNTUCBills}" 
                          reflow="true" paginator="true" rows="10" emptyMessage="No Transaction">
@@ -52,7 +54,7 @@
                 <p:column headerText="Billing Service"> 
                     <h:outputText value="#{ntucBill.billingOrganizationName}" />
                 </p:column>
-                
+
                 <p:column headerText="Bill Reference"> 
                     <h:outputText value="#{ntucBill.billReference}" />
                 </p:column>

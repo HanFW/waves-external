@@ -176,7 +176,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
     }
 
     @Override
-    public void ntucInitiateGIRO(Long billId) {
+    public String ntucInitiateGIRO(Long billId) {
 
         Bill bill = billSessionBeanLocal.retrieveBillByBillId(billId);
 
@@ -185,38 +185,47 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         Double paymentAmt = Double.valueOf(bill.getPaymentAmt());
         String bankNames = "";
         String paymentMethod = "";
+        String paymentLimit = bill.getPaymentLimit();
+        Double paymentLimitDouble = Double.valueOf(paymentLimit);
 
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
         Long currentTimeMilis = cal.getTimeInMillis();
 
-        if (debitBank.equals("Merlion")) {
+        if (paymentLimitDouble < paymentAmt) {
+            return "Exceed Payment Limit";
+        } else {
+            
+            if (debitBank.equals("Merlion")) {
 
-            BankAccount bankAccount = retrieveBankAccountByNum(debitBankAccountNum);
-            OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum("12345678");
-            bankNames = "DBS&Merlion";
-            paymentMethod = "Standing GIRO";
+                BankAccount bankAccount = retrieveBankAccountByNum(debitBankAccountNum);
+                OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum("12345678");
+                bankNames = "DBS&Merlion";
+                paymentMethod = "Standing GIRO";
 
-            updateAvailableBalance(debitBankAccountNum, paymentAmt);
+                updateAvailableBalance(debitBankAccountNum, paymentAmt);
 
-            Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, dbsBankAccount.getOtherBankAccountNum(), "DBS",
-                    bankAccount.getBankAccountNum(), "Merlion", currentTimeMilis, paymentAmt);
+                Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, dbsBankAccount.getOtherBankAccountNum(), "DBS",
+                        bankAccount.getBankAccountNum(), "Merlion", currentTimeMilis, paymentAmt);
 
-            SACH sach = retrieveSACHById(sachId);
+                SACH sach = retrieveSACHById(sachId);
 
-            Double dbsTotalCredit = 0 + paymentAmt;
-            Double merlionTotalCredit = 0 - paymentAmt;
+                Double dbsTotalCredit = 0 + paymentAmt;
+                Double merlionTotalCredit = 0 - paymentAmt;
 
-            sach.setBankBTotalCredit(dbsTotalCredit);
-            sach.setBankATotalCredit(merlionTotalCredit);
+                sach.setBankBTotalCredit(dbsTotalCredit);
+                sach.setBankATotalCredit(merlionTotalCredit);
 
-            onHoldSessionBeanLocal.addNewRecord("DBS", "12345678",
-                    "Credit", paymentAmt.toString(), "New", "Merlion",
-                    debitBankAccountNum, "Non Standing GIRO");
-            addNewRecord("Merlion", debitBankAccountNum,
-                    "Debit", paymentAmt.toString(), "New", "DBS",
-                    "12345678", "Non Standing GIRO");
+                onHoldSessionBeanLocal.addNewRecord("DBS", "12345678",
+                        "Credit", paymentAmt.toString(), "New", "Merlion",
+                        debitBankAccountNum, "Non Standing GIRO");
+                addNewRecord("Merlion", debitBankAccountNum,
+                        "Debit", paymentAmt.toString(), "New", "DBS",
+                        "12345678", "Non Standing GIRO");
+            }
         }
+
+        return "Payment Approved";
     }
 
     @Override

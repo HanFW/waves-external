@@ -102,8 +102,15 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
     }
 
     @Override
-    public void askForCreditOtherBankAccount(Long billId) {
-        sACHSessionBeanLocal.ntucInitiateGIRO(billId);
+    public String askForCreditOtherBankAccount(Long billId) {
+
+        String result = sACHSessionBeanLocal.ntucInitiateGIRO(billId);
+
+        if (result.equals("Exceed Payment Limit")) {
+            return "Exceed Payment Limit";
+        }
+        
+        return "Payment Approved";
     }
 
     @Override
