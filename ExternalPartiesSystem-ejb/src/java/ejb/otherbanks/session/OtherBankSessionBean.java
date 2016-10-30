@@ -109,7 +109,7 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
         if (result.equals("Exceed Payment Limit")) {
             return "Exceed Payment Limit";
         }
-        
+
         return "Payment Approved";
     }
 
@@ -129,6 +129,7 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
             String debitOrCredit = onHoldRecord.getDebitOrCredit();
             String debitOrCreditBankAccountNum = onHoldRecord.getDebitOrCreditBankAccountNum();
             String debitOrCreditBankName = onHoldRecord.getDebitOrCreditBankName();
+            String paymentMethod = onHoldRecord.getPaymentMethod();
 
             OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(bankAccountNum);
             String currentAvailableBalance = dbsBankAccount.getAvailableBankAccountBalance();
@@ -147,7 +148,16 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
                 BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
                 Calendar cal = Calendar.getInstance();
                 String transactionDate = cal.getTime().toString();
-                String transactionCode = "BILL";
+                String transactionCode = "";
+
+                if (paymentMethod.equals("Non Standing GIRO") || paymentMethod.equals("Standing GIRO")) {
+                    transactionCode = "BILL";
+                } else if (paymentMethod.equals("Cheque")) {
+                    transactionCode = "CHQ";
+                } else if (paymentMethod.equals("Regular GIRO")) {
+                    transactionCode = "GIRO";
+                }
+
                 String accountCredit = paymentAmt;
                 String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
 
@@ -167,7 +177,16 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
                 BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
                 Calendar cal = Calendar.getInstance();
                 String transactionDate = cal.getTime().toString();
-                String transactionCode = "BILL";
+                String transactionCode = "";
+                
+                if (paymentMethod.equals("Non Standing GIRO") || paymentMethod.equals("Standing GIRO")) {
+                    transactionCode = "BILL";
+                } else if (paymentMethod.equals("Cheque")) {
+                    transactionCode = "CHQ";
+                } else if (paymentMethod.equals("Regular GIRO")) {
+                    transactionCode = "GIRO";
+                }
+                
                 String accountdebit = paymentAmt;
                 String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
 

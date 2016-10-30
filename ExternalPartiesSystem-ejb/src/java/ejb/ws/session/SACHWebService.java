@@ -116,7 +116,7 @@ public class SACHWebService {
         Long bankAccountOnHoldId = addNewRecord("Merlion", bankAccountNum,
                 "Credit", transactionAmt.toString(), "New", "DBS",
                 "11111111", "Cheque");
-        
+
         updateOnHoldChequeId(bankAccountOnHoldId, chequeId);
     }
 
@@ -139,5 +139,34 @@ public class SACHWebService {
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
         port.updateOnHoldChequeId(onHoldRecordId, chequeId);
+    }
+
+    @WebMethod(operationName = "SACHRegularGIROTransferMTD")
+//    @Oneway
+    public void SACHRegularGIROTransferMTD(@WebParam(name = "fromBankAccountNum") String fromBankAccountNum,
+            @WebParam(name = "toBankAccountNum") String toBankAccountNum,
+            @WebParam(name = "transferAmt") Double transferAmt) {
+
+        Calendar cal = Calendar.getInstance();
+        String currentTime = cal.getTime().toString();
+        Long currentTimeMilis = cal.getTimeInMillis();
+
+        Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
+                "DBS&Merlion", "Regular GIRO", toBankAccountNum, "DBS", fromBankAccountNum,
+                "Merlion", currentTimeMilis, transferAmt);
+        SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
+
+        Double dbsTotalCredit = 0 + transferAmt;
+        Double merlionTotalCredit = 0 - transferAmt;
+
+        sach.setBankBTotalCredit(dbsTotalCredit);
+        sach.setBankATotalCredit(merlionTotalCredit);
+
+        addNewRecord("Merlion", fromBankAccountNum, "Debit",
+                transferAmt.toString(), "New", "DBS", toBankAccountNum,
+                "Regular GIRO");
+        onHoldSessionBeanLocal.addNewRecord("DBS", toBankAccountNum,
+                "Credit", transferAmt.toString(), "New", "Merlion",
+                fromBankAccountNum, "Regular GIRO");
     }
 }
