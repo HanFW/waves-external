@@ -110,11 +110,14 @@ public class NTUCProcessBillsDoneManagedBean implements Serializable {
 
         ec = FacesContext.getCurrentInstance().getExternalContext();
 
-        Bill bill = billSessionBeanLocal.retrieveBillByBillId(billId);
         billSessionBeanLocal.updateBillingPayment(billId, paymentAmt);
 
-        otherBankSessionBeanLocal.askForCreditOtherBankAccount(billId);
+        String result = otherBankSessionBeanLocal.askForCreditOtherBankAccount(billId);
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successfully! You have updated payment amount.", ""));
+        if (result.equals("Payment Approved")) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You have successfully updated payment amount.", ""));
+        } else if (result.equals("Exceed Payment Limit")) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You have exceeded customer's payment limit.", ""));
+        }
     }
 }

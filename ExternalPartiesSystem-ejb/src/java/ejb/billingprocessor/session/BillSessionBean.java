@@ -18,7 +18,7 @@ public class BillSessionBean implements BillSessionBeanLocal {
     @Override
     public Long addNewBill(String customerName, String customerMobile, String billReference,
             String billingOrganizationName, String creditBank, String creditBankAccountNum,
-            String debitBank, String debitBankAccountNum) {
+            String debitBank, String debitBankAccountNum, String paymentLimit) {
         Bill bill = new Bill();
 
         bill.setCustomerName(customerName);
@@ -27,6 +27,7 @@ public class BillSessionBean implements BillSessionBeanLocal {
         bill.setBillingOrganizationName(billingOrganizationName);
         bill.setDebitBank(debitBank);
         bill.setDebitBankAccountNum(debitBankAccountNum);
+        bill.setPaymentLimit(paymentLimit);
 
         entityManager.persist(bill);
         entityManager.flush();

@@ -51,6 +51,7 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
             String updateDate, String bankNames, String settlementStatus, String creditMEPSBank,
             String creditMEPSBankAccountNum, String debitMEPSBank, String debitMEPSBankAccountNum,
             String clearanceSystem) {
+        
         Settlement settlement = new Settlement();
 
         settlement.setBankNames(bankNames);
@@ -104,7 +105,7 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
         } else if (dailySettlementAmt > 0) {
 
-            dailySettlementRef = "DBS has to pay Merlion Bank S$" + dailySettlementAmt * (-1);
+            dailySettlementRef = "DBS has to pay Merlion Bank S$" + dailySettlementAmt;
             creditMEPSBank = "Merlion";
             debitMEPSBank = "DBS";
 
@@ -116,7 +117,7 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
             Calendar cal = Calendar.getInstance();
             String updateDate = cal.getTime().toString();
-            Double dailySettlementAmtPos = dailySettlementAmt * (-1);
+            Double dailySettlementAmtPos = dailySettlementAmt;
 
             Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
                     updateDate, "DBS&Merlion", "New", creditMEPSBank, creditMEPSBankAccountNum,
@@ -142,6 +143,7 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
         }
 
         if (dailySettlementAmt < 0) {
+            
             dailySettlementRef = "Merlion Bank has to pay Bank of Korea S$" + dailySettlementAmt * (-1);
             creditMEPSBank = "Bank of Korea";
             debitMEPSBank = "Merlion";
@@ -161,7 +163,8 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
                     debitMEPSBank, debitMEPSBankAccountNum, "CHIPS");
 
         } else if (dailySettlementAmt > 0) {
-            dailySettlementRef = "Bank of Korea has to pay Merlion Bank S$" + dailySettlementAmt * (-1);
+            
+            dailySettlementRef = "Bank of Korea has to pay Merlion Bank S$" + dailySettlementAmt;
             creditMEPSBank = "Merlion";
             debitMEPSBank = "Bank of Korea";
 
@@ -173,7 +176,7 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
             Calendar cal = Calendar.getInstance();
             String updateDate = cal.getTime().toString();
-            Double dailySettlementAmtPos = dailySettlementAmt * (-1);
+            Double dailySettlementAmtPos = dailySettlementAmt;
 
             Long settlementId = addNewSettlement(dailySettlementAmtPos.toString(), dailySettlementRef,
                     updateDate, "Merlion&BankofKorea", "New", creditMEPSBank, creditMEPSBankAccountNum,
@@ -189,16 +192,16 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
         Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem");
         query.setParameter("clearanceSystem", "SACH");
-        
+
         return query.getResultList();
     }
-    
+
     @Override
     public List<Settlement> getAllCHIPSSettlement() {
 
         Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem");
         query.setParameter("clearanceSystem", "CHIPS");
-        
+
         return query.getResultList();
     }
 }

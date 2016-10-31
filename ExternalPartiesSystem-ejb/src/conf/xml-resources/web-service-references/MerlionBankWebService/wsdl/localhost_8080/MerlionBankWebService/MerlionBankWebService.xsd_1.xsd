@@ -147,11 +147,11 @@
 <xs:element name="customerSignature" type="xs:base64Binary" minOccurs="0"/>
 <xs:element name="customerStatus" type="xs:string" minOccurs="0"/>
 <xs:element name="enquiryCase" type="tns:enquiryCase" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="fastPayee" type="tns:fastPayee" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="giro" type="tns:giro" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="loanApplication" type="tns:loanApplication" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="messageBox" type="tns:messageBox" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="newCustomer" type="xs:string" minOccurs="0"/>
+<xs:element name="otherBankPayee" type="tns:otherBankPayee" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="payee" type="tns:payee" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="riskProfile" type="tns:riskProfile" minOccurs="0"/>
 <xs:element name="swiftPayee" type="tns:swiftPayee" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
@@ -459,23 +459,10 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="fastPayee">
-<xs:sequence>
-<xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
-<xs:element name="fastPayeeAccountNum" type="xs:string" minOccurs="0"/>
-<xs:element name="fastPayeeAccountType" type="xs:string" minOccurs="0"/>
-<xs:element name="fastPayeeId" type="xs:long" minOccurs="0"/>
-<xs:element name="fastPayeeName" type="xs:string" minOccurs="0"/>
-<xs:element name="lastTransactionDate" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="giro">
 <xs:sequence>
 <xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
 <xs:element name="bankAccountNumWithType" type="xs:string" minOccurs="0"/>
-<xs:element name="billReference" type="xs:string" minOccurs="0"/>
-<xs:element name="billingOrganizationName" type="xs:string" minOccurs="0"/>
 <xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
 <xs:element name="giroId" type="xs:long" minOccurs="0"/>
 <xs:element name="giroType" type="xs:string" minOccurs="0"/>
@@ -541,6 +528,7 @@
 
 <xs:complexType name="loanRepaymentAccount">
 <xs:sequence>
+<xs:element name="accountBalance" type="xs:double"/>
 <xs:element name="accountNumber" type="xs:string" minOccurs="0"/>
 <xs:element name="depositAccountNumber" type="xs:string" minOccurs="0"/>
 <xs:element name="fees" type="xs:double"/>
@@ -578,6 +566,16 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="otherBankPayee">
+<xs:complexContent>
+<xs:extension base="tns:payee">
+<xs:sequence>
+<xs:element name="otherBankPayeeName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
 <xs:complexType name="payee">
 <xs:sequence>
 <xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
@@ -585,7 +583,7 @@
 <xs:element name="payeeAccountNum" type="xs:string" minOccurs="0"/>
 <xs:element name="payeeAccountType" type="xs:string" minOccurs="0"/>
 <xs:element name="payeeId" type="xs:long" minOccurs="0"/>
-<xs:element name="payeeName" type="xs:string" minOccurs="0"/>
+<xs:element name="payeeType" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -604,16 +602,15 @@
 </xs:complexType>
 
 <xs:complexType name="swiftPayee">
+<xs:complexContent>
+<xs:extension base="tns:payee">
 <xs:sequence>
-<xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
-<xs:element name="lastTransactionDate" type="xs:string" minOccurs="0"/>
 <xs:element name="swiftInstitution" type="xs:string" minOccurs="0"/>
-<xs:element name="swiftPayeeAccountNum" type="xs:string" minOccurs="0"/>
-<xs:element name="swiftPayeeAccountType" type="xs:string" minOccurs="0"/>
 <xs:element name="swiftPayeeCode" type="xs:string" minOccurs="0"/>
 <xs:element name="swiftPayeeCountry" type="xs:string" minOccurs="0"/>
-<xs:element name="swiftPayeeId" type="xs:long" minOccurs="0"/>
 </xs:sequence>
+</xs:extension>
+</xs:complexContent>
 </xs:complexType>
 
 <xs:complexType name="updateOnHoldChequeId">

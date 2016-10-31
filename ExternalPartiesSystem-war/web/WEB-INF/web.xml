@@ -15,7 +15,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            90
         </session-timeout>
     </session-config>
     <welcome-file-list>
@@ -33,8 +33,4 @@
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
         <param-value>/WEB-INF/primefaces-ultima.taglib.xml</param-value>
     </context-param>
-    <filter>
-        <filter-name>Character Encoding Filter</filter-name>
-        <filter-class>org.primefaces.ultima.filter.CharacterEncodingFilter</filter-class>
-    </filter>
 </web-app>

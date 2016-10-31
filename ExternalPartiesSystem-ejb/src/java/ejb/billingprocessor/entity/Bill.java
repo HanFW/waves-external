@@ -19,6 +19,7 @@ public class Bill implements Serializable {
     private String billingOrganizationName;
     private String debitBank;
     private String debitBankAccountNum;
+    private String paymentLimit;
 
     public Long getBillId() {
         return billId;
@@ -82,6 +83,14 @@ public class Bill implements Serializable {
 
     public void setDebitBankAccountNum(String debitBankAccountNum) {
         this.debitBankAccountNum = debitBankAccountNum;
+    }
+
+    public String getPaymentLimit() {
+        return paymentLimit;
+    }
+
+    public void setPaymentLimit(String paymentLimit) {
+        this.paymentLimit = paymentLimit;
     }
 
     @Override

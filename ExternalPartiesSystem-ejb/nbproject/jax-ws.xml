@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
-    <service name="OtherBanksWebService">
-      <implementation-class>ejb.ws.session.OtherBanksWebService</implementation-class>
+    <service name="CHIPSWebService">
+      <implementation-class>ejb.ws.session.CHIPSWebService</implementation-class>
     </service>
     <service name="SACHWebService">
       <implementation-class>ejb.ws.session.SACHWebService</implementation-class>
     </service>
-    <service name="MEPSWebService">
-      <implementation-class>ejb.ws.session.MEPSWebService</implementation-class>
-    </service>
-    <service name="BillWebService">
-      <implementation-class>ejb.ws.session.BillWebService</implementation-class>
+    <service name="OtherBanksWebService">
+      <implementation-class>ejb.ws.session.OtherBanksWebService</implementation-class>
     </service>
     <service name="SWIFTWebService">
       <implementation-class>ejb.ws.session.SWIFTWebService</implementation-class>
     </service>
-    <service name="CHIPSWebService">
-      <implementation-class>ejb.ws.session.CHIPSWebService</implementation-class>
+    <service name="BillWebService">
+      <implementation-class>ejb.ws.session.BillWebService</implementation-class>
+    </service>
+    <service name="MEPSWebService">
+      <implementation-class>ejb.ws.session.MEPSWebService</implementation-class>
     </service>
   </services>
   <clients>
