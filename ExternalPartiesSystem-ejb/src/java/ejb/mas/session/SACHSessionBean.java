@@ -195,7 +195,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         if (paymentLimitDouble < paymentAmt) {
             return "Exceed Payment Limit";
         } else {
-            
+
             if (debitBank.equals("Merlion")) {
 
                 BankAccount bankAccount = retrieveBankAccountByNum(debitBankAccountNum);
@@ -279,8 +279,8 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
                 "DBS", issuedBankAccountNum, "Merlion", cal.getTimeInMillis(), transactionAmt);
         SACH sach = retrieveSACHById(sachId);
 
-        Double dbsTotalCredit = 0 - transactionAmt;
-        Double merlionTotalCredit = 0 + transactionAmt;
+        Double dbsTotalCredit = 0 + transactionAmt;
+        Double merlionTotalCredit = 0 - transactionAmt;
 
         sach.setBankBTotalCredit(dbsTotalCredit);
         sach.setBankATotalCredit(merlionTotalCredit);

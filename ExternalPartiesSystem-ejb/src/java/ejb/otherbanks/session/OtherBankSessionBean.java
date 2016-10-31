@@ -178,7 +178,7 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
                 Calendar cal = Calendar.getInstance();
                 String transactionDate = cal.getTime().toString();
                 String transactionCode = "";
-                
+
                 if (paymentMethod.equals("Non Standing GIRO") || paymentMethod.equals("Standing GIRO")) {
                     transactionCode = "BILL";
                 } else if (paymentMethod.equals("Cheque")) {
@@ -186,7 +186,7 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
                 } else if (paymentMethod.equals("Regular GIRO")) {
                     transactionCode = "GIRO";
                 }
-                
+
                 String accountdebit = paymentAmt;
                 String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
 
