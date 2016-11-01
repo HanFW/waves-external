@@ -64,23 +64,6 @@
             <classpath path="${j2ee.platform.wsimport.classpath}"/>
         </taskdef>
     </target>
-    <target name="wsimport-client-FastTransferWebService" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/FastTransferWebService"/>
-        <property name="wsdl-FastTransferWebService" location="${meta.inf}/xml-resources/web-service-references/FastTransferWebService/wsdl/localhost_8080/FastTransferWebService/FastTransferWebService.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/FastTransferWebService" destdir="${build.generated.dir}/jax-wsCache/FastTransferWebService" wsdl="${wsdl-FastTransferWebService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/FastTransferWebService/FastTransferWebService?wsdl" xnocompile="true" xendorsed="true" package="ws.client.fastTransfer">
-            <depends file="${wsdl-FastTransferWebService}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/FastTransferWebService"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/FastTransferWebService">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-FastTransferWebService" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/FastTransferWebService"/>
-        <delete dir="${build.generated.sources.dir}/jax-ws/ws/client/fastTransfer"/>
-    </target>
     <target name="wsimport-client-MerlionBankWebService" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/MerlionBankWebService"/>
         <property name="wsdl-MerlionBankWebService" location="${meta.inf}/xml-resources/web-service-references/MerlionBankWebService/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl"/>
@@ -98,5 +81,22 @@
         <delete dir="${build.generated.dir}/jax-wsCache/MerlionBankWebService"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/ws/client/merlionBank"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-FastTransferWebService, wsimport-client-MerlionBankWebService"/>
+    <target name="wsimport-client-FastTransferWebService" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/FastTransferWebService"/>
+        <property name="wsdl-FastTransferWebService" location="${meta.inf}/xml-resources/web-service-references/FastTransferWebService/wsdl/localhost_8080/FastTransferWebService/FastTransferWebService.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/FastTransferWebService" destdir="${build.generated.dir}/jax-wsCache/FastTransferWebService" wsdl="${wsdl-FastTransferWebService}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/FastTransferWebService/FastTransferWebService?wsdl" xnocompile="true" xendorsed="true" package="ws.client.fastTransfer">
+            <depends file="${wsdl-FastTransferWebService}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/FastTransferWebService"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/FastTransferWebService">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-FastTransferWebService" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/FastTransferWebService"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/ws/client/fastTransfer"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-MerlionBankWebService, wsimport-client-FastTransferWebService"/>
 </project>

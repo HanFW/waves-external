@@ -7,9 +7,8 @@
     xmlns:pu="http://primefaces.org/ultima">
 
     <h:form id="menuform"> 
-        <div class="layout-menu-dbs #{externalPreferences.menuClass}">
+        <div class="layout-menu-sephora #{externalPreferences.menuClass}">
             <pu:menu widgetVar="me">
-
                 <p:submenu label="MAS">
                     <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
                     <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
@@ -37,14 +36,14 @@
                 </p:submenu>
                 <p:submenu label="NTUC">
                     <p:menuitem value="Process Bills" url="/web/billingProcessor/NTUCProcessBills.xhtml" />
-                </p:submenu>  
-                  <p:submenu label="Watsons">
+                </p:submenu>
+                <p:submenu label="Watsons">
                     <p:menuitem value="Watsons Homepage (remove later)" url="/web/watsons/watsonsMainPage.xhtml" />
                 </p:submenu>
                 <p:submenu label="Sephora">
                     <p:menuitem value="Sephora Homepage(remove later)" url="/web/sephora/sephoraMainPage.xhtml" />
                 </p:submenu>
-                   <p:submenu label="Visa">
+                <p:submenu label="Visa">
                     <p:menuitem value="Visa Homepage(remove later)" url="/web/visa/visaMainPage.xhtml" />
                 </p:submenu>
                 <p:submenu label="Master">
@@ -53,7 +52,6 @@
                 <p:submenu label="POS">
                     <p:menuitem value="POS Homepage(remove later)" url="/web/pos/posMainPage.xhtml" />
                 </p:submenu>
-
             </pu:menu>
         </div>
     </h:form>
