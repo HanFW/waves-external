@@ -1,40 +1,20 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/ntucTemplate.xhtml">
+    <ui:define name="content">
     <h:body>
-        <h:form>
-            <p:menubar>
-                <p:submenu label="MAS">
-                    <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
-                    <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
-                </p:submenu>
-
-                <p:submenu label="Other Banks" >
-                    <p:menuitem value="DBS Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />
-                    <p:menuitem value="DBS View Transaction" url="/web/otherBanks/dbs/dbsViewAccount.xhtml" />
-                </p:submenu>
-
-                <p:submenu label="Billing Processor" >
-                    <p:menuitem value="NTUC" url="/web/billingProcessor/NTUCProcessBills.xhtml" />
-                </p:submenu>
-            </p:menubar>
-        </h:form>
-
         <h:form>
             <br/>
             <h:outputText value="NTUC Process Bills" />
             <br/>
             <br/>
             <p:panel id="panel">
-                <p:messages globalOnly="true"/>
+                <p:messages globalOnly="true" closable="true"/>
                 
                 <p:panelGrid>
                     <p:outputLabel value="Customer Name: " style="font-weight: bold" />
@@ -64,8 +44,7 @@
                                      ajax="true"/>
                 </p:panelGrid>
             </p:panel>
-
         </h:form>
-    </h:body>
-</html>
+    </ui:define>
+</ui:composition>
 

@@ -110,8 +110,15 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
     }
 
     @Override
-    public void askForCreditOtherBankAccount(Long billId) {
-        sACHSessionBeanLocal.ntucInitiateGIRO(billId);
+    public String askForCreditOtherBankAccount(Long billId) {
+
+        String result = sACHSessionBeanLocal.ntucInitiateGIRO(billId);
+
+        if (result.equals("Exceed Payment Limit")) {
+            return "Exceed Payment Limit";
+        }
+
+        return "Payment Approved";
     }
 
     @Override
@@ -130,6 +137,7 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
             String debitOrCredit = onHoldRecord.getDebitOrCredit();
             String debitOrCreditBankAccountNum = onHoldRecord.getDebitOrCreditBankAccountNum();
             String debitOrCreditBankName = onHoldRecord.getDebitOrCreditBankName();
+            String paymentMethod = onHoldRecord.getPaymentMethod();
 
             OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(bankAccountNum);
             String currentAvailableBalance = dbsBankAccount.getAvailableBankAccountBalance();
@@ -148,7 +156,16 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
                 BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
                 Calendar cal = Calendar.getInstance();
                 String transactionDate = cal.getTime().toString();
-                String transactionCode = "BILL";
+                String transactionCode = "";
+
+                if (paymentMethod.equals("Non Standing GIRO") || paymentMethod.equals("Standing GIRO")) {
+                    transactionCode = "BILL";
+                } else if (paymentMethod.equals("Cheque")) {
+                    transactionCode = "CHQ";
+                } else if (paymentMethod.equals("Regular GIRO")) {
+                    transactionCode = "GIRO";
+                }
+
                 String accountCredit = paymentAmt;
                 String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
 
@@ -168,7 +185,16 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
                 BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
                 Calendar cal = Calendar.getInstance();
                 String transactionDate = cal.getTime().toString();
-                String transactionCode = "BILL";
+                String transactionCode = "";
+
+                if (paymentMethod.equals("Non Standing GIRO") || paymentMethod.equals("Standing GIRO")) {
+                    transactionCode = "BILL";
+                } else if (paymentMethod.equals("Cheque")) {
+                    transactionCode = "CHQ";
+                } else if (paymentMethod.equals("Regular GIRO")) {
+                    transactionCode = "GIRO";
+                }
+
                 String accountdebit = paymentAmt;
                 String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
 

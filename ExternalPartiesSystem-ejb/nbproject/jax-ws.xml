@@ -1,65 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
-    <service name="OtherBanksWebService">
-      <implementation-class>ejb.ws.session.OtherBanksWebService</implementation-class>
+    <service name="CHIPSWebService">
+      <implementation-class>ejb.ws.session.CHIPSWebService</implementation-class>
     </service>
     <service name="SACHWebService">
       <implementation-class>ejb.ws.session.SACHWebService</implementation-class>
     </service>
-    <service name="MEPSWebService">
-      <implementation-class>ejb.ws.session.MEPSWebService</implementation-class>
-    </service>
-    <service name="BillWebService">
-      <implementation-class>ejb.ws.session.BillWebService</implementation-class>
+    <service name="OtherBanksWebService">
+      <implementation-class>ejb.ws.session.OtherBanksWebService</implementation-class>
     </service>
     <service name="SWIFTWebService">
       <implementation-class>ejb.ws.session.SWIFTWebService</implementation-class>
     </service>
-    <service name="CHIPSWebService">
-      <implementation-class>ejb.ws.session.CHIPSWebService</implementation-class>
+    <service name="BillWebService">
+      <implementation-class>ejb.ws.session.BillWebService</implementation-class>
+    </service>
+    <service name="MEPSWebService">
+      <implementation-class>ejb.ws.session.MEPSWebService</implementation-class>
     </service>
     <service name="TransactionAuthorizationWebService">
       <implementation-class>ejb.ws.session.TransactionAuthorizationWebService</implementation-class>
     </service>
   </services>
   <clients>
-    <client name="FastTransferWebService">
-      <wsdl-url>http://localhost:8080/FastTransferWebService/FastTransferWebService?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/FastTransferWebService/FastTransferWebService.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">ws.client.fastTransfer</package-name>
-      <catalog-file>catalog.xml</catalog-file>
-      <wsimport-options>
-        <wsimport-option>
-          <wsimport-option-name>extension</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>verbose</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>fork</wsimport-option-name>
-          <wsimport-option-value>false</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/FastTransferWebService/FastTransferWebService?wsdl</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xnocompile</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>xendorsed</wsimport-option-name>
-          <wsimport-option-value>true</wsimport-option-value>
-        </wsimport-option>
-        <wsimport-option>
-          <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>ws.client.fastTransfer</wsimport-option-value>
-        </wsimport-option>
-      </wsimport-options>
-    </client>
     <client name="MerlionBankWebService">
       <wsdl-url>http://localhost:8080/MerlionBankWebService/MerlionBankWebService?wsdl</wsdl-url>
       <local-wsdl-file>localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl</local-wsdl-file>
@@ -93,6 +57,42 @@
         <wsimport-option>
           <wsimport-option-name>package</wsimport-option-name>
           <wsimport-option-value>ws.client.merlionBank</wsimport-option-value>
+        </wsimport-option>
+      </wsimport-options>
+    </client>
+    <client name="FastTransferWebService">
+      <wsdl-url>http://localhost:8080/FastTransferWebService/FastTransferWebService?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8080/FastTransferWebService/FastTransferWebService.wsdl</local-wsdl-file>
+      <package-name forceReplace="true">ws.client.fastTransfer</package-name>
+      <catalog-file>catalog.xml</catalog-file>
+      <wsimport-options>
+        <wsimport-option>
+          <wsimport-option-name>extension</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>verbose</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>fork</wsimport-option-name>
+          <wsimport-option-value>false</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>wsdlLocation</wsimport-option-name>
+          <wsimport-option-value>http://localhost:8080/FastTransferWebService/FastTransferWebService?wsdl</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xnocompile</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xendorsed</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>package</wsimport-option-name>
+          <wsimport-option-value>ws.client.fastTransfer</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
     </client>

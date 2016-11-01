@@ -10,7 +10,7 @@ public interface OtherBankSessionBeanLocal {
     public void creditPaymentToAccountMTD(String fromBankAccountNum, String toBankAccountNum,
             Double paymentAmt);
 
-    public void askForCreditOtherBankAccount(Long billId);
+    public String askForCreditOtherBankAccount(Long billId);
 
     public void settleEachOtherBankAccount();
 
