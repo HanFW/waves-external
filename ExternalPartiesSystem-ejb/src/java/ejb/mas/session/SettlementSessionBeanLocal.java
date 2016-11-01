@@ -23,4 +23,12 @@ public interface SettlementSessionBeanLocal {
     public void recordSettlementInformationCHIPS(List<CHIPS> chips);
 
     public List<Settlement> getAllCHIPSSettlement();
+    
+    public List<Settlement> getAllVisaNetworkVTCSettlement();
+    
+    public List<Settlement> getAllVisaNetworkMTVSettlement();
+    
+    public List<Settlement> getAllMasterCardNetworkMTMSettlement();
+    
+    public List<Settlement> getAllMasterCardNetworkMTCSettlement();
 }

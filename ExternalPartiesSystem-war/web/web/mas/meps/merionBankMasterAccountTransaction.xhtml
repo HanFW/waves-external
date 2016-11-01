@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/masTemplate.xhtml">
+
+    <ui:define name="content">
+        <h:body>
+            <h:form>
+                <h:outputText value="View Merlion Bank Master Account Transaction (Card Simulation)" />
+                <br/>
+                <br/>
+                <p:messages globalOnly="true"/>
+                
+                <p:dataTable var="merlionBankMasterAccountTransaction" 
+                             value="#{merlionBankMasterAccountTransactionManagedBean.merlionBankMasterAccountTransactions}"
+                             reflow="true" paginator="true" rows="10" emptyMessage="No Transaction">
+                    <p:column headerText="Transaction Id"> 
+                        <h:outputText value="#{merlionBankMasterAccountTransaction.transactionId}" />
+                    </p:column>
+
+                    <p:column headerText="Transaction Date"> 
+                        <h:outputText value="#{merlionBankMasterAccountTransaction.transactionDate}" />
+                    </p:column>
+
+                    <p:column headerText="Transaction Ref"> 
+                        <h:outputText value="#{merlionBankMasterAccountTransaction.transactionRef}" />
+                    </p:column>
+
+                    <p:column headerText="Account Debit(S$)(Withdrawal)"> 
+                        <h:outputText value="#{merlionBankMasterAccountTransaction.accountDebit}" />
+                    </p:column>
+
+                </p:dataTable>
+                <br/>
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>
+

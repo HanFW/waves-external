@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        Customer Make Payment To Merchant
+    </h:head>
+
+    <h:body>
+
+        <div align="center">
+            <h:form>
+
+                <p:menubar>
+                    <p:submenu label="MEPS">
+                        <p:menuitem value="CitiBank Account Transaction" url="/web/simulateSystem/Merchant/CustomerMakePaymentToMerchant.xhtml" />
+                        <p:menuitem value="MerlionBank Account Transaction" url="/Merchant/CustomerMakePaymentToMerchant.xhtml" />
+                        <p:menuitem value="CitiBank and Merlion MEPS History Records" url="/Merchant/CustomerMakePaymentToMerchant.xhtml" />
+                    </p:submenu>
+
+                    <p:submenu label="VISA" >
+                        <p:menuitem value="CitiBank and Merlion VISA network Clearing History Records" url="/web/Visa/simulateVisaClearingNetWork.xhtml" />
+                    </p:submenu>
+                    <p:submenu label="MasterCard" >
+                        <p:menuitem value="CitiBank and Merlion MasterCard Clearing History Records" url="/web/MasterCard/simulateMasterCardClearingNetWork.xhtml" />
+                    </p:submenu>
+
+                    <p:submenu label="Transaction Records" >
+                        <p:menuitem value="Simulate Customer Make Payment To Merchant" url="/web/simulateSystem/Merchant/CustomerMakePaymentToMerchant.xhtml" />
+                        <p:menuitem value="Watsons View Transaction" url="/web/simulateSystem/Merchant/watsonsViewTransactionRecords.xhtml" />
+                        <p:menuitem value="Merlion CardHolder View Transaction" url="/web/simulateSystem/Merchant/CustomerMakePaymentToMerchant.xhtml" />
+                    </p:submenu>
+
+                    <p:submenu label="Transaction Authorization">
+                        <p:menuitem value="Merlion Bank Transaction Authoriztion" url="/web/simulateSystem/MerlionBank/SimulateMerlionBankTransactionAuthorizationSystem.xhtml" />
+                    </p:submenu>
+                </p:menubar>
+            </h:form>
+            
+            <h:form>
+                <h1>Customer Make Payment To Merchant</h1>
+                <p:messages autoUpdate="true"/>
+
+                <h:panelGrid columns="3" class="ui-lg-6">
+
+                    <p:outputLabel value="Transaction Amount:" />
+                    <p:inputText id="transactionAmt" value="#{simulateCustomerMakePaymentToMerchantManagedBean.transactionAmt}"/> 
+                    <p:messages for="transactionAmt"/>
+
+                    <p:outputLabel value="Pay By:"/>
+                    <p:selectOneRadio required="true" requiredMessage="Please select card type" id="cardType" value="#{simulateCustomerMakePaymentToMerchantManagedBean.cardType}">
+                        <f:selectItem itemLabel="Credit Card" itemValue="credit" />
+                        <f:selectItem itemLabel="Debit Card" itemValue="debit" />
+                        <p:ajax event="change" update="panelDebitCard panelCreditCard" listener="#{simulateCustomerMakePaymentToMerchantManagedBean.showPanel}"/>
+                    </p:selectOneRadio>
+                    <p:messages for="cardType"/>
+
+
+                    <p:outputLabel value="Card Number"/>
+                    <p:inputText id="cardNum" value="#{simulateCustomerMakePaymentToMerchantManagedBean.cardNum}">
+                        <f:validateLength minimum="16" maximum="16" /> 
+                    </p:inputText>
+                    <p:message for="cardNum"/>
+                </h:panelGrid>
+
+                <p:panel style="border: none;" id="panelDebitCard" visible="#{simulateCustomerMakePaymentToMerchantManagedBean.debitCard}">
+                    <p:outputLabel value="Card Password:" />
+                    <p:inputText type="password" validatorMessage="Card password is 6-digit" required="true" requiredMessage="Please input your card password" id="cardPwd" value="#{simulateCustomerMakePaymentToMerchantManagedBean.debitCardPwd}">
+                        <f:validateLength minimum="6" maximum="6" /> 
+                    </p:inputText>
+                    <p:message for="cardPwd"/>     
+                </p:panel>
+
+
+                <h:panelGrid columns="1" class="ui-lg-6"> 
+                    <p:panel style="border: none;" id="panelCreditCard" visible="#{simulateCustomerMakePaymentToMerchantManagedBean.creditCard}">
+                        <p:outputLabel value="Please provide your signature" />
+
+
+                        <p:signature id="input" style="width:300px;height:200px" widgetVar="sig" value="#{simulateCustomerMakePaymentToMerchantManagedBean.customerSignature}" 
+                                     guideline="true"/>
+
+                        <p:commandButton value="Submit" icon="ui-icon-check"/>
+                        <p:commandButton value="Clear" icon="ui-icon-close" type="button" onclick="PF('sig').clear()"/>
+                    </p:panel>
+                </h:panelGrid>
+
+
+                <p:commandButton value="Confirm" actionListener="#{simulateCustomerMakePaymentToMerchantManagedBean.forwardTransactionAuthorization()}" update="@form"/>  
+            </h:form> 
+        </div>
+
+    </h:body>
+</html>
+
+
+

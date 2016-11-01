@@ -2,6 +2,20 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/mas/session/MEPSSessionBeanLocal.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/mas/session/SettlementSessionBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/card/session/MasterCardNetworkClearingSessionBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/otherbanks/session/MerchantTransactionRecordsSessionBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/mas/session/MEPSCardSettlementHistorySessionBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/otherbanks/session/OtherBankAccountSessionBeanLocal.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/mas/session/MEPSCardSimulationSettlementSessionBeanLocal.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/mas/session/MEPSCardSimulationSettlementSessionBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/mas/entity/Settlement.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/card/session/TransactionAutorizationSessionBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/mas/session/MEPSMasterBankAccountSessionBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/mas/session/MEPSMasterBankAccountSessionBeanLocal.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-ejb/src/java/ejb/mas/session/MEPSCardSettlementHistorySessionBeanLocal.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -1,9 +1,14 @@
 package ejb.otherbanks.session;
 
+import ejb.card.entity.MasterCardClearingNetwork;
+import ejb.card.entity.TransactionToBeAuthorized;
+import ejb.card.entity.VisaClearingNetwork;
+import ejb.card.session.VisaNetworkClearingSessionBeanLocal;
 import ejb.mas.session.SACHSessionBeanLocal;
 import ejb.otherbanks.entity.OtherBankOnHoldRecord;
 import ejb.otherbanks.entity.OtherBankAccount;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
@@ -26,6 +31,9 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
 
     @EJB
     private OtherBankAccountSessionBeanLocal otherBankAccountSessionBeanLocal;
+
+    @EJB
+    private VisaNetworkClearingSessionBeanLocal visaNetworkClearingSessionBeanLocal;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -192,5 +200,131 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
         return port.retrieveBankAccountByNum(bankAccountNum);
+    }
+
+    @Override
+    public void merchantVisaNetworkSettlement() {
+        System.out.println("enter citi pays merchant by via");
+        List<VisaClearingNetwork> visaRecords = new ArrayList<>();
+
+        List<Long> merchantAccountIds = otherBankAccountSessionBeanLocal.getAllCitiBankMerchantAccountId();
+        double creditAmt = 0.0;
+
+        Calendar cal = Calendar.getInstance();
+        String transactionDate = cal.getTime().toString();
+
+        //suppose accout num of three merchants is pre-set 
+        //watsons
+        Query q = entityManager.createQuery("select v from VisaClearingNetwork v where v.merchantName=:merchant AND v.payMerchantStatus=:status");
+        q.setParameter("merchant", "watsons");
+        q.setParameter("status", "no");
+
+        if (!q.getResultList().isEmpty()) {
+            visaRecords = q.getResultList();
+            for (int i = 0; i < visaRecords.size(); i++) {
+                creditAmt += visaRecords.get(i).getTransactionAmt();
+                visaRecords.get(i).setPayMerchantStatus("yes");
+                entityManager.flush();
+            }
+            System.out.println("test q - credit amt " + creditAmt);
+            otherBankAccountSessionBeanLocal.updateOtherBankAccountBalanceById(merchantAccountIds.get(0), creditAmt);
+            Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, "CTW", "Transfer from citiBank to watsons", "", String.valueOf(creditAmt), merchantAccountIds.get(0));
+        }
+
+        //ntuc
+        Query q2 = entityManager.createQuery("select v from VisaClearingNetwork v where v.merchantName=:merchant AND v.payMerchantStatus=:status");
+        q2.setParameter("merchant", "ntuc");
+        q2.setParameter("status", "no");
+
+        if (!q2.getResultList().isEmpty()) {
+            visaRecords = q2.getResultList();
+            for (int i = 0; i < visaRecords.size(); i++) {
+                creditAmt += visaRecords.get(i).getTransactionAmt();
+                visaRecords.get(i).setPayMerchantStatus("yes");
+                entityManager.flush();
+            }
+            System.out.println("test q2 - credit amt " + creditAmt);
+            otherBankAccountSessionBeanLocal.updateOtherBankAccountBalanceById(merchantAccountIds.get(1), creditAmt);
+            Long otherTransactionId2 = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, "CTN", "Transfer from citiBank to ntuc", "", String.valueOf(creditAmt), merchantAccountIds.get(1));
+        }
+
+        //sephora
+        Query q3 = entityManager.createQuery("select v from VisaClearingNetwork v where v.merchantName=:merchant AND v.payMerchantStatus=:status");
+        q3.setParameter("merchant", "sephora");
+        q3.setParameter("status", "no");
+
+        if (!q3.getResultList().isEmpty()) {
+            visaRecords = q3.getResultList();
+            for (int i = 0; i < visaRecords.size(); i++) {
+                creditAmt += visaRecords.get(i).getTransactionAmt();
+                visaRecords.get(i).setPayMerchantStatus("yes");
+                entityManager.flush();
+            }
+            System.out.println("test q3 - credit amt " + creditAmt);
+            otherBankAccountSessionBeanLocal.updateOtherBankAccountBalanceById(merchantAccountIds.get(2), creditAmt);
+            Long otherTransactionId3 = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, "CTS", "Transfer from citiBank to sephora", "", String.valueOf(creditAmt), merchantAccountIds.get(2));
+        }
+
+    }
+
+    @Override
+    public void merchantMasterCardNetworkSettlement() {
+        List<MasterCardClearingNetwork> masterCardRecords = new ArrayList<>();
+
+        List<Long> merchantAccountIds = otherBankAccountSessionBeanLocal.getAllCitiBankMerchantAccountId();
+        double creditAmt = 0.0;
+
+        Calendar cal = Calendar.getInstance();
+        String transactionDate = cal.getTime().toString();
+
+        //suppose accout num of three merchants is pre-set 
+        //watsons
+        Query q = entityManager.createQuery("select m from MasterCardClearingNetwork m where m.merchantName=:merchant AND m.payMerchantStatus=:status");
+        q.setParameter("merchant", "watsons");
+        q.setParameter("status", "no");
+
+        if (!q.getResultList().isEmpty()) {
+            masterCardRecords = q.getResultList();
+            for (int i = 0; i < masterCardRecords.size(); i++) {
+                creditAmt += masterCardRecords.get(i).getTransactionAmt();
+                masterCardRecords.get(i).setPayMerchantStatus("yes");
+                entityManager.flush();
+            }
+            otherBankAccountSessionBeanLocal.updateOtherBankAccountBalanceById(merchantAccountIds.get(0), creditAmt);
+            Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, "CTW", "Transfer from citiBank to watsons", "", String.valueOf(creditAmt), merchantAccountIds.get(0));
+        }
+
+        //ntuc
+        Query q2 = entityManager.createQuery("select m from MasterCardClearingNetwork m where m.merchantName=:merchant AND m.payMerchantStatus=:status");
+        q2.setParameter("merchant", "ntuc");
+        q2.setParameter("status", "no");
+
+        if (!q2.getResultList().isEmpty()) {
+            masterCardRecords = q2.getResultList();
+            for (int i = 0; i < masterCardRecords.size(); i++) {
+                creditAmt += masterCardRecords.get(i).getTransactionAmt();
+                masterCardRecords.get(i).setPayMerchantStatus("yes");
+                entityManager.flush();
+            }
+            otherBankAccountSessionBeanLocal.updateOtherBankAccountBalanceById(merchantAccountIds.get(1), creditAmt);
+            Long otherTransactionId2 = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, "CTN", "Transfer from citiBank to ntuc", "", String.valueOf(creditAmt), merchantAccountIds.get(1));
+        }
+
+        //sephora
+        Query q3 = entityManager.createQuery("select m from MasterCardClearingNetwork m where m.merchantName=:merchant AND m.payMerchantStatus=:status");
+        q3.setParameter("merchant", "sephora");
+        q3.setParameter("status", "no");
+
+        if (!q3.getResultList().isEmpty()) {
+            masterCardRecords = q3.getResultList();
+            for (int i = 0; i < masterCardRecords.size(); i++) {
+                creditAmt += masterCardRecords.get(i).getTransactionAmt();
+                masterCardRecords.get(i).setPayMerchantStatus("yes");
+                entityManager.flush();
+            }
+            otherBankAccountSessionBeanLocal.updateOtherBankAccountBalanceById(merchantAccountIds.get(2), creditAmt);
+            Long otherTransactionId3 = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, "CTS", "Transfer from citiBank to sephora", "", String.valueOf(creditAmt), merchantAccountIds.get(2));
+        }
+
     }
 }

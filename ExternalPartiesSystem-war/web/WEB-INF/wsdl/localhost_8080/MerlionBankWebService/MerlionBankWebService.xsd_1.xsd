@@ -211,6 +211,7 @@
 <xs:complexType name="debitCardType">
 <xs:sequence>
 <xs:element name="annualFeeWaiver" type="xs:string" minOccurs="0"/>
+<xs:element name="cardNetwork" type="xs:string" minOccurs="0"/>
 <xs:element name="cashBackRate" type="xs:double"/>
 <xs:element name="debitCardTypeId" type="xs:long" minOccurs="0"/>
 <xs:element name="debitCardTypeName" type="xs:string" minOccurs="0"/>
@@ -541,6 +542,7 @@
 
 <xs:complexType name="loanRepaymentAccount">
 <xs:sequence>
+<xs:element name="accountBalance" type="xs:double"/>
 <xs:element name="accountNumber" type="xs:string" minOccurs="0"/>
 <xs:element name="depositAccountNumber" type="xs:string" minOccurs="0"/>
 <xs:element name="fees" type="xs:double"/>
@@ -654,6 +656,17 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="updateAvailableBalance">
+<xs:sequence>
+<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
+<xs:element name="paymentAmt" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateAvailableBalanceResponse">
+<xs:sequence/>
+</xs:complexType>
+
 <xs:complexType name="retrieveBankAccountByNum">
 <xs:sequence>
 <xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
@@ -664,17 +677,6 @@
 <xs:sequence>
 <xs:element name="return" type="tns:bankAccount" minOccurs="0"/>
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="updateAvailableBalance">
-<xs:sequence>
-<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
-<xs:element name="paymentAmt" type="xs:double" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="updateAvailableBalanceResponse">
-<xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="debitBankAccount">

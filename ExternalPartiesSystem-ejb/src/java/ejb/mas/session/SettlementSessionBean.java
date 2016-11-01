@@ -4,6 +4,7 @@ import ejb.chips.entity.CHIPS;
 import ejb.mas.entity.MEPSMasterBankAccount;
 import ejb.mas.entity.SACH;
 import ejb.mas.entity.Settlement;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
@@ -189,16 +190,97 @@ public class SettlementSessionBean implements SettlementSessionBeanLocal {
 
         Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem");
         query.setParameter("clearanceSystem", "SACH");
-        
+
         return query.getResultList();
     }
-    
+
     @Override
     public List<Settlement> getAllCHIPSSettlement() {
 
         Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem");
         query.setParameter("clearanceSystem", "CHIPS");
-        
+
         return query.getResultList();
+    }
+
+    @Override
+    public List<Settlement> getAllVisaNetworkVTCSettlement() {
+        List<Settlement> settlements = new ArrayList<>();
+
+        Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem and s.creditMEPSBankAccountNum=:bankAccountNum and s.settlementStatus=:status");
+        query.setParameter("clearanceSystem", "visa network");
+        query.setParameter("bankAccountNum", "20160913");
+        query.setParameter("status", "New");
+
+        if (!query.getResultList().isEmpty()) {
+            System.out.println("sessionBean getAllVisaNetworkVTCSettlement:" + query.getResultList());
+            settlements = query.getResultList();
+        }
+
+        for (int i = 0; i < settlements.size(); i++) {
+            settlements.get(i).setSettlementStatus("done");
+            entityManager.flush();
+        }
+        return settlements;
+    }
+
+    @Override
+    public List<Settlement> getAllVisaNetworkMTVSettlement() {
+        List<Settlement> settlements = new ArrayList<>();
+
+        Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem and s.creditMEPSBankAccountNum=:bankAccountNum and s.settlementStatus=:status");
+        query.setParameter("clearanceSystem", "visa network");
+        query.setParameter("bankAccountNum", "20160307");
+        query.setParameter("status", "New");
+
+        if (!query.getResultList().isEmpty()) {
+            System.out.println("sessionBean getAllVisaNetworkMTVSettlement:" + query.getResultList());
+            settlements = query.getResultList();
+        }
+        for (int i = 0; i < settlements.size(); i++) {
+            settlements.get(i).setSettlementStatus("done");
+            entityManager.flush();
+        }
+        return settlements;
+    }
+
+    @Override
+    public List<Settlement> getAllMasterCardNetworkMTMSettlement() {
+        List<Settlement> settlements = new ArrayList<>();
+
+        Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem and s.creditMEPSBankAccountNum=:bankAccountNum and s.settlementStatus=:status");
+        query.setParameter("clearanceSystem", "masterCard network");
+        query.setParameter("bankAccountNum", "20160308");
+        query.setParameter("status", "New");
+
+        if (!query.getResultList().isEmpty()) {
+            System.out.println("sessionBean getAllMasterCardNetworkMTMSettlement: " + query.getResultList());
+            settlements = query.getResultList();
+        }
+        for (int i = 0; i < settlements.size(); i++) {
+            settlements.get(i).setSettlementStatus("done");
+            entityManager.flush();
+        }
+        return settlements;
+    }
+
+    @Override
+    public List<Settlement> getAllMasterCardNetworkMTCSettlement() {
+        List<Settlement> settlements = new ArrayList<>();
+
+        Query query = entityManager.createQuery("SELECT s FROM Settlement s Where s.clearanceSystem=:clearanceSystem and s.creditMEPSBankAccountNum=:bankAccountNum and s.settlementStatus=:status");
+        query.setParameter("clearanceSystem", "masterCard network");
+        query.setParameter("bankAccountNum", "20160913");
+        query.setParameter("status", "New");
+
+        if (!query.getResultList().isEmpty()) {
+            System.out.println("sessionBean getAllMasterCardNetworkMTCSettlement: " + query.getResultList());
+            settlements = query.getResultList();
+        }
+        for (int i = 0; i < settlements.size(); i++) {
+            settlements.get(i).setSettlementStatus("done");
+            entityManager.flush();
+        }
+        return settlements;
     }
 }

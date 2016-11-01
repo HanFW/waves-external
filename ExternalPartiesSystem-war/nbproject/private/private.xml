@@ -2,6 +2,38 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/meps/dbsMasterAccountTransaction.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/masMainPage.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/src/java/managedbean/otherbanks/ViewCitiBankAccountManagedBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/src/java/managedbean/mas/MerlionMasterAccountTransactionManagedBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/src/java/managedbean/otherbanks/WatsonsViewTransactionRecordsManagedBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/meps/mepsHistoryRecord.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/meps/mepsVisaAndMerlionHistory.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/meps/merionBankMasterAccountTransaction.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/meps/koreaMasterAccountTransaction.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/meps/mepsCitiAndVisaHistory.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/otherBanks/bankofkorea/viewTransaction.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/src/java/managedbean/mas/VisaMasterAccountTransactionManagedBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/Visa/simulateVisaClearingNetWork.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/otherBanks/citiBank/viewCitiBankAccount.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/src/java/managedbean/mas/MEPSCitiAndVisaHistoryManagedBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/meps/citiBankMasterAccountTransaction.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/meps/merlionMasterAccountTransaction.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/index.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/src/java/managedbean/otherbanks/ViewCitiBankAccountTransactionManagedBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/src/java/managedbean/mas/CitiBankMasterAccountTransactionManagedBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/meps/visaMasterAccountTransaction.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/src/java/managedbean/mas/MEPSVisaAndMerlionHistoryManagedBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/src/java/managedbean/otherbanks/ViewAccountManagedBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/otherBanks/citiBank/viewCitiBankAccountTransaction.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/Merchant/customerMakePaymentToMerchant.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/MerlionBank/SimulateMerlionBankTransactionAuthorizationSystem.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/src/java/managedbean/mas/MerlionBankMasterAccountTransactionManagedBean.java</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/otherBanks/bankofkorea/viewAccount.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/web/web/mas/meps/merlionAndKoreaMEPSHistoryRecord.xhtml</file>
+            <file>file:/Users/Jingyuan/Desktop/waves-external/ExternalPartiesSystem-war/src/java/managedbean/otherbanks/ViewTransactionManagedBean.java</file>
+        </group>
     </open-files>
 </project-private>
