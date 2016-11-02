@@ -1,5 +1,6 @@
 package ejb.common.util;
 
+import ejb.card.session.TransactionAutorizationSessionBeanLocal;
 import ejb.chips.session.CHIPSSessionBeanLocal;
 import ejb.mas.session.MEPSCardSimulationSettlementSessionBeanLocal;
 import ejb.mas.session.MEPSSessionBeanLocal;
@@ -41,6 +42,9 @@ public class EjbTimerSessionBean implements EjbTimerSessionBeanLocal {
 
     @EJB
     private MEPSCardSimulationSettlementSessionBeanLocal mEPSCardSimulationSettlementSessionBeanLocal;
+    
+    @EJB
+    private TransactionAutorizationSessionBeanLocal transactionAutorizationSessionBeanLocal;
 
     @Resource
     private SessionContext ctx;
@@ -229,6 +233,11 @@ public class EjbTimerSessionBean implements EjbTimerSessionBeanLocal {
         System.out.println("MEPS settlement merlion bank to visa");
         otherBankSessionBeanLocal.merchantMasterCardNetworkSettlement();
         System.out.println("citibank pays merchant - masterCard network");
+        
+        transactionAutorizationSessionBeanLocal.merlionCreditCustomerForTransactionMade();
+        System.out.println("merlionCreditCustomerForTransactionMade");
+        
+        
     }
 
     private void settleEachBankAccount() {

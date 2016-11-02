@@ -697,6 +697,17 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="updateAvailableBalance">
+<xs:sequence>
+<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
+<xs:element name="paymentAmt" type="xs:double" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateAvailableBalanceResponse">
+<xs:sequence/>
+</xs:complexType>
+
 <xs:complexType name="retrieveBankAccountByNum">
 <xs:sequence>
 <xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
@@ -707,17 +718,6 @@
 <xs:sequence>
 <xs:element name="return" type="tns:bankAccount" minOccurs="0"/>
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="updateAvailableBalance">
-<xs:sequence>
-<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
-<xs:element name="paymentAmt" type="xs:double" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="updateAvailableBalanceResponse">
-<xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="debitBankAccount">

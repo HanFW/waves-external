@@ -48,7 +48,7 @@ public class TransactionAutorizationSessionBean implements TransactionAutorizati
 
         em.persist(transaction);
         em.flush();
-        System.out.println("transaction to be athorized created: " + transaction);
+        System.out.println("transaction to be authorized created: " + transaction);
         return transaction;
     }
 
@@ -67,6 +67,19 @@ public class TransactionAutorizationSessionBean implements TransactionAutorizati
     }
 
     @Override
+    public List<TransactionToBeAuthorized> getAllAuthorizedTransactions() {
+        List<TransactionToBeAuthorized> transactions = new ArrayList<>();
+
+        Query q = em.createQuery("select t from TransactionToBeAuthorized t where t.transactionStatus=:status");
+        q.setParameter("status", "authorized");
+
+        if (!q.getResultList().isEmpty()) {
+            transactions = q.getResultList();
+        }
+        return transactions;
+    }
+
+    @Override
     public TransactionToBeAuthorized getTransactionToBeAuthorizedById(Long id) {
         TransactionToBeAuthorized transaction = em.find(TransactionToBeAuthorized.class, id);
         return transaction;
@@ -77,6 +90,18 @@ public class TransactionAutorizationSessionBean implements TransactionAutorizati
         String result = checkTransactionAuthorizationById(id);
         return result;
     }
+    
+    @Override
+    public void merlionCreditCustomerForTransactionMade(){
+        String result = merlionCreditCustomerAccountForTransaction();
+    }
+    
+    @Override
+    public void updateTransactionStatus(Long id){
+        TransactionToBeAuthorized transaction = em.find(TransactionToBeAuthorized.class, id);
+        transaction.setTransactionStatus("authorized");
+        em.flush();
+    }
 
     private String checkTransactionAuthorizationById(java.lang.Long id) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
@@ -84,5 +109,14 @@ public class TransactionAutorizationSessionBean implements TransactionAutorizati
         ws.client.transactionAuthorization.MerlionTransactionAuthorizationWebService port = service_merlionTransactionAuthorization.getMerlionTransactionAuthorizationWebServicePort();
         return port.checkTransactionAuthorizationById(id);
     }
+
+    private String merlionCreditCustomerAccountForTransaction() {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.transactionAuthorization.MerlionTransactionAuthorizationWebService port = service_merlionTransactionAuthorization.getMerlionTransactionAuthorizationWebServicePort();
+        return port.merlionCreditCustomerAccountForTransaction();
+    }
+    
+    
 
 }

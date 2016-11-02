@@ -20,7 +20,13 @@ public interface TransactionAutorizationSessionBeanLocal {
     
     public List<TransactionToBeAuthorized> getAllPendingTransactionsToBeAuthorized();
     
+    public List<TransactionToBeAuthorized> getAllAuthorizedTransactions();
+    
     public TransactionToBeAuthorized getTransactionToBeAuthorizedById(Long id);
   
     public String checkTransactionAuthorization(Long id);
+    
+    public void merlionCreditCustomerForTransactionMade();
+    
+    public void updateTransactionStatus(Long id);
 }

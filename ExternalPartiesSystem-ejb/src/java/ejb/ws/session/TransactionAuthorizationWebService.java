@@ -26,7 +26,7 @@ import javax.persistence.Query;
 @Stateless()
 public class TransactionAuthorizationWebService {
 
-@PersistenceContext
+    @PersistenceContext
     EntityManager em;
 
     @WebMethod(operationName = "getAllPendingTransactionsToBeAuthorized")
@@ -74,46 +74,62 @@ public class TransactionAuthorizationWebService {
      * Web service operation
      */
     @WebMethod(operationName = "createNewVisaClearingRecord")
-    public void createNewVisaClearingRecord(@WebParam(name = "transactionAmt") Double transactionAmt, 
-            @WebParam(name = "reference") String reference, 
+    public void createNewVisaClearingRecord(@WebParam(name = "transactionAmt") Double transactionAmt,
+            @WebParam(name = "reference") String reference,
             @WebParam(name = "transactionTime") String transactionTime) {
-    
-     VisaClearingNetwork visaRecord= new VisaClearingNetwork();
-         
-         String referenceNo=generateReferenceNo();
-         
-         visaRecord.setReferenceNo(referenceNo);
-         visaRecord.setReference(reference);
-         visaRecord.setTransactionAmt(transactionAmt);
-         visaRecord.setTransactionTime(transactionTime);
-         
-         em.persist(visaRecord);
+
+        VisaClearingNetwork visaRecord = new VisaClearingNetwork();
+
+        String referenceNo = generateReferenceNo();
+
+        visaRecord.setReferenceNo(referenceNo);
+        visaRecord.setReference(reference);
+        visaRecord.setTransactionAmt(transactionAmt);
+        visaRecord.setTransactionTime(transactionTime);
+
+        em.persist(visaRecord);
 //         totalCreditAmt+=transactionAmt;
-         System.out.println("****** visa network clearing session bean: createNewVisaClearingRecord "+visaRecord);
+        System.out.println("****** visa network clearing session bean: createNewVisaClearingRecord " + visaRecord);
 //         System.out.println("****** visa network clearing session bean: total credit/debit amount "+totalCreditAmt);
-         
+
     }
-    
-    private String generateReferenceNo(){
-        List<String> referenceNoList=new ArrayList<String>();
+
+    private String generateReferenceNo() {
+        List<String> referenceNoList = new ArrayList<String>();
         Random rnd = new Random();
 
         final char[] ch = new char[16];
         for (int i = 0; i < 16; i++) {
             ch[i] = (char) ('0' + (i == 0 ? rnd.nextInt(9) + 1 : rnd.nextInt(10)));
         }
-        
+
         String referenceNo = String.valueOf(ch);
-        
-        System.out.println("before: "+referenceNoList);
-        while(referenceNoList.contains(referenceNo)){
-            referenceNo=generateReferenceNo();
+
+        System.out.println("before: " + referenceNoList);
+        while (referenceNoList.contains(referenceNo)) {
+            referenceNo = generateReferenceNo();
         }
 
         System.out.println("****** visa network clearing session bean: reference no generated" + referenceNo);
         referenceNoList.add(referenceNo);
-         System.out.println("after: "+referenceNoList);
+        System.out.println("after: " + referenceNoList);
         return referenceNo;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getAllAuthorizedTransactions")
+    public List<TransactionToBeAuthorized> getAllAuthorizedTransactions() {
+        List<TransactionToBeAuthorized> transactions = new ArrayList<>();
+
+        Query q = em.createQuery("select t from TransactionToBeAuthorized t where t.transactionStatus=:status");
+        q.setParameter("status", "authorized");
+
+        if (!q.getResultList().isEmpty()) {
+            transactions = q.getResultList();
+        }
+        return transactions;
     }
 
 }

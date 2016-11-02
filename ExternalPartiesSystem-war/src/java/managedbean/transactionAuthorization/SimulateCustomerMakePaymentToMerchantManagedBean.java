@@ -18,6 +18,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -31,6 +33,7 @@ public class SimulateCustomerMakePaymentToMerchantManagedBean {
      * Creates a new instance of
      * SimulateCustomerMakePaymentToMerchantManagedBean
      */
+    
     public SimulateCustomerMakePaymentToMerchantManagedBean() {
     }
 
@@ -77,21 +80,25 @@ public class SimulateCustomerMakePaymentToMerchantManagedBean {
         }
         System.out.println("transaction forwarded from merchant!");
 
-//        Long id = transaction.getTransactionToBeAuthorizedId();
-//        String result = transactionAutorizationSessionBeanLocal.checkTransactionAuthorization(id);
-//        if (result.equals("not authorized")) {
-//            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Transaction unauthorized!", null);
-//        } else {
-//            String[] info = result.split("-");
-//            String cardNetwork = info[1];
-//            if (cardNetwork.equals("Visa")) {
-        visaNetworkClearingSessionBeanLocal.createNewVisaClearingRecord(transactionAmt, "Watsons", transactionTime, "new","watsons");
-//            } else {
-        masterCardNetworkClearingSessionBeanLocal.createNewMasterCardClearingRecord(transactionAmt, "Watsons", transactionTime, "new","watsons");
-//            }
-        message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tranaction authorized!", null);
+        Long id = transaction.getTransactionToBeAuthorizedId();
+        String result = transactionAutorizationSessionBeanLocal.checkTransactionAuthorization(id);
+        if (result.equals("not authorized")) {
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Transaction unauthorized!", null);
+        } else {
+            String[] info = result.split("-");
+            String cardNetwork = info[1];
+            
+            transactionAutorizationSessionBeanLocal.updateTransactionStatus(transaction.getTransactionToBeAuthorizedId());
+            
+           
+            if (cardNetwork.equals("Visa")) {
+                visaNetworkClearingSessionBeanLocal.createNewVisaClearingRecord(transactionAmt, "Watsons", transactionTime, "new", "watsons");
+            } else {
+                masterCardNetworkClearingSessionBeanLocal.createNewMasterCardClearingRecord(transactionAmt, "Watsons", transactionTime, "new", "watsons");
+            }
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Tranaction authorized!", null);
 
-//        }
+        }
         context.addMessage(null, message);
 
     }

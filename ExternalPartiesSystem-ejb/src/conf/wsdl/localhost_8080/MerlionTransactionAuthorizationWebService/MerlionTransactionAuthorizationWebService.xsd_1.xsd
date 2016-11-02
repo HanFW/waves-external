@@ -4,6 +4,20 @@
 
 <xs:element name="checkTransactionAuthorizationByIdResponse" type="tns:checkTransactionAuthorizationByIdResponse"/>
 
+<xs:element name="merlionCreditCustomerAccountForTransaction" type="tns:merlionCreditCustomerAccountForTransaction"/>
+
+<xs:element name="merlionCreditCustomerAccountForTransactionResponse" type="tns:merlionCreditCustomerAccountForTransactionResponse"/>
+
+<xs:complexType name="merlionCreditCustomerAccountForTransaction">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="merlionCreditCustomerAccountForTransactionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="checkTransactionAuthorizationById">
 <xs:sequence>
 <xs:element name="id" type="xs:long" minOccurs="0"/>
