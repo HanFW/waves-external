@@ -16,25 +16,30 @@
         <h:outputScript name="js/ripple.js" library="ultima-layout" />
         <h:outputScript name="js/layout.js" library="ultima-layout" />  
     </h:head>
-    
+
     <h:body styleClass="login-body">        
         <h:form id="formMain">
             <div class="card login-panel ui-fluid">
                 <div class="ui-g">
+
                     <h:panelGrid columns="1" cellpadding="5" >
                         <p:button outcome="/web/mas/masMainPage.xhtml" value="Monetary Authority of Singapore" icon="ui-icon-arrow-forward" iconPos="right"/>
                         <p:button outcome="/web/otherBanks/dbs/dbsMainPage.xhtml" value="DBS Bank" icon="ui-icon-arrow-forward" iconPos="right" />
-                        <p:button outcome="/web/swift/viewSWIFTMessage.xhtml" value="SWIFT" icon="ui-icon-arrow-forward" iconPos="right" />
-                        <p:button outcome="/web/otherBanks/bankofkorea/viewAccount.xhtml" value="Bank of Korea" icon="ui-icon-arrow-forward" iconPos="right" />
-                        <p:button outcome="/web/chips/chipsHistoryRecord.xhtml" value="CHIPS" icon="ui-icon-arrow-forward" iconPos="right" />
-                        <p:button outcome="/web/billingProcessor/NTUCProcessBills.xhtml" value="NTUC" icon="ui-icon-arrow-forward" iconPos="right" />
+                        <p:button outcome="/web/otherBanks/citibank/citibankMainPage.xhtml" value="Citibank" icon="ui-icon-arrow-forward" iconPos="right" />
+                        <p:button outcome="/web/otherBanks/bankofkorea/bankOfKoreaMainPage.xhtml" value="Bank of Korea" icon="ui-icon-arrow-forward" iconPos="right" />
+                        <p:button outcome="/web/swift/swiftMainPage.xhtml" value="SWIFT" icon="ui-icon-arrow-forward" iconPos="right" />
+                        <p:button outcome="/web/chips/chipsMainPage.xhtml" value="CHIPS" icon="ui-icon-arrow-forward" iconPos="right" />
+                        <p:button outcome="/web/billingProcessor/ntucMainPage.xhtml" value="NTUC" icon="ui-icon-arrow-forward" iconPos="right" />
+                        <p:button outcome="/web/visa/visaMainPage.xhtml" value="Visa Clearing System" icon="ui-icon-arrow-forward" iconPos="right"/>
+                        <p:button outcome="/web/master/masterMainPage.xhtml" value="Master Clearing System" icon="ui-icon-arrow-forward" iconPos="right" />
+                        <p:button outcome="/web/watsons/watsonsMainPage.xhtml" value="Watsons" icon="ui-icon-arrow-forward" iconPos="right" />
+                        <p:button outcome="/web/pos/posMainPage.xhtml" value="POS" icon="ui-icon-arrow-forward" iconPos="right" />
                     </h:panelGrid>
 
                 </div>
             </div>
             <h:outputStylesheet name="css/ripple.css" library="ultima-layout" />
             <h:outputStylesheet name="css/layout-#{externalPreferences.theme}.css" library="ultima-layout" />
-
         </h:form>
     </h:body>
 </html>

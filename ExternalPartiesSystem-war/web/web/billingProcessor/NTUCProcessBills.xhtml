@@ -1,43 +1,13 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        <h:form>
-            <p:menubar>
-                <p:submenu label="MAS">
-                    <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="Bank of Korea Transaction" url="/web/mas/meps/koreaMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
-                    <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
-                    <p:menuitem value="Merlion and Bank of Korea MEPS History Records" url="/web/mas/meps/merlionAndKoreaMEPSHistoryRecord.xhtml" />
-                </p:submenu>
-                <p:submenu label="DBS">
-                    <p:menuitem value="Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />
-                    <p:menuitem value="View Transaction" url="/web/otherBanks/dbs/dbsViewAccount.xhtml" />
-                    <p:menuitem value="Enter Cheque Information" url="/web/otherBanks/dbs/dbsEnterReceivedChequeInformation.xhtml" />
-                </p:submenu>
-                <p:submenu label="SWIFT">
-                    <p:menuitem value="View SWIFT Message" url="/web/swift/viewSWIFTMessage.xhtml" />
-                </p:submenu>
-                <p:submenu label="Bank of Korea">
-                    <p:menuitem value="View Transaction" url="/web/otherBanks/bankofkorea/viewAccount.xhtml" />
-                </p:submenu>
-                <p:submenu label="CHIPS">
-                    <p:menuitem value="View Merlion and Bank of Korea CHIPS History Records" url="/web/chips/chipsHistoryRecord.xhtml" />
-                </p:submenu>
-                <p:submenu label="NTUC">
-                    <p:menuitem value="Process Bills" url="/web/billingProcessor/NTUCProcessBills.xhtml" />
-                </p:submenu>
-            </p:menubar>
-        </h:form>
-
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/ntucTemplate.xhtml">
+    
+    <ui:define name="content">
         <h:form>
             <h:outputText value="NTUC Process Bills" />
             <br/>
@@ -70,5 +40,5 @@
             </p:dataTable>
 
         </h:form>
-    </h:body>
-</html>
+    </ui:define>
+</ui:composition>

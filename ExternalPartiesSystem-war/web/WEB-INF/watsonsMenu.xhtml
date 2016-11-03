@@ -1,0 +1,58 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pu="http://primefaces.org/ultima">
+
+    <h:form id="menuform"> 
+        <div class="layout-menu-watsons #{externalPreferences.menuClass}">
+            <pu:menu widgetVar="me">
+                <p:submenu label="MAS">
+                    <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
+                    <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
+                    <p:menuitem value="Bank of Korea Transaction" url="/web/mas/meps/koreaMasterAccountTransaction.xhtml" />
+                    <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
+                    <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
+                    <p:menuitem value="Merlion and Bank of Korea MEPS History Records" url="/web/mas/meps/merlionAndKoreaMEPSHistoryRecord.xhtml" />
+                </p:submenu>
+                <p:submenu label="DBS">
+                    <p:menuitem value="Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />
+                    <p:menuitem value="View Transaction" url="/web/otherBanks/dbs/dbsViewAccount.xhtml" />
+                    <p:menuitem value="Enter Cheque Information" url="/web/otherBanks/dbs/dbsEnterReceivedChequeInformation.xhtml" />
+                </p:submenu>
+                <p:submenu label="Citibank">
+                    <p:menuitem value="Citibank Homepage (remove later)" url="/web/otherBanks/citibank/citibankMainPage.xhtml" />
+                </p:submenu>
+                <p:submenu label="Bank of Korea">
+                    <p:menuitem value="View Transaction" url="/web/otherBanks/bankofkorea/viewAccount.xhtml" />
+                </p:submenu>
+                <p:submenu label="SWIFT">
+                    <p:menuitem value="View SWIFT Message" url="/web/swift/viewSWIFTMessage.xhtml" />
+                </p:submenu>
+                <p:submenu label="CHIPS">
+                    <p:menuitem value="View Merlion and Bank of Korea CHIPS History Records" url="/web/chips/chipsHistoryRecord.xhtml" />
+                </p:submenu>
+                <p:submenu label="NTUC">
+                    <p:menuitem value="Process Bills" url="/web/billingProcessor/NTUCProcessBills.xhtml" />
+                </p:submenu>
+                <p:submenu label="Watsons">
+                    <p:menuitem value="Watsons Homepage (remove later)" url="/web/watsons/watsonsMainPage.xhtml" />
+                </p:submenu>
+                <p:submenu label="Sephora">
+                    <p:menuitem value="Sephora Homepage(remove later)" url="/web/sephora/sephoraMainPage.xhtml" />
+                </p:submenu>
+                <p:submenu label="Visa">
+                    <p:menuitem value="Visa Homepage(remove later)" url="/web/visa/visaMainPage.xhtml" />
+                </p:submenu>
+                <p:submenu label="Master">
+                    <p:menuitem value="Master Homepage(remove later)" url="/web/master/masterMainPage.xhtml" />
+                </p:submenu>
+                <p:submenu label="POS">
+                    <p:menuitem value="POS Homepage(remove later)" url="/web/pos/posMainPage.xhtml" />
+                </p:submenu>
+            </pu:menu>
+        </div>
+    </h:form>
+</ui:composition>
