@@ -17,6 +17,14 @@
                         <p:panel id="panel"> 
                             <p:messages globalOnly="true"/>
 
+                            <p:outputLabel for="chequeNum" style="font-weight: bold" 
+                                           value="Cheque Number: " />
+                            <p:inputText required="true" label="Cheque Number" 
+                                         requiredMessage="Required Field" id="chequeNum"
+                                         value="#{dBSEnterChequeInformationManagedBean.chequeNum}">
+                            </p:inputText>
+                            <p:message for="chequeNum" />
+
                             <p:outputLabel for="transactionAmt" style="font-weight: bold" 
                                            value="Transfer Amount: " />
                             <p:inputText required="true" label="Transfer Amount" 
@@ -31,7 +39,7 @@
                                          value="#{dBSEnterChequeInformationManagedBean.receivedBankAccountNum}">
                             </p:inputText>
                             <p:message for="receivedBankAccountNum" />
-                            
+
                             <p:outputLabel for="issuedBankAccountNum" style="font-weight: bold" value="Issued Account Number: " />
                             <p:inputText required="true" label="Issued Account Number" 
                                          requiredMessage="Required Field" id="issuedBankAccountNum"

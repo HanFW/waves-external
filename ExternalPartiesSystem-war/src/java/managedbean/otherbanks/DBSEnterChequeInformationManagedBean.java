@@ -31,6 +31,7 @@ public class DBSEnterChequeInformationManagedBean {
     private String customerName;
     private String customerMobile;
     private String issuedBankAccountNum;
+    private String chequeNum;
 
     private ExternalContext ec;
 
@@ -77,6 +78,14 @@ public class DBSEnterChequeInformationManagedBean {
         this.issuedBankAccountNum = issuedBankAccountNum;
     }
 
+    public String getChequeNum() {
+        return chequeNum;
+    }
+
+    public void setChequeNum(String chequeNum) {
+        this.chequeNum = chequeNum;
+    }
+
     public void submit() {
 
         ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -88,13 +97,13 @@ public class DBSEnterChequeInformationManagedBean {
         String currentAvailableBalance = dbsBankAccount.getAvailableBankAccountBalance();
         Double totalBalance = Double.valueOf(currentAvailableBalance) + Double.valueOf(transactionAmt);
 
-//        otherBankAccountSessionBeanLocal.updateAvailableAccountBalance(receivedBankAccountNum, totalBalance.toString());
-
         Long receivedChequeId = otherBankChequeSessionBeanLocal.addNewReceivedCheque(transactionDate,
                 transactionAmt, receivedBankAccountNum, customerName, customerMobile, issuedBankAccountNum,
-                issuedBankAccountNum);
+                chequeNum, issuedBankAccountNum);
 
-        sACHSessionBeanLocal.clearDBSReceivedCheque(receivedChequeId);
+        sACHSessionBeanLocal.clearDBSReceivedCheque(chequeNum);
+        sACHSessionBeanLocal.receiveChequeInformationFromOtherBank(chequeNum, transactionAmt,
+                issuedBankAccountNum);
 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successfully Input Received Cheque Information", ""));
     }

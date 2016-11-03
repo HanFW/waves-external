@@ -21,6 +21,7 @@ public class OtherBankCheque implements Serializable {
     private String receivedCustomerName;
     private String receivedCustomerMobile;
     private String issuedBankAccountNum;
+    private String chequeNum;
 
     @ManyToOne(cascade={CascadeType.PERSIST},fetch=FetchType.EAGER)
     private OtherBankAccount otherBankAccount;
@@ -87,6 +88,14 @@ public class OtherBankCheque implements Serializable {
 
     public void setIssuedBankAccountNum(String issuedBankAccountNum) {
         this.issuedBankAccountNum = issuedBankAccountNum;
+    }
+
+    public String getChequeNum() {
+        return chequeNum;
+    }
+
+    public void setChequeNum(String chequeNum) {
+        this.chequeNum = chequeNum;
     }
 
     @Override

@@ -10,6 +10,10 @@
 
 <xs:element name="debitBankAccountResponse" type="tns:debitBankAccountResponse"/>
 
+<xs:element name="receiveChequeInformationFromSACH" type="tns:receiveChequeInformationFromSACH"/>
+
+<xs:element name="receiveChequeInformationFromSACHResponse" type="tns:receiveChequeInformationFromSACHResponse"/>
+
 <xs:element name="retrieveBankAccountByNum" type="tns:retrieveBankAccountByNum"/>
 
 <xs:element name="retrieveBankAccountByNumResponse" type="tns:retrieveBankAccountByNumResponse"/>
@@ -26,6 +30,10 @@
 
 <xs:element name="retrieveReceivedChequeByIdResponse" type="tns:retrieveReceivedChequeByIdResponse"/>
 
+<xs:element name="retrieveReceivedChequeByNum" type="tns:retrieveReceivedChequeByNum"/>
+
+<xs:element name="retrieveReceivedChequeByNumResponse" type="tns:retrieveReceivedChequeByNumResponse"/>
+
 <xs:element name="settleEachBankAccount" type="tns:settleEachBankAccount"/>
 
 <xs:element name="settleEachBankAccountResponse" type="tns:settleEachBankAccountResponse"/>
@@ -34,9 +42,9 @@
 
 <xs:element name="updateAvailableBalanceResponse" type="tns:updateAvailableBalanceResponse"/>
 
-<xs:element name="updateOnHoldChequeId" type="tns:updateOnHoldChequeId"/>
+<xs:element name="updateOnHoldChequeNum" type="tns:updateOnHoldChequeNum"/>
 
-<xs:element name="updateOnHoldChequeIdResponse" type="tns:updateOnHoldChequeIdResponse"/>
+<xs:element name="updateOnHoldChequeNumResponse" type="tns:updateOnHoldChequeNumResponse"/>
 
 <xs:element name="updateReceivedChequeStatus" type="tns:updateReceivedChequeStatus"/>
 
@@ -50,42 +58,13 @@
 <xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="updateReceivedChequeStatus">
+<xs:complexType name="retrieveReceivedChequeByNum">
 <xs:sequence>
-<xs:element name="chequeId" type="xs:long" minOccurs="0"/>
+<xs:element name="chequeNum" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="updateReceivedChequeStatusResponse">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="addNewRecord">
-<xs:sequence>
-<xs:element name="bankName" type="xs:string" minOccurs="0"/>
-<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
-<xs:element name="debitOrCredit" type="xs:string" minOccurs="0"/>
-<xs:element name="paymentAmt" type="xs:string" minOccurs="0"/>
-<xs:element name="onHoldStatus" type="xs:string" minOccurs="0"/>
-<xs:element name="debitOrCreditBankName" type="xs:string" minOccurs="0"/>
-<xs:element name="debitOrCreditBankAccountNum" type="xs:string" minOccurs="0"/>
-<xs:element name="paymentMethod" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="addNewRecordResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:long" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveReceivedChequeById">
-<xs:sequence>
-<xs:element name="chequeId" type="xs:long" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveReceivedChequeByIdResponse">
+<xs:complexType name="retrieveReceivedChequeByNumResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:receivedCheque" minOccurs="0"/>
 </xs:sequence>
@@ -107,6 +86,8 @@
 <xs:complexType name="cheque">
 <xs:sequence>
 <xs:element name="chequeId" type="xs:long" minOccurs="0"/>
+<xs:element name="chequeNum" type="xs:string" minOccurs="0"/>
+<xs:element name="chequeType" type="xs:string" minOccurs="0"/>
 <xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
 <xs:element name="transactionAmt" type="xs:string" minOccurs="0"/>
 <xs:element name="transactionDate" type="xs:string" minOccurs="0"/>
@@ -613,14 +594,67 @@
 </xs:complexContent>
 </xs:complexType>
 
-<xs:complexType name="updateOnHoldChequeId">
+<xs:complexType name="updateReceivedChequeStatus">
 <xs:sequence>
-<xs:element name="onHoldRecordId" type="xs:long" minOccurs="0"/>
 <xs:element name="chequeId" type="xs:long" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="updateOnHoldChequeIdResponse">
+<xs:complexType name="updateReceivedChequeStatusResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="updateOnHoldChequeNum">
+<xs:sequence>
+<xs:element name="onHoldRecordId" type="xs:long" minOccurs="0"/>
+<xs:element name="chequeNum" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateOnHoldChequeNumResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="addNewRecord">
+<xs:sequence>
+<xs:element name="bankName" type="xs:string" minOccurs="0"/>
+<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
+<xs:element name="debitOrCredit" type="xs:string" minOccurs="0"/>
+<xs:element name="paymentAmt" type="xs:string" minOccurs="0"/>
+<xs:element name="onHoldStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="debitOrCreditBankName" type="xs:string" minOccurs="0"/>
+<xs:element name="debitOrCreditBankAccountNum" type="xs:string" minOccurs="0"/>
+<xs:element name="paymentMethod" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addNewRecordResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveReceivedChequeById">
+<xs:sequence>
+<xs:element name="chequeId" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveReceivedChequeByIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:receivedCheque" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="receiveChequeInformationFromSACH">
+<xs:sequence>
+<xs:element name="chequeNum" type="xs:string" minOccurs="0"/>
+<xs:element name="transactionAmt" type="xs:string" minOccurs="0"/>
+<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="receiveChequeInformationFromSACHResponse">
 <xs:sequence/>
 </xs:complexType>
 
@@ -640,7 +674,7 @@
 <xs:sequence>
 <xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
 <xs:element name="bankName" type="xs:string" minOccurs="0"/>
-<xs:element name="chequeId" type="xs:long" minOccurs="0"/>
+<xs:element name="chequeNum" type="xs:string" minOccurs="0"/>
 <xs:element name="debitOrCredit" type="xs:string" minOccurs="0"/>
 <xs:element name="debitOrCreditBankAccountNum" type="xs:string" minOccurs="0"/>
 <xs:element name="debitOrCreditBankName" type="xs:string" minOccurs="0"/>
