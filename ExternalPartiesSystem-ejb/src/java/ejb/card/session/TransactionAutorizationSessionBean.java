@@ -45,6 +45,7 @@ public class TransactionAutorizationSessionBean implements TransactionAutorizati
         transaction.setTransactionTime(transactionTime);
         transaction.setMerchantName(merchantName);
         transaction.setTransactionStatus("pending");
+        transaction.setDebitBankAccount("no");
 
         em.persist(transaction);
         em.flush();
@@ -93,7 +94,13 @@ public class TransactionAutorizationSessionBean implements TransactionAutorizati
     
     @Override
     public void merlionCreditCustomerForTransactionMade(){
-        String result = merlionCreditCustomerAccountForTransaction();
+      String result = merlionCreditCustomerAccountForTransaction();
+      List<TransactionToBeAuthorized> transactions = getAllAuthorizedDebitCardTransaction();
+      for(int i=0;i<transactions.size();i++){
+          transactions.get(i).setDebitBankAccount("yes");
+          em.flush();
+      }
+      
     }
     
     @Override
@@ -102,6 +109,7 @@ public class TransactionAutorizationSessionBean implements TransactionAutorizati
         transaction.setTransactionStatus("authorized");
         em.flush();
     }
+
 
     private String checkTransactionAuthorizationById(java.lang.Long id) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
@@ -116,6 +124,23 @@ public class TransactionAutorizationSessionBean implements TransactionAutorizati
         ws.client.transactionAuthorization.MerlionTransactionAuthorizationWebService port = service_merlionTransactionAuthorization.getMerlionTransactionAuthorizationWebServicePort();
         return port.merlionCreditCustomerAccountForTransaction();
     }
+    
+    @Override
+    public List<TransactionToBeAuthorized> getAllAuthorizedDebitCardTransaction(){
+                List<TransactionToBeAuthorized> transactions = new ArrayList<>();
+
+        Query q = em.createQuery("select t from TransactionToBeAuthorized t where t.transactionStatus=:statusand t.cardType=:cardType and t.debitBankAccount=:debitAccount");
+        q.setParameter("status", "authorized");
+        q.setParameter("cardType", "debit");
+        q.setParameter("debitAccount", "no");
+
+        if (!q.getResultList().isEmpty()) {
+            transactions = q.getResultList();
+        }
+        return transactions;
+    }
+
+
     
     
 

@@ -81,8 +81,8 @@ public class VisaNetworkClearingSessionBean implements VisaNetworkClearingSessio
     @Override
     public List<VisaClearingNetwork> getAllVisaRecords(){
         List<VisaClearingNetwork> visaRecords=new ArrayList<VisaClearingNetwork>();
-        Query q=em.createQuery("select v from VisaClearingNetwork v where v.status=:status");
-        q.setParameter("status", "new");
+        Query q=em.createQuery("select v from VisaClearingNetwork v where v.payMerchantStatus=:status");
+        q.setParameter("status", "yes");
         
         if(!q.getResultList().isEmpty())
             visaRecords=q.getResultList();

@@ -22,6 +22,8 @@ public interface TransactionAutorizationSessionBeanLocal {
     
     public List<TransactionToBeAuthorized> getAllAuthorizedTransactions();
     
+    public List<TransactionToBeAuthorized> getAllAuthorizedDebitCardTransaction();
+    
     public TransactionToBeAuthorized getTransactionToBeAuthorizedById(Long id);
   
     public String checkTransactionAuthorization(Long id);

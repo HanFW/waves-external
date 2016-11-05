@@ -29,6 +29,7 @@ public class TransactionToBeAuthorized implements Serializable {
     private String transactionStatus;
     private double transactionAmt;
     private String merchantName;
+    private String debitBankAccount;
     
     public Long getTransactionToBeAuthorizedId() {
         return transactionToBeAuthorizedId;
@@ -101,7 +102,14 @@ public class TransactionToBeAuthorized implements Serializable {
     public void setMerchantName(String merchantName) {
         this.merchantName = merchantName;
     }
-    
+
+    public String getDebitBankAccount() {
+        return debitBankAccount;
+    }
+
+    public void setDebitBankAccount(String debitBankAccount) {
+        this.debitBankAccount = debitBankAccount;
+    }   
    
     @Override
     public int hashCode() {

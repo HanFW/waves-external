@@ -80,7 +80,7 @@ public class MasterCardNetworkClearingSessionBean implements MasterCardNetworkCl
     @Override
     public List<MasterCardClearingNetwork> getAllMasterCardRecords() {
         List<MasterCardClearingNetwork> masterCardRecords = new ArrayList<MasterCardClearingNetwork>();
-        Query q = em.createQuery("select m from MasterCardClearingNetwork m where m.status=:status");
+        Query q = em.createQuery("select m from MasterCardClearingNetwork m where m.payMerchantStatus=:status");
         q.setParameter("status", "new");
 
         if (!q.getResultList().isEmpty()) {
