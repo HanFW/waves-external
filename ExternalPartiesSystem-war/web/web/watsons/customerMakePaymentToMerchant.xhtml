@@ -27,7 +27,7 @@
                     <p:selectOneRadio required="true" requiredMessage="Please select card type" id="cardType" value="#{simulateCustomerMakePaymentToMerchantManagedBean.cardType}">
                         <f:selectItem itemLabel="Credit Card" itemValue="credit" />
                         <f:selectItem itemLabel="Debit Card" itemValue="debit" />
-                        <p:ajax event="change" update="panelDebitCard panelCreditCard" listener="#{simulateCustomerMakePaymentToMerchantManagedBean.showPanel}"/>
+                        <p:ajax event="change" update="panelDebitCard" listener="#{simulateCustomerMakePaymentToMerchantManagedBean.showPanel}"/>
                     </p:selectOneRadio>
                     <p:messages for="cardType"/>
 
@@ -41,12 +41,12 @@
 
                 <p:panel style="border: none;" id="panelDebitCard" visible="#{simulateCustomerMakePaymentToMerchantManagedBean.debitCard}">
                     <p:outputLabel value="Card Password:" />
-                    <p:inputText type="password" validatorMessage="Card password is 6-digit" required="true" requiredMessage="Please input your card password" id="cardPwd" value="#{simulateCustomerMakePaymentToMerchantManagedBean.debitCardPwd}">
-                        <f:validateLength minimum="6" maximum="6" /> 
+                    <p:inputText type="password" id="cardPwd" value="#{simulateCustomerMakePaymentToMerchantManagedBean.debitCardPwd}">
+<!--                        <f:validateLength minimum="6" maximum="6" /> -->
                     </p:inputText>
                     <p:message for="cardPwd"/>     
                 </p:panel>
-
+<!--
 
                 <h:panelGrid columns="1" class="ui-lg-6"> 
                     <p:panel style="border: none;" id="panelCreditCard" visible="#{simulateCustomerMakePaymentToMerchantManagedBean.creditCard}">
@@ -59,7 +59,7 @@
                         <p:commandButton value="Submit" icon="ui-icon-check"/>
                         <p:commandButton value="Clear" icon="ui-icon-close" type="button" onclick="PF('sig').clear()"/>
                     </p:panel>
-                </h:panelGrid>
+                </h:panelGrid>-->
 
 
                 <p:commandButton value="Confirm" actionListener="#{simulateCustomerMakePaymentToMerchantManagedBean.forwardTransactionAuthorization()}" update="@form"/>  
