@@ -132,7 +132,7 @@ public class MEPSSessionBean implements MEPSSessionBeanLocal {
                 String currentDebitBankAccountBalance = debitMasterBankAccount.getMasterBankAccountBalance();
 
                 if (dailySettlementAmt != null) {
-                    
+
                     Double totalCreditBankAccountBalance = Double.valueOf(currentCreditBankAccountBalance) + Double.valueOf(dailySettlementAmt);
                     Double totalDebitBankAccountBalance = Double.valueOf(currentDebitBankAccountBalance) + Double.valueOf(dailySettlementAmt);
 
@@ -150,7 +150,7 @@ public class MEPSSessionBean implements MEPSSessionBeanLocal {
                     if (creditMasterBankAccount.getBankName().equals("Bank of Korea")) {
                         bankNames = "Merlion&BankofKorea";
                     } else {
-                        bankNames = creditMasterBankAccount.getBankName() + "&" + debitMasterBankAccount.getBankName();
+                        bankNames = "DBS&Merlion";
                     }
                     Long newMepsId = addNewMEPS(settlementRef, currentTime, bankNames);
 

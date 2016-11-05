@@ -24,7 +24,10 @@ public interface SACHSessionBeanLocal {
 
     public String ntucInitiateGIRO(Long billId);
 
-    public void clearMerlionReceivedCheque(Long chequeId);
+    public void clearMerlionReceivedCheque(String chequeNum);
+            
+    public void clearDBSReceivedCheque(String chequeNum);
 
-    public void clearDBSReceivedCheque(Long chequeId);
+    public void receiveChequeInformationFromOtherBank(String chequeNum,
+            String transactionAmt, String bankAccountNum);
 }
