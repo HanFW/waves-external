@@ -59,6 +59,7 @@ public class SimulateCustomerMakePaymentToMerchantManagedBean {
     public void showPanel() {
         if (cardType.equals("debit")) {
             debitCard = true;
+            System.err.println("debitCard: "+debitCard);
         } else {
             creditCard = true;
         }
