@@ -727,6 +727,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="receiveChequeInformationFromSACH">
+<xs:sequence>
+<xs:element name="chequeNum" type="xs:string" minOccurs="0"/>
+<xs:element name="transactionAmt" type="xs:string" minOccurs="0"/>
+<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="receiveChequeInformationFromSACHResponse">
+<xs:sequence/>
+</xs:complexType>
+
 <xs:complexType name="retrieveOnHoldRecordById">
 <xs:sequence>
 <xs:element name="onHoldRecordId" type="xs:long" minOccurs="0"/>
@@ -752,18 +764,6 @@
 <xs:element name="paymentAmt" type="xs:string" minOccurs="0"/>
 <xs:element name="paymentMethod" type="xs:string" minOccurs="0"/>
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="receiveChequeInformationFromSACH">
-<xs:sequence>
-<xs:element name="chequeNum" type="xs:string" minOccurs="0"/>
-<xs:element name="transactionAmt" type="xs:string" minOccurs="0"/>
-<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="receiveChequeInformationFromSACHResponse">
-<xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="retrieveBankAccountByNum">
