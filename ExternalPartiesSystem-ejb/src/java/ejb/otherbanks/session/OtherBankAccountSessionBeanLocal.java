@@ -13,4 +13,9 @@ public interface OtherBankAccountSessionBeanLocal {
             String totalBankAccountBalance);
     public void updateAvailableAccountBalance(String otherBankAccountNum, String availableBankAccountBalance);
     public List<OtherBankAccount> getAllBankOfKoreaBankAccount();
+    
+    public List<OtherBankAccount> getAllCitiBankMerchantAccount();
+    public List<Long> getAllCitiBankMerchantAccountId();
+    public void updateOtherBankAccountBalanceById(Long otherbankAccountId, double transactionAmt);
+    
 }

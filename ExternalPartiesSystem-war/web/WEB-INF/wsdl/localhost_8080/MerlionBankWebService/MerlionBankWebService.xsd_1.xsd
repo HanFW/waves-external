@@ -98,6 +98,7 @@
 <xs:sequence>
 <xs:element name="bankAccount" type="tns:bankAccount" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="bureauScore" type="tns:creditReportBureauScore" minOccurs="0"/>
+<xs:element name="cashlineApplication" type="tns:cashlineApplication" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="cheque" type="tns:cheque" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="creditCard" type="tns:creditCard" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="customerAddress" type="xs:string" minOccurs="0"/>
@@ -131,9 +132,11 @@
 <xs:element name="giro" type="tns:giro" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="loanApplication" type="tns:loanApplication" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="messageBox" type="tns:messageBox" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="mortgageLoanApplication" type="tns:mortgageLoanApplication" minOccurs="0"/>
 <xs:element name="newCustomer" type="xs:string" minOccurs="0"/>
 <xs:element name="otherBankPayee" type="tns:otherBankPayee" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="payee" type="tns:payee" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="refinancingApplication" type="tns:refinancingApplication" minOccurs="0"/>
 <xs:element name="riskProfile" type="tns:riskProfile" minOccurs="0"/>
 <xs:element name="swiftPayee" type="tns:swiftPayee" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
@@ -153,6 +156,7 @@
 <xs:element name="bankAccountDepositPeriod" type="xs:string" minOccurs="0"/>
 <xs:element name="currentFixedDepositPeriod" type="xs:string" minOccurs="0"/>
 <xs:element name="fixedDepositStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="currentTimeMilis" type="xs:long" minOccurs="0"/>
 <xs:element name="statementDateDouble" type="xs:double" minOccurs="0"/>
 <xs:element name="debitCards" type="tns:debitCard" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="accTransaction" type="tns:accTransaction" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
@@ -166,6 +170,7 @@
 <xs:complexContent>
 <xs:extension base="tns:card">
 <xs:sequence>
+<xs:element name="availableTransactionBalance" type="xs:double"/>
 <xs:element name="bankAccount" type="tns:bankAccount" minOccurs="0"/>
 <xs:element name="debitCardPwd" type="xs:string" minOccurs="0"/>
 <xs:element name="debitCardType" type="tns:debitCardType" minOccurs="0"/>
@@ -182,6 +187,7 @@
 <xs:element name="cardId" type="xs:long" minOccurs="0"/>
 <xs:element name="cardNum" type="xs:string" minOccurs="0"/>
 <xs:element name="cardSecurityCode" type="xs:string" minOccurs="0"/>
+<xs:element name="cardType" type="xs:string" minOccurs="0"/>
 <xs:element name="predecessor" type="xs:long" minOccurs="0"/>
 <xs:element name="remainingActivationDays" type="xs:int"/>
 <xs:element name="remainingExpirationMonths" type="xs:int"/>
@@ -192,6 +198,7 @@
 <xs:complexType name="debitCardType">
 <xs:sequence>
 <xs:element name="annualFeeWaiver" type="xs:string" minOccurs="0"/>
+<xs:element name="cardNetwork" type="xs:string" minOccurs="0"/>
 <xs:element name="cashBackRate" type="xs:double"/>
 <xs:element name="debitCardTypeId" type="xs:long" minOccurs="0"/>
 <xs:element name="debitCardTypeName" type="xs:string" minOccurs="0"/>
@@ -272,15 +279,141 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="cashlineApplication">
+<xs:sequence>
+<xs:element name="amountGranted" type="xs:int"/>
+<xs:element name="amountRequired" type="xs:int"/>
+<xs:element name="applicationDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="applicationStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="cashlineAccount" type="tns:cashlineAccount" minOccurs="0"/>
+<xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
+<xs:element name="finalActionDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="loanInterestPackage" type="tns:loanInterestPackage" minOccurs="0"/>
+<xs:element name="loanType" type="xs:string" minOccurs="0"/>
+<xs:element name="uploads">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="key" minOccurs="0" type="xs:anyType"/>
+<xs:element name="value" minOccurs="0" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cashlineAccount">
+<xs:sequence>
+<xs:element name="accountBalance" type="xs:double"/>
+<xs:element name="accountNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="accountStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="cashlineApplication" type="tns:cashlineApplication" minOccurs="0"/>
+<xs:element name="endDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="fees" type="xs:double"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="overdueBalance" type="xs:double"/>
+<xs:element name="startDate" type="xs:dateTime" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="loanInterestPackage">
+<xs:sequence>
+<xs:element name="cashlineApplication" type="tns:cashlineApplication" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="interestRate" type="xs:double"/>
+<xs:element name="loanApplication" type="tns:loanApplication" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="packageId" type="xs:long" minOccurs="0"/>
+<xs:element name="packageName" type="xs:string" minOccurs="0"/>
+<xs:element name="updatedDate" type="xs:dateTime" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="loanApplication">
+<xs:sequence>
+<xs:element name="amountGranted" type="xs:double"/>
+<xs:element name="amountRequired" type="xs:double"/>
+<xs:element name="applicationDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="applicationStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
+<xs:element name="finalActionDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="instalment" type="xs:double"/>
+<xs:element name="loanApplicationId" type="xs:long" minOccurs="0"/>
+<xs:element name="loanInterestPackage" type="tns:loanInterestPackage" minOccurs="0"/>
+<xs:element name="loanPayableAccount" type="tns:loanPayableAccount" minOccurs="0"/>
+<xs:element name="loanType" type="xs:string" minOccurs="0"/>
+<xs:element name="periodRequired" type="xs:int"/>
+<xs:element name="periodSuggested" type="xs:int"/>
+<xs:element name="uploads">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="key" minOccurs="0" type="xs:anyType"/>
+<xs:element name="value" minOccurs="0" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="loanPayableAccount">
+<xs:sequence>
+<xs:element name="accountBalance" type="xs:double"/>
+<xs:element name="accountNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="accountStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="endDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="initialAmount" type="xs:double"/>
+<xs:element name="loanApplication" type="tns:loanApplication" minOccurs="0"/>
+<xs:element name="loanRepaymentAccount" type="tns:loanRepaymentAccount" minOccurs="0"/>
+<xs:element name="overdueBalance" type="xs:double"/>
+<xs:element name="startDate" type="xs:dateTime" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="loanRepaymentAccount">
+<xs:sequence>
+<xs:element name="accountBalance" type="xs:double"/>
+<xs:element name="accountNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="depositAccountNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="fees" type="xs:double"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="instalment" type="xs:double"/>
+<xs:element name="loanPayableAccount" type="tns:loanPayableAccount" minOccurs="0"/>
+<xs:element name="loanRepaymentTransactions" type="tns:loanRepaymentTransaction" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="overdueBalance" type="xs:double"/>
+<xs:element name="paymentStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="repaymentMonths" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="loanRepaymentTransaction">
+<xs:sequence>
+<xs:element name="accountCredit" type="xs:string" minOccurs="0"/>
+<xs:element name="accountDebit" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="loanRepaymentAccount" type="tns:loanRepaymentAccount" minOccurs="0"/>
+<xs:element name="transactionCode" type="xs:string" minOccurs="0"/>
+<xs:element name="transactionDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="transactionRefrence" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="creditCard">
 <xs:complexContent>
 <xs:extension base="tns:card">
 <xs:sequence>
 <xs:element name="creditCardType" type="tns:creditCardType" minOccurs="0"/>
-<xs:element name="creditLimit" type="xs:double"/>
 <xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
-<xs:element name="outstandingBalance" type="xs:double"/>
-<xs:element name="supplementaryCard" type="tns:supplementaryCard" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -299,16 +432,6 @@
 <xs:element name="rebate" type="xs:double"/>
 <xs:element name="rebateType" type="xs:string" minOccurs="0"/>
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="supplementaryCard">
-<xs:complexContent>
-<xs:extension base="tns:card">
-<xs:sequence>
-<xs:element name="creditCard" type="tns:creditCard" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
 </xs:complexType>
 
 <xs:complexType name="customerAdvanced">
@@ -376,17 +499,20 @@
 
 <xs:complexType name="customerDebt">
 <xs:sequence>
+<xs:element name="collateralDetails" type="xs:string" minOccurs="0"/>
+<xs:element name="currentInterest" type="xs:double"/>
 <xs:element name="customerDebtId" type="xs:long" minOccurs="0"/>
 <xs:element name="facilityType" type="xs:string" minOccurs="0"/>
 <xs:element name="financialInstitution" type="xs:string" minOccurs="0"/>
 <xs:element name="monthlyInstalment" type="xs:double"/>
+<xs:element name="remainingTenure" type="xs:int"/>
 <xs:element name="totalAmount" type="xs:double"/>
 </xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="customerProperty">
 <xs:sequence>
-<xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
+<xs:element name="customerBasic" type="tns:customerBasic" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="customerPropertyId" type="xs:long" minOccurs="0"/>
 <xs:element name="propertyAddress" type="xs:string" minOccurs="0"/>
 <xs:element name="propertyBuiltUpArea" type="xs:double"/>
@@ -450,91 +576,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="loanApplication">
-<xs:sequence>
-<xs:element name="amountGranted" type="xs:double"/>
-<xs:element name="amountRequired" type="xs:double"/>
-<xs:element name="applicationDate" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="applicationStatus" type="xs:string" minOccurs="0"/>
-<xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
-<xs:element name="finalActionDate" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="instalment" type="xs:double"/>
-<xs:element name="loanApplicationId" type="xs:long" minOccurs="0"/>
-<xs:element name="loanInterestPackage" type="tns:loanInterestPackage" minOccurs="0"/>
-<xs:element name="loanPayableAccount" type="tns:loanPayableAccount" minOccurs="0"/>
-<xs:element name="loanType" type="xs:string" minOccurs="0"/>
-<xs:element name="periodRequired" type="xs:int"/>
-<xs:element name="periodSuggested" type="xs:int"/>
-<xs:element name="uploads">
-<xs:complexType>
-<xs:sequence>
-<xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
-<xs:complexType>
-<xs:sequence>
-<xs:element name="key" minOccurs="0" type="xs:anyType"/>
-<xs:element name="value" minOccurs="0" type="xs:anyType"/>
-</xs:sequence>
-</xs:complexType>
-</xs:element>
-</xs:sequence>
-</xs:complexType>
-</xs:element>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="loanInterestPackage">
-<xs:sequence>
-<xs:element name="interestRate" type="xs:double"/>
-<xs:element name="loanApplication" type="tns:loanApplication" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="packageId" type="xs:long" minOccurs="0"/>
-<xs:element name="packageName" type="xs:string" minOccurs="0"/>
-<xs:element name="updatedDate" type="xs:dateTime" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="loanPayableAccount">
-<xs:sequence>
-<xs:element name="accountBalance" type="xs:double"/>
-<xs:element name="accountNumber" type="xs:string" minOccurs="0"/>
-<xs:element name="accountStatus" type="xs:string" minOccurs="0"/>
-<xs:element name="endDate" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="initialAmount" type="xs:double"/>
-<xs:element name="loanApplication" type="tns:loanApplication" minOccurs="0"/>
-<xs:element name="loanRepaymentAccount" type="tns:loanRepaymentAccount" minOccurs="0"/>
-<xs:element name="overdueBalance" type="xs:double"/>
-<xs:element name="startDate" type="xs:dateTime" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="loanRepaymentAccount">
-<xs:sequence>
-<xs:element name="accountBalance" type="xs:double"/>
-<xs:element name="accountNumber" type="xs:string" minOccurs="0"/>
-<xs:element name="depositAccountNumber" type="xs:string" minOccurs="0"/>
-<xs:element name="fees" type="xs:double"/>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="instalment" type="xs:double"/>
-<xs:element name="loanPayableAccount" type="tns:loanPayableAccount" minOccurs="0"/>
-<xs:element name="loanRepaymentTransactions" type="tns:loanRepaymentTransaction" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-<xs:element name="overdueBalance" type="xs:double"/>
-<xs:element name="paymentStatus" type="xs:string" minOccurs="0"/>
-<xs:element name="repaymentMonths" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="loanRepaymentTransaction">
-<xs:sequence>
-<xs:element name="accountCredit" type="xs:string" minOccurs="0"/>
-<xs:element name="accountDebit" type="xs:string" minOccurs="0"/>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="loanRepaymentAccount" type="tns:loanRepaymentAccount" minOccurs="0"/>
-<xs:element name="transactionCode" type="xs:string" minOccurs="0"/>
-<xs:element name="transactionDate" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="transactionRefrence" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="messageBox">
 <xs:sequence>
 <xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
@@ -545,6 +586,30 @@
 <xs:element name="receivedDate" type="xs:string" minOccurs="0"/>
 <xs:element name="subject" type="xs:string" minOccurs="0"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="mortgageLoanApplication">
+<xs:complexContent>
+<xs:extension base="tns:loanApplication">
+<xs:sequence>
+<xs:element name="benefitsFromVendor" type="xs:double"/>
+<xs:element name="cashDownPayment" type="xs:double"/>
+<xs:element name="cpfDownPayment" type="xs:double"/>
+<xs:element name="customer" type="tns:customerBasic" minOccurs="0"/>
+<xs:element name="propertyAppraisedValue" type="xs:double"/>
+<xs:element name="propertyDateOfPurchase" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="propertyOTPDate" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="propertyPurchasePrice" type="xs:double"/>
+<xs:element name="propertySource" type="xs:string" minOccurs="0"/>
+<xs:element name="propertyTenancyExpiryYear" type="xs:int"/>
+<xs:element name="propertyTenancyIncome" type="xs:double"/>
+<xs:element name="propertyWithOTP" type="xs:string" minOccurs="0"/>
+<xs:element name="propertyWithTenancy" type="xs:string" minOccurs="0"/>
+<xs:element name="relationship" type="xs:string" minOccurs="0"/>
+<xs:element name="withBenifits" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
 </xs:complexType>
 
 <xs:complexType name="otherBankPayee">
@@ -566,6 +631,22 @@
 <xs:element name="payeeId" type="xs:long" minOccurs="0"/>
 <xs:element name="payeeType" type="xs:string" minOccurs="0"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="refinancingApplication">
+<xs:complexContent>
+<xs:extension base="tns:loanApplication">
+<xs:sequence>
+<xs:element name="customer" type="tns:customerBasic" minOccurs="0"/>
+<xs:element name="existingFinancer" type="xs:string" minOccurs="0"/>
+<xs:element name="outstandingBalance" type="xs:double"/>
+<xs:element name="outstandingMonth" type="xs:int"/>
+<xs:element name="outstandingYear" type="xs:int"/>
+<xs:element name="relationship" type="xs:string" minOccurs="0"/>
+<xs:element name="totalCPFWithdrawal" type="xs:double"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
 </xs:complexType>
 
 <xs:complexType name="riskProfile">
@@ -646,18 +727,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="receiveChequeInformationFromSACH">
-<xs:sequence>
-<xs:element name="chequeNum" type="xs:string" minOccurs="0"/>
-<xs:element name="transactionAmt" type="xs:string" minOccurs="0"/>
-<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="receiveChequeInformationFromSACHResponse">
-<xs:sequence/>
-</xs:complexType>
-
 <xs:complexType name="retrieveOnHoldRecordById">
 <xs:sequence>
 <xs:element name="onHoldRecordId" type="xs:long" minOccurs="0"/>
@@ -683,6 +752,18 @@
 <xs:element name="paymentAmt" type="xs:string" minOccurs="0"/>
 <xs:element name="paymentMethod" type="xs:string" minOccurs="0"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="receiveChequeInformationFromSACH">
+<xs:sequence>
+<xs:element name="chequeNum" type="xs:string" minOccurs="0"/>
+<xs:element name="transactionAmt" type="xs:string" minOccurs="0"/>
+<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="receiveChequeInformationFromSACHResponse">
+<xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="retrieveBankAccountByNum">

@@ -1,6 +1,7 @@
 package ejb.otherbanks.session;
 
 import ejb.otherbanks.entity.OtherBankAccount;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,7 +23,7 @@ public class OtherBankAccountSessionBean implements OtherBankAccountSessionBeanL
 
         return query.getResultList();
     }
-    
+
     @Override
     public List<OtherBankAccount> getAllBankOfKoreaBankAccount() {
         Query query = entityManager.createQuery("SELECT o FROM OtherBankAccount o Where o.bankName=:bankName");
@@ -90,5 +91,35 @@ public class OtherBankAccountSessionBean implements OtherBankAccountSessionBeanL
     public void updateAvailableAccountBalance(String otherBankAccountNum, String availableBankAccountBalance) {
         OtherBankAccount otherBankAccount = retrieveBankAccountByNum(otherBankAccountNum);
         otherBankAccount.setAvailableBankAccountBalance(availableBankAccountBalance);
+    }
+
+    @Override
+    public List<OtherBankAccount> getAllCitiBankMerchantAccount() {
+        Query query = entityManager.createQuery("SELECT o FROM OtherBankAccount o Where o.bankName=:bankName");
+        query.setParameter("bankName", "citi");
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Long> getAllCitiBankMerchantAccountId() {
+        List<OtherBankAccount> merchantAccounts = getAllCitiBankMerchantAccount();
+        List<Long> merchantIds = new ArrayList<>();
+
+        for (int i = 0; i < merchantAccounts.size(); i++) {
+            merchantIds.add(merchantAccounts.get(i).getOtherBankAccountId());
+        }
+        return merchantIds;
+    }
+
+    @Override
+    public void updateOtherBankAccountBalanceById(Long otherBankAccountId, double transactionAmt) {
+        OtherBankAccount otherBankAccount = entityManager.find(OtherBankAccount.class, otherBankAccountId);
+
+        Double currentAvailableBankAccountBalance = Double.valueOf(otherBankAccount.getAvailableBankAccountBalance()) + transactionAmt;
+        otherBankAccount.setAvailableBankAccountBalance(String.valueOf(currentAvailableBankAccountBalance));
+
+        Double totalBankAccountBalance = Double.valueOf(otherBankAccount.getTotalBankAccountBalance()) + transactionAmt;
+        otherBankAccount.setTotalBankAccountBalance(String.valueOf(totalBankAccountBalance));
     }
 }

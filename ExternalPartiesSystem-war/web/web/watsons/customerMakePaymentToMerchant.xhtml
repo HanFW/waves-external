@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/watsonsTemplate.xhtml">
+    <ui:define name="content">
+        <h:head>
+            Customer Make Payment To Watsons
+        </h:head>
+
+        <h:body>
+
+            <h:form>
+                <h1>Customer Make Payment To Merchant</h1>
+                <p:messages autoUpdate="true"/>
+
+                <h:panelGrid columns="3" class="ui-lg-6">
+
+                    <p:outputLabel value="Transaction Amount:" />
+                    <p:inputText id="transactionAmt" value="#{simulateCustomerMakePaymentToMerchantManagedBean.transactionAmt}"/> 
+                    <p:messages for="transactionAmt"/>
+
+                    <p:outputLabel value="Pay By:"/>
+                    <p:selectOneRadio required="true" requiredMessage="Please select card type" id="cardType" value="#{simulateCustomerMakePaymentToMerchantManagedBean.cardType}">
+                        <f:selectItem itemLabel="Credit Card" itemValue="credit" />
+                        <f:selectItem itemLabel="Debit Card" itemValue="debit" />
+                        <p:ajax event="change" update="panelDebitCard" listener="#{simulateCustomerMakePaymentToMerchantManagedBean.showPanel}"/>
+                    </p:selectOneRadio>
+                    <p:messages for="cardType"/>
+
+
+                    <p:outputLabel value="Card Number"/>
+                    <p:inputText id="cardNum" value="#{simulateCustomerMakePaymentToMerchantManagedBean.cardNum}">
+                        <f:validateLength minimum="16" maximum="16" /> 
+                    </p:inputText>
+                    <p:message for="cardNum"/>
+                </h:panelGrid>
+
+                <p:panel style="border: none;" id="panelDebitCard" visible="#{simulateCustomerMakePaymentToMerchantManagedBean.debitCard}">
+                    <p:outputLabel value="Card Password:" />
+                    <p:inputText type="password" id="cardPwd" value="#{simulateCustomerMakePaymentToMerchantManagedBean.debitCardPwd}">
+<!--                        <f:validateLength minimum="6" maximum="6" /> -->
+                    </p:inputText>
+                    <p:message for="cardPwd"/>     
+                </p:panel>
+<!--
+
+                <h:panelGrid columns="1" class="ui-lg-6"> 
+                    <p:panel style="border: none;" id="panelCreditCard" visible="#{simulateCustomerMakePaymentToMerchantManagedBean.creditCard}">
+                        <p:outputLabel value="Please provide your signature" />
+
+
+                        <p:signature id="input" style="width:300px;height:200px" widgetVar="sig" value="#{simulateCustomerMakePaymentToMerchantManagedBean.customerSignature}" 
+                                     guideline="true"/>
+
+                        <p:commandButton value="Submit" icon="ui-icon-check"/>
+                        <p:commandButton value="Clear" icon="ui-icon-close" type="button" onclick="PF('sig').clear()"/>
+                    </p:panel>
+                </h:panelGrid>-->
+
+
+                <p:commandButton value="Confirm" actionListener="#{simulateCustomerMakePaymentToMerchantManagedBean.forwardTransactionAuthorization()}" update="@form"/>  
+            </h:form> 
+
+
+        </h:body>
+    </ui:define>
+</ui:composition>
+
+
+
