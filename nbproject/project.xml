@@ -8,11 +8,11 @@
             <web-module-libraries/>
             <web-module-additional-libraries>
                 <library>
-                    <file>${reference.ExternalPartiesSystem-war.dist-ear}</file>
+                    <file>${reference.ExternalPartiesSystem-ejb.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
-                    <file>${reference.ExternalPartiesSystem-ejb.dist-ear}</file>
+                    <file>${reference.ExternalPartiesSystem-war.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
             </web-module-additional-libraries>
@@ -28,6 +28,14 @@
             </reference>
             <reference>
                 <foreign-project>ExternalPartiesSystem-war</foreign-project>
+                <artifact-type>j2ee_ear_archive</artifact-type>
+                <script>build.xml</script>
+                <target>dist-ear</target>
+                <clean-target>clean-ear</clean-target>
+                <id>dist-ear</id>
+            </reference>
+            <reference>
+                <foreign-project>RetailBankingSystem-war</foreign-project>
                 <artifact-type>j2ee_ear_archive</artifact-type>
                 <script>build.xml</script>
                 <target>dist-ear</target>
