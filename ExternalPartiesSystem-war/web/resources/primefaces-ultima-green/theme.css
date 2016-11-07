@@ -3647,7 +3647,7 @@ body {
       -webkit-transition: 0.3s ease all; }
   body .ui-button {
     overflow: hidden;
-    background-color: #4CAF50;
+    background-color: #566573;
     color: #ffffff;
     font-size: 16px;
     height: 36px;
@@ -3661,7 +3661,7 @@ body {
     -webkit-transition: background-color 0.3s;
     transition: background-color 0.3s; }
     body .ui-button.ui-state-hover {
-      background-color: #2E7D32; }
+      background-color: #2C3E50; }
     body .ui-button.ui-state-focus {
       outline: 0 none;
       background-color: #6ec071; }
