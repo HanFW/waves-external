@@ -21,7 +21,7 @@ public class OtherBankChequeSessionBean implements OtherBankChequeSessionBeanLoc
     @Override
     public Long addNewReceivedCheque(String transactionDate, String transactionAmt,
             String receivedBankAccountNum, String receivedCustomerName, String receivedCustomerMobile,
-            String issuedBankAccountNum, String otherBankAccountNum) {
+            String issuedBankAccountNum, String chequeNum, String otherBankAccountNum) {
 
         OtherBankCheque otherBankCheque = new OtherBankCheque();
 
@@ -31,6 +31,7 @@ public class OtherBankChequeSessionBean implements OtherBankChequeSessionBeanLoc
         otherBankCheque.setTransactionAmt(transactionAmt);
         otherBankCheque.setTransactionDate(transactionDate);
         otherBankCheque.setIssuedBankAccountNum(issuedBankAccountNum);
+        otherBankCheque.setChequeNum(chequeNum);
         otherBankCheque.setOtherBankAccount(otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(otherBankAccountNum));
 
         entityManager.persist(otherBankCheque);
@@ -46,6 +47,29 @@ public class OtherBankChequeSessionBean implements OtherBankChequeSessionBeanLoc
         try {
             Query query = entityManager.createQuery("Select o From OtherBankCheque o Where o.chequeId=:chequeId");
             query.setParameter("chequeId", chequeId);
+
+            if (query.getResultList().isEmpty()) {
+                return new OtherBankCheque();
+            } else {
+                otherBankCheque = (OtherBankCheque) query.getSingleResult();
+            }
+        } catch (EntityNotFoundException enfe) {
+            System.out.println("Entity not found error: " + enfe.getMessage());
+            return new OtherBankCheque();
+        } catch (NonUniqueResultException nure) {
+            System.out.println("Non unique result error: " + nure.getMessage());
+        }
+
+        return otherBankCheque;
+    }
+
+    @Override
+    public OtherBankCheque retrieveReceivedChequeByNum(String chequeNum) {
+        OtherBankCheque otherBankCheque = new OtherBankCheque();
+
+        try {
+            Query query = entityManager.createQuery("Select o From OtherBankCheque o Where o.chequeNum=:chequeNum");
+            query.setParameter("chequeNum", chequeNum);
 
             if (query.getResultList().isEmpty()) {
                 return new OtherBankCheque();

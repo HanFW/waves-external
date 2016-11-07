@@ -12,6 +12,8 @@
             <h:outputText value="NTUC Process Bills" />
             <br/>
             <br/>
+            <p:messages globalOnly="true"/>
+
             <p:dataTable var="ntucBill" 
                          value="#{nTUCProcessBillsManagedBean.allNTUCBills}" 
                          reflow="true" paginator="true" rows="10" emptyMessage="No Transaction">

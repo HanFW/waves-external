@@ -21,9 +21,7 @@ import javax.persistence.Query;
 import javax.xml.ws.WebServiceRef;
 import ws.client.fastTransfer.FastTransferWebService_Service;
 import ws.client.merlionBank.BankAccount;
-import ws.client.merlionBank.Cheque;
 import ws.client.merlionBank.MerlionBankWebService_Service;
-import ws.client.merlionBank.OnHoldRecord;
 import ws.client.merlionBank.ReceivedCheque;
 
 @Stateless
@@ -178,7 +176,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
     }
 
     @Override
-    public void ntucInitiateGIRO(Long billId) {
+    public String ntucInitiateGIRO(Long billId) {
 
         Bill bill = billSessionBeanLocal.retrieveBillByBillId(billId);
 
@@ -187,44 +185,53 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         Double paymentAmt = Double.valueOf(bill.getPaymentAmt());
         String bankNames = "";
         String paymentMethod = "";
+        String paymentLimit = bill.getPaymentLimit();
+        Double paymentLimitDouble = Double.valueOf(paymentLimit);
 
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
         Long currentTimeMilis = cal.getTimeInMillis();
 
-        if (debitBank.equals("Merlion")) {
+        if (paymentLimitDouble < paymentAmt) {
+            return "Exceed Payment Limit";
+        } else {
 
-            BankAccount bankAccount = retrieveBankAccountByNum(debitBankAccountNum);
-            OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum("12345678");
-            bankNames = "DBS&Merlion";
-            paymentMethod = "Standing GIRO";
+            if (debitBank.equals("Merlion")) {
 
-            updateAvailableBalance(debitBankAccountNum, paymentAmt);
+                BankAccount bankAccount = retrieveBankAccountByNum(debitBankAccountNum);
+                OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum("12345678");
+                bankNames = "DBS&Merlion";
+                paymentMethod = "Standing GIRO";
 
-            Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, dbsBankAccount.getOtherBankAccountNum(), "DBS",
-                    bankAccount.getBankAccountNum(), "Merlion", currentTimeMilis, paymentAmt);
+                updateAvailableBalance(debitBankAccountNum, paymentAmt);
 
-            SACH sach = retrieveSACHById(sachId);
+                Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, dbsBankAccount.getOtherBankAccountNum(), "DBS",
+                        bankAccount.getBankAccountNum(), "Merlion", currentTimeMilis, paymentAmt);
 
-            Double dbsTotalCredit = 0 + paymentAmt;
-            Double merlionTotalCredit = 0 - paymentAmt;
+                SACH sach = retrieveSACHById(sachId);
 
-            sach.setBankBTotalCredit(dbsTotalCredit);
-            sach.setBankATotalCredit(merlionTotalCredit);
+                Double dbsTotalCredit = 0 + paymentAmt;
+                Double merlionTotalCredit = 0 - paymentAmt;
 
-            onHoldSessionBeanLocal.addNewRecord("DBS", "12345678",
-                    "Credit", paymentAmt.toString(), "New", "Merlion",
-                    debitBankAccountNum, "Non Standing GIRO");
-            addNewRecord("Merlion", debitBankAccountNum,
-                    "Debit", paymentAmt.toString(), "New", "DBS",
-                    "12345678", "Non Standing GIRO");
+                sach.setBankBTotalCredit(dbsTotalCredit);
+                sach.setBankATotalCredit(merlionTotalCredit);
+
+                onHoldSessionBeanLocal.addNewRecord("DBS", "12345678",
+                        "Credit", paymentAmt.toString(), "New", "Merlion",
+                        debitBankAccountNum, "Non Standing GIRO");
+                addNewRecord("Merlion", debitBankAccountNum,
+                        "Debit", paymentAmt.toString(), "New", "DBS",
+                        "12345678", "Non Standing GIRO");
+            }
         }
+
+        return "Payment Approved";
     }
 
     @Override
-    public void clearMerlionReceivedCheque(Long chequeId) {
+    public void clearMerlionReceivedCheque(String chequeNum) {
 
-        ReceivedCheque receivedCheque = retrieveReceivedChequeById(chequeId);
+        ReceivedCheque receivedCheque = retrieveReceivedChequeByNum(chequeNum);
 
         Double transactionAmt = Double.valueOf(receivedCheque.getTransactionAmt());
         String receivedBankAccountNum = receivedCheque.getReceivedBankAccountNum();
@@ -251,13 +258,13 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
                 "Credit", transactionAmt.toString(), "New", "DBS",
                 "11111111", "Cheque");
 
-        updateOnHoldChequeId(bankAccountOnHoldId, chequeId);
+        updateOnHoldChequeNum(bankAccountOnHoldId, chequeNum);
     }
 
     @Override
-    public void clearDBSReceivedCheque(Long chequeId) {
+    public void clearDBSReceivedCheque(String chequeNum) {
 
-        OtherBankCheque otherBankCheque = otherBankChequeSessionBeanLocal.retrieveReceivedChequeById(chequeId);
+        OtherBankCheque otherBankCheque = otherBankChequeSessionBeanLocal.retrieveReceivedChequeByNum(chequeNum);
 
         Double transactionAmt = Double.valueOf(otherBankCheque.getTransactionAmt());
         String receivedBankAccountNum = otherBankCheque.getReceivedBankAccountNum();
@@ -272,8 +279,8 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
                 "DBS", issuedBankAccountNum, "Merlion", cal.getTimeInMillis(), transactionAmt);
         SACH sach = retrieveSACHById(sachId);
 
-        Double dbsTotalCredit = 0 - transactionAmt;
-        Double merlionTotalCredit = 0 + transactionAmt;
+        Double dbsTotalCredit = 0 + transactionAmt;
+        Double merlionTotalCredit = 0 - transactionAmt;
 
         sach.setBankBTotalCredit(dbsTotalCredit);
         sach.setBankATotalCredit(merlionTotalCredit);
@@ -285,7 +292,13 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
                 "Debit", transactionAmt.toString(), "New", "DBS",
                 receivedBankAccountNum, "Cheque");
 
-        updateOnHoldChequeId(bankAccountOnHoldId, chequeId);
+        updateOnHoldChequeNum(bankAccountOnHoldId, chequeNum);
+    }
+
+    @Override
+    public void receiveChequeInformationFromOtherBank(String chequeNum,
+            String transactionAmt, String bankAccountNum) {
+        passChequeInformationToMerlion(chequeNum, transactionAmt, bankAccountNum);
     }
 
     private void actualOTMFastTransfer(java.lang.String fromBankAccountNum, java.lang.String toBankAccountNum, java.lang.Double transferAmt) {
@@ -309,20 +322,6 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         port.updateAvailableBalance(bankAccountNum, paymentAmt);
     }
 
-    private Cheque retrieveChequeById(java.lang.Long chequeId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.retrieveChequeById(chequeId);
-    }
-
-    private ReceivedCheque retrieveReceivedChequeById(java.lang.Long chequeId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.retrieveReceivedChequeById(chequeId);
-    }
-
     private Long addNewRecord(java.lang.String bankName, java.lang.String bankAccountNum, java.lang.String debitOrCredit, java.lang.String paymentAmt, java.lang.String onHoldStatus, java.lang.String debitOrCreditBankName, java.lang.String debitOrCreditBankAccountNum, java.lang.String paymentMethod) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
@@ -330,17 +329,24 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         return port.addNewRecord(bankName, bankAccountNum, debitOrCredit, paymentAmt, onHoldStatus, debitOrCreditBankName, debitOrCreditBankAccountNum, paymentMethod);
     }
 
-    private OnHoldRecord retrieveOnHoldRecordById(java.lang.Long onHoldRecordId) {
+    private void passChequeInformationToMerlion(java.lang.String chequeNum, java.lang.String transactionAmt, java.lang.String bankAccountNum) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.retrieveOnHoldRecordById(onHoldRecordId);
+        port.receiveChequeInformationFromSACH(chequeNum, transactionAmt, bankAccountNum);
     }
 
-    private void updateOnHoldChequeId(java.lang.Long onHoldRecordId, java.lang.Long chequeId) {
+    private void updateOnHoldChequeNum(java.lang.Long onHoldRecordId, java.lang.String chequeNum) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        port.updateOnHoldChequeId(onHoldRecordId, chequeId);
+        port.updateOnHoldChequeNum(onHoldRecordId, chequeNum);
+    }
+
+    private ReceivedCheque retrieveReceivedChequeByNum(java.lang.String chequeNum) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        return port.retrieveReceivedChequeByNum(chequeNum);
     }
 }

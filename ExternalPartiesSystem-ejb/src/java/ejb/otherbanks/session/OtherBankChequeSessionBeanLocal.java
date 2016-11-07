@@ -5,8 +5,12 @@ import javax.ejb.Local;
 
 @Local
 public interface OtherBankChequeSessionBeanLocal {
+
     public Long addNewReceivedCheque(String transactionDate, String transactionAmt,
             String receivedBankAccountNum, String receivedCustomerName, String receivedCustomerMobile,
-            String issuedBankAccountNum, String otherBankAccountNum);
+            String issuedBankAccountNum, String chequeNum, String otherBankAccountNum);
+
     public OtherBankCheque retrieveReceivedChequeById(Long chequeId);
+
+    public OtherBankCheque retrieveReceivedChequeByNum(String chequeNum);
 }

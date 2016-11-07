@@ -22,7 +22,8 @@ public class BillWebService {
             @WebParam(name = "billReference") String billReference,
             @WebParam(name = "billingOrganizationName") String billingOrganizationName,
             @WebParam(name = "debitBank") String debitBank,
-            @WebParam(name = "debitBankAccountNum") String debitBankAccountNum) {
+            @WebParam(name = "debitBankAccountNum") String debitBankAccountNum,
+            @WebParam(name = "paymentLimit") String paymentLimit) {
         Bill bill = new Bill();
 
         bill.setCustomerName(customerName);
@@ -31,6 +32,7 @@ public class BillWebService {
         bill.setBillingOrganizationName(billingOrganizationName);
         bill.setDebitBank(debitBank);
         bill.setDebitBankAccountNum(debitBankAccountNum);
+        bill.setPaymentLimit(paymentLimit);
 
         entityManager.persist(bill);
         entityManager.flush();

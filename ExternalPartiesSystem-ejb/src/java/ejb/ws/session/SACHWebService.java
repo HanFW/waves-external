@@ -13,7 +13,6 @@ import javax.jws.WebParam;
 import javax.ejb.Stateless;
 import javax.xml.ws.WebServiceRef;
 import ws.client.merlionBank.MerlionBankWebService_Service;
-import ws.client.merlionBank.OnHoldRecord;
 import ws.client.merlionBank.ReceivedCheque;
 
 @WebService(serviceName = "SACHWebService")
@@ -90,19 +89,20 @@ public class SACHWebService {
     }
 
     @WebMethod(operationName = "clearMerlionReceivedCheque")
-    public void clearMerlionReceivedCheque(@WebParam(name = "chequeId") Long chequeId) {
+    public void clearMerlionReceivedCheque(@WebParam(name = "chequeNum") String chequeNum) {
 
-        ReceivedCheque receivedCheque = retrieveReceivedChequeById(chequeId);
+        ReceivedCheque receivedCheque = retrieveReceivedChequeByNum(chequeNum);
 
         Double transactionAmt = Double.valueOf(receivedCheque.getTransactionAmt());
-        String bankAccountNum = receivedCheque.getReceivedBankAccountNum();
+        String receivedBankAccountNum = receivedCheque.getReceivedBankAccountNum();
+
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
         String bankNames = "DBS&Merlion";
         String paymentMethod = "Cheque";
 
-        Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, bankAccountNum, "Merlion",
-                "11111111", "DBS", cal.getTimeInMillis(), transactionAmt);
+        Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, receivedBankAccountNum,
+                "Merlion", "11111111", "DBS", cal.getTimeInMillis(), transactionAmt);
         SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 - transactionAmt;
@@ -113,19 +113,41 @@ public class SACHWebService {
 
         Long otherAccountOnHoldId = onHoldSessionBeanLocal.addNewRecord("DBS", "11111111",
                 "Debit", transactionAmt.toString(), "New", "Merlion",
-                bankAccountNum, "Cheque");
-        Long bankAccountOnHoldId = addNewRecord("Merlion", bankAccountNum,
+                receivedBankAccountNum, "Cheque");
+        Long bankAccountOnHoldId = addNewRecord("Merlion", receivedBankAccountNum,
                 "Credit", transactionAmt.toString(), "New", "DBS",
                 "11111111", "Cheque");
-        
-        updateOnHoldChequeId(bankAccountOnHoldId, chequeId);
+
+        updateOnHoldChequeNum(bankAccountOnHoldId, chequeNum);
     }
 
-    private ReceivedCheque retrieveReceivedChequeById(java.lang.Long chequeId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.retrieveReceivedChequeById(chequeId);
+    @WebMethod(operationName = "SACHRegularGIROTransferMTD")
+//    @Oneway
+    public void SACHRegularGIROTransferMTD(@WebParam(name = "fromBankAccountNum") String fromBankAccountNum,
+            @WebParam(name = "toBankAccountNum") String toBankAccountNum,
+            @WebParam(name = "transferAmt") Double transferAmt) {
+
+        Calendar cal = Calendar.getInstance();
+        String currentTime = cal.getTime().toString();
+        Long currentTimeMilis = cal.getTimeInMillis();
+
+        Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
+                "DBS&Merlion", "Regular GIRO", toBankAccountNum, "DBS", fromBankAccountNum,
+                "Merlion", currentTimeMilis, transferAmt);
+        SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
+
+        Double dbsTotalCredit = 0 + transferAmt;
+        Double merlionTotalCredit = 0 - transferAmt;
+
+        sach.setBankBTotalCredit(dbsTotalCredit);
+        sach.setBankATotalCredit(merlionTotalCredit);
+
+        addNewRecord("Merlion", fromBankAccountNum, "Debit",
+                transferAmt.toString(), "New", "DBS", toBankAccountNum,
+                "Regular GIRO");
+        onHoldSessionBeanLocal.addNewRecord("DBS", toBankAccountNum,
+                "Credit", transferAmt.toString(), "New", "Merlion",
+                fromBankAccountNum, "Regular GIRO");
     }
 
     private Long addNewRecord(java.lang.String bankName, java.lang.String bankAccountNum, java.lang.String debitOrCredit, java.lang.String paymentAmt, java.lang.String onHoldStatus, java.lang.String debitOrCreditBankName, java.lang.String debitOrCreditBankAccountNum, java.lang.String paymentMethod) {
@@ -135,17 +157,17 @@ public class SACHWebService {
         return port.addNewRecord(bankName, bankAccountNum, debitOrCredit, paymentAmt, onHoldStatus, debitOrCreditBankName, debitOrCreditBankAccountNum, paymentMethod);
     }
 
-    private OnHoldRecord retrieveOnHoldRecordById(java.lang.Long onHoldRecordId) {
+    private void updateOnHoldChequeNum(java.lang.Long onHoldRecordId, java.lang.String chequeNum) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.retrieveOnHoldRecordById(onHoldRecordId);
+        port.updateOnHoldChequeNum(onHoldRecordId, chequeNum);
     }
 
-    private void updateOnHoldChequeId(java.lang.Long onHoldRecordId, java.lang.Long chequeId) {
+    private ReceivedCheque retrieveReceivedChequeByNum(java.lang.String chequeNum) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        port.updateOnHoldChequeId(onHoldRecordId, chequeId);
+        return port.retrieveReceivedChequeByNum(chequeNum);
     }
 }
