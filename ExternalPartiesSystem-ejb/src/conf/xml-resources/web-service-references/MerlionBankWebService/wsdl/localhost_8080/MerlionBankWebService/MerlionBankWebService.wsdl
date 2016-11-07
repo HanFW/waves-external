@@ -76,12 +76,6 @@
 <message name="retrieveReceivedChequeByNumResponse">
 <part name="parameters" element="tns:retrieveReceivedChequeByNumResponse"/>
 </message>
-<message name="updateOnHoldChequeNum">
-<part name="parameters" element="tns:updateOnHoldChequeNum"/>
-</message>
-<message name="updateOnHoldChequeNumResponse">
-<part name="parameters" element="tns:updateOnHoldChequeNumResponse"/>
-</message>
 <portType name="MerlionBankWebService">
 <operation name="addNewRecord">
 <input wsam:Action="http://session.ws.ejb/MerlionBankWebService/addNewRecordRequest" message="tns:addNewRecord"/>
@@ -99,9 +93,9 @@
 <input wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveBankAccountByNumRequest" message="tns:retrieveBankAccountByNum"/>
 <output wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveBankAccountByNumResponse" message="tns:retrieveBankAccountByNumResponse"/>
 </operation>
-<operation name="updateAvailableBalance">
-<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/updateAvailableBalanceRequest" message="tns:updateAvailableBalance"/>
-<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/updateAvailableBalanceResponse" message="tns:updateAvailableBalanceResponse"/>
+<operation name="debitBankAccount">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/debitBankAccountRequest" message="tns:debitBankAccount"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/debitBankAccountResponse" message="tns:debitBankAccountResponse"/>
 </operation>
 <operation name="settleEachBankAccount">
 <input wsam:Action="http://session.ws.ejb/MerlionBankWebService/settleEachBankAccountRequest" message="tns:settleEachBankAccount"/>
@@ -130,10 +124,6 @@
 <operation name="retrieveReceivedChequeByNum">
 <input wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveReceivedChequeByNumRequest" message="tns:retrieveReceivedChequeByNum"/>
 <output wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveReceivedChequeByNumResponse" message="tns:retrieveReceivedChequeByNumResponse"/>
-</operation>
-<operation name="updateOnHoldChequeNum">
-<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/updateOnHoldChequeNumRequest" message="tns:updateOnHoldChequeNum"/>
-<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/updateOnHoldChequeNumResponse" message="tns:updateOnHoldChequeNumResponse"/>
 </operation>
 </portType>
 <binding name="MerlionBankWebServicePortBinding" type="tns:MerlionBankWebService">
@@ -183,7 +173,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="retrieveReceivedChequeById">
+<operation name="settleEachBankAccount">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -201,7 +191,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="receiveChequeInformationFromSACH">
+<operation name="retrieveChequeById">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -238,15 +228,6 @@
 </output>
 </operation>
 <operation name="retrieveReceivedChequeByNum">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="updateOnHoldChequeNum">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
