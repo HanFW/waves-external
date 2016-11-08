@@ -65,7 +65,8 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         Long currentTimeMilis = cal.getTimeInMillis();
 
         Long sachId = addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion", "FAST",
-                toBankAccount, "DBS", fromBankAccount, "Merlion", currentTimeMilis, transferAmt);
+                toBankAccount, "DBS", fromBankAccount, "Merlion", currentTimeMilis, transferAmt,
+                "Successful");
         SACH sach = retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 + transferAmt;
@@ -105,7 +106,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
     public Long addNewSACH(Double otherTotalCredit, Double merlionTotalCredit,
             String currentTime, String bankNames, String paymentMethod, String creditAccountNum,
             String creditBank, String debitAccountNum, String debitBank, Long currentTimeMilis,
-            Double creditAmt) {
+            Double creditAmt, String sachStatus) {
 
         SACH sach = new SACH();
 
@@ -120,6 +121,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         sach.setDebitBank(debitBank);
         sach.setCurrentTimeMilis(currentTimeMilis);
         sach.setCreditAmt(creditAmt);
+        sach.setSachStatus(sachStatus);
 
         entityManager.persist(sach);
         entityManager.flush();
@@ -144,7 +146,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         Long currentTimeMilis = cal.getTimeInMillis();
 
         Long sachId = addNewSACH(0.0, 0.0, currentTime, "DBS&Merlion", "FAST", toBankAccount,
-                "Merlion", fromBankAccount, "DBS", currentTimeMilis, transferAmt);
+                "Merlion", fromBankAccount, "DBS", currentTimeMilis, transferAmt, "Successful");
         SACH sach = retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 - transferAmt;
@@ -164,10 +166,11 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         Long startTime = cal.getTimeInMillis() - 10000;
         Long endTime = cal.getTimeInMillis();
 
-        Query query = entityManager.createQuery("SELECT s FROM SACH s WHERE s.currentTimeMilis >= :startTime And s.currentTimeMilis<=:endTime And s.paymentMethod<>:paymentMethod");
+        Query query = entityManager.createQuery("SELECT s FROM SACH s WHERE s.currentTimeMilis >= :startTime And s.currentTimeMilis<=:endTime And s.paymentMethod<>:paymentMethod And s.sachStatus=:sachStatus");
         query.setParameter("startTime", startTime);
         query.setParameter("endTime", endTime);
         query.setParameter("paymentMethod", "FAST");
+        query.setParameter("sachStatus", "Successful");
         List<SACH> sachs = query.getResultList();
 
         if (!sachs.isEmpty()) {
@@ -206,7 +209,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
                 updateAvailableBalance(debitBankAccountNum, paymentAmt);
 
                 Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, dbsBankAccount.getOtherBankAccountNum(), "DBS",
-                        bankAccount.getBankAccountNum(), "Merlion", currentTimeMilis, paymentAmt);
+                        bankAccount.getBankAccountNum(), "Merlion", currentTimeMilis, paymentAmt, "Successful");
 
                 SACH sach = retrieveSACHById(sachId);
 
@@ -235,6 +238,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
 
         Double transactionAmt = Double.valueOf(receivedCheque.getTransactionAmt());
         String receivedBankAccountNum = receivedCheque.getReceivedBankAccountNum();
+        String issuedBankAccountNum = receivedCheque.getOtherBankAccountNum();
 
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
@@ -242,7 +246,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         String paymentMethod = "Cheque";
 
         Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, receivedBankAccountNum,
-                "Merlion", "11111111", "DBS", cal.getTimeInMillis(), transactionAmt);
+                "Merlion", issuedBankAccountNum, "DBS", cal.getTimeInMillis(), transactionAmt, "Successful");
         SACH sach = retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 - transactionAmt;
@@ -251,12 +255,12 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         sach.setBankBTotalCredit(dbsTotalCredit);
         sach.setBankATotalCredit(merlionTotalCredit);
 
-        Long otherAccountOnHoldId = onHoldSessionBeanLocal.addNewRecord("DBS", "11111111",
+        Long otherAccountOnHoldId = onHoldSessionBeanLocal.addNewRecord("DBS", issuedBankAccountNum,
                 "Debit", transactionAmt.toString(), "New", "Merlion",
                 receivedBankAccountNum, "Cheque");
         Long bankAccountOnHoldId = addNewRecord("Merlion", receivedBankAccountNum,
                 "Credit", transactionAmt.toString(), "New", "DBS",
-                "11111111", "Cheque");
+                issuedBankAccountNum, "Cheque");
 
         updateOnHoldChequeNum(bankAccountOnHoldId, chequeNum);
     }
@@ -276,7 +280,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         String paymentMethod = "Cheque";
 
         Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, receivedBankAccountNum,
-                "DBS", issuedBankAccountNum, "Merlion", cal.getTimeInMillis(), transactionAmt);
+                "DBS", issuedBankAccountNum, "Merlion", cal.getTimeInMillis(), transactionAmt, "Successful");
         SACH sach = retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 + transactionAmt;

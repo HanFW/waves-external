@@ -14,7 +14,7 @@ public interface SACHSessionBeanLocal {
     public Long addNewSACH(Double otherTotalCredit, Double merlionTotalCredit,
             String currentTime, String bankNames, String paymentMethod, String creditAccountNum,
             String creditBank, String debitAccountNum, String debitBank, Long currentTimeMilis,
-            Double creditAmt);
+            Double creditAmt, String sachStatus);
 
     public List<SACH> getAllSACH(String bankNames);
 

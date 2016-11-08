@@ -1,7 +1,6 @@
 package ejb.otherbanks.session;
 
 import ejb.card.entity.MasterCardClearingNetwork;
-import ejb.card.entity.TransactionToBeAuthorized;
 import ejb.card.entity.VisaClearingNetwork;
 import ejb.card.session.VisaNetworkClearingSessionBeanLocal;
 import ejb.mas.session.SACHSessionBeanLocal;
@@ -351,6 +350,5 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
             otherBankAccountSessionBeanLocal.updateOtherBankAccountBalanceById(merchantAccountIds.get(2), creditAmt);
             Long otherTransactionId3 = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, "CTS", "Transfer from citiBank to sephora", "", String.valueOf(creditAmt), merchantAccountIds.get(2));
         }
-
     }
 }

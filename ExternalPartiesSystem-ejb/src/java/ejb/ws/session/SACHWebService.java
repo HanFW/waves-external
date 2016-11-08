@@ -3,7 +3,9 @@ package ejb.ws.session;
 import ejb.mas.entity.SACH;
 import ejb.mas.session.MEPSSessionBeanLocal;
 import ejb.mas.session.SACHSessionBeanLocal;
+import ejb.otherbanks.entity.OtherBankAccount;
 import ejb.otherbanks.session.OnHoldSessionBeanLocal;
+import ejb.otherbanks.session.OtherBankAccountSessionBeanLocal;
 import ejb.otherbanks.session.OtherBankSessionBeanLocal;
 import java.util.Calendar;
 import javax.ejb.EJB;
@@ -12,6 +14,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
 import javax.xml.ws.WebServiceRef;
+import ws.client.merlionBank.BankAccount;
 import ws.client.merlionBank.MerlionBankWebService_Service;
 import ws.client.merlionBank.ReceivedCheque;
 
@@ -19,6 +22,9 @@ import ws.client.merlionBank.ReceivedCheque;
 @Stateless()
 
 public class SACHWebService {
+
+    @EJB
+    private OtherBankAccountSessionBeanLocal otherBankAccountSessionBeanLocal;
 
     @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl")
     private MerlionBankWebService_Service service_merlionBank;
@@ -45,7 +51,7 @@ public class SACHWebService {
 
         Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
                 "DBS&Merlion", "FAST", toBankAccountNum, "DBS", fromBankAccountNum, "Merlion",
-                currentTimeMilis, transferAmt);
+                currentTimeMilis, transferAmt, "Successful");
         SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 + transferAmt;
@@ -71,7 +77,7 @@ public class SACHWebService {
 
         Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
                 "DBS&Merlion", "Non Standing GIRO", toBankAccountNum, "DBS", fromBankAccountNum,
-                "Merlion", currentTimeMilis, transferAmt);
+                "Merlion", currentTimeMilis, transferAmt, "Successful");
         SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 + transferAmt;
@@ -95,6 +101,7 @@ public class SACHWebService {
 
         Double transactionAmt = Double.valueOf(receivedCheque.getTransactionAmt());
         String receivedBankAccountNum = receivedCheque.getReceivedBankAccountNum();
+        String issuedBankAccountNum = receivedCheque.getOtherBankAccountNum();
 
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
@@ -102,7 +109,7 @@ public class SACHWebService {
         String paymentMethod = "Cheque";
 
         Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, receivedBankAccountNum,
-                "Merlion", "11111111", "DBS", cal.getTimeInMillis(), transactionAmt);
+                "Merlion", issuedBankAccountNum, "DBS", cal.getTimeInMillis(), transactionAmt, "Successful");
         SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
 
         Double dbsTotalCredit = 0 - transactionAmt;
@@ -111,12 +118,12 @@ public class SACHWebService {
         sach.setBankBTotalCredit(dbsTotalCredit);
         sach.setBankATotalCredit(merlionTotalCredit);
 
-        Long otherAccountOnHoldId = onHoldSessionBeanLocal.addNewRecord("DBS", "11111111",
+        Long otherAccountOnHoldId = onHoldSessionBeanLocal.addNewRecord("DBS", issuedBankAccountNum,
                 "Debit", transactionAmt.toString(), "New", "Merlion",
                 receivedBankAccountNum, "Cheque");
         Long bankAccountOnHoldId = addNewRecord("Merlion", receivedBankAccountNum,
                 "Credit", transactionAmt.toString(), "New", "DBS",
-                "11111111", "Cheque");
+                issuedBankAccountNum, "Cheque");
 
         updateOnHoldChequeNum(bankAccountOnHoldId, chequeNum);
     }
@@ -131,23 +138,35 @@ public class SACHWebService {
         String currentTime = cal.getTime().toString();
         Long currentTimeMilis = cal.getTimeInMillis();
 
-        Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
-                "DBS&Merlion", "Regular GIRO", toBankAccountNum, "DBS", fromBankAccountNum,
-                "Merlion", currentTimeMilis, transferAmt);
-        SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
+        OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(toBankAccountNum);
+        if (dbsBankAccount.getOtherBankAccountId() == null) {
+            Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
+                    "DBS&Merlion", "Regular GIRO", toBankAccountNum, "DBS", fromBankAccountNum,
+                    "Merlion", currentTimeMilis, transferAmt, "Failed");
+            SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
+            String failedReason = "Invalid Bank Account Number";
+            sach.setFailedReason(failedReason);
 
-        Double dbsTotalCredit = 0 + transferAmt;
-        Double merlionTotalCredit = 0 - transferAmt;
+            rejectTransaction(fromBankAccountNum, transferAmt, toBankAccountNum);
+        } else {
+            Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
+                    "DBS&Merlion", "Regular GIRO", toBankAccountNum, "DBS", fromBankAccountNum,
+                    "Merlion", currentTimeMilis, transferAmt, "Successful");
+            SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
 
-        sach.setBankBTotalCredit(dbsTotalCredit);
-        sach.setBankATotalCredit(merlionTotalCredit);
+            Double dbsTotalCredit = 0 + transferAmt;
+            Double merlionTotalCredit = 0 - transferAmt;
 
-        addNewRecord("Merlion", fromBankAccountNum, "Debit",
-                transferAmt.toString(), "New", "DBS", toBankAccountNum,
-                "Regular GIRO");
-        onHoldSessionBeanLocal.addNewRecord("DBS", toBankAccountNum,
-                "Credit", transferAmt.toString(), "New", "Merlion",
-                fromBankAccountNum, "Regular GIRO");
+            sach.setBankBTotalCredit(dbsTotalCredit);
+            sach.setBankATotalCredit(merlionTotalCredit);
+
+            addNewRecord("Merlion", fromBankAccountNum, "Debit",
+                    transferAmt.toString(), "New", "DBS", toBankAccountNum,
+                    "Regular GIRO");
+            onHoldSessionBeanLocal.addNewRecord("DBS", toBankAccountNum,
+                    "Credit", transferAmt.toString(), "New", "Merlion",
+                    fromBankAccountNum, "Regular GIRO");
+        }
     }
 
     private Long addNewRecord(java.lang.String bankName, java.lang.String bankAccountNum, java.lang.String debitOrCredit, java.lang.String paymentAmt, java.lang.String onHoldStatus, java.lang.String debitOrCreditBankName, java.lang.String debitOrCreditBankAccountNum, java.lang.String paymentMethod) {
@@ -169,5 +188,19 @@ public class SACHWebService {
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
         return port.retrieveReceivedChequeByNum(chequeNum);
+    }
+
+    private BankAccount retrieveBankAccountByNum(java.lang.String bankAccountNum) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        return port.retrieveBankAccountByNum(bankAccountNum);
+    }
+
+    private void rejectTransaction(java.lang.String bankAccountNum, java.lang.Double transferAmt, java.lang.String toBankAccountNum) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        port.rejectTransaction(bankAccountNum, transferAmt, toBankAccountNum);
     }
 }
