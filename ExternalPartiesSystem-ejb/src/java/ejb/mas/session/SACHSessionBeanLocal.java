@@ -33,4 +33,9 @@ public interface SACHSessionBeanLocal {
 
     public void rejectStandingGIRO(String billReference, String creditBankAccountNum,
             String debitBankAccountNum);
+
+    public void rejectNonStandingGIRO(String billReference, String creditBankAccountNum,
+            String debitBankAccountNum);
+
+    public void approveNonStandingGIRO(String billReference);
 }

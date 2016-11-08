@@ -24,6 +24,9 @@ import ws.client.merlionBank.MerlionBankWebService_Service;
 public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
 
     @EJB
+    private SACHSessionBeanLocal sACHSessionBeanLocal;
+
+    @EJB
     private BillSessionBeanLocal billSessionBeanLocal;
 
     @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl")
@@ -37,9 +40,6 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    @EJB
-    private SACHSessionBeanLocal sACHSessionBeanLocal;
 
     @Override
     public void actualMTOFastTransfer(String fromAccountNum, String toAccountNum, Double transferAmt) {
@@ -122,15 +122,34 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
     }
 
     @Override
-    public void askForRejectBillingPayment(Long billId) {
+    public void askForRejectBillingPaymentViaStandingGIRO(Long billId) {
 
         Bill bill = billSessionBeanLocal.retrieveBillByBillId(billId);
         String debilBankAccountNum = bill.getDebitBankAccountNum();
         String creditBankAccountNum = bill.getCreditBankAccountNum();
-        String paymentAmt = bill.getPaymentAmt();
         String billReference = bill.getBillReference();
 
         sACHSessionBeanLocal.rejectStandingGIRO(billReference, creditBankAccountNum, debilBankAccountNum);
+    }
+
+    @Override
+    public void askForRejectBillingPaymentViaNonStandingGIRO(Long billId) {
+
+        Bill bill = billSessionBeanLocal.retrieveBillByBillId(billId);
+        String debilBankAccountNum = bill.getDebitBankAccountNum();
+        String creditBankAccountNum = bill.getCreditBankAccountNum();
+        String billReference = bill.getBillReference();
+
+        sACHSessionBeanLocal.rejectNonStandingGIRO(billReference, creditBankAccountNum, debilBankAccountNum);
+    }
+
+    @Override
+    public void askForApproveBillingPaymentViaNonStandingGIRO(Long billId) {
+
+        Bill bill = billSessionBeanLocal.retrieveBillByBillId(billId);
+        String billReference = bill.getBillReference();
+
+        sACHSessionBeanLocal.approveNonStandingGIRO(billReference);
     }
 
     @Override

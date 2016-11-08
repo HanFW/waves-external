@@ -14,9 +14,12 @@
             <br/>
             <p:messages globalOnly="true"/>
 
+            <p:outputLabel value="View Billing Payment via Standing GIRO" style="font-weight: bold"/>
+            <br/>
+            <br/>
             <p:dataTable var="ntucBill" 
-                         value="#{nTUCProcessBillsManagedBean.allNTUCBills}" 
-                         reflow="true" paginator="true" rows="10" emptyMessage="No Transaction">
+                         value="#{nTUCProcessBillsManagedBean.allStandingNTUCBills}" 
+                         reflow="true" paginator="true" rows="10" emptyMessage="No Record">
                 <p:column headerText="Customer Name"> 
                     <h:outputText value="#{ntucBill.customerName}" />
                 </p:column>
@@ -40,7 +43,7 @@
 
                 <p:column headerText="Action" style="width: 10%">
                     <center>
-                        <p:commandButton process="@this" action="#{nTUCProcessBillsDoneManagedBean.rejectBillingPayment}" 
+                        <p:commandButton process="@this" action="#{nTUCProcessBillsDoneManagedBean.rejectBillingPaymentViaStandingGIRO()}" 
                                          ajax="false" value="Reject" disabled="#{ntucBill.buttonRender}"> 
                             <f:setPropertyActionListener target="#{nTUCProcessBillsDoneManagedBean.billId}" value="#{ntucBill.billId}" />
                         </p:commandButton>
@@ -52,6 +55,53 @@
                         <p:commandButton process="@this" action="#{nTUCProcessBillsDoneManagedBean.deleteBillingPayment}" 
                                          ajax="false" icon="ui-icon-trash"> 
                             <f:setPropertyActionListener target="#{nTUCProcessBillsDoneManagedBean.billId}" value="#{ntucBill.billId}" />
+                        </p:commandButton>
+                    </center>
+                </p:column>
+            </p:dataTable>
+            <br/>
+            <br/>
+            <p:outputLabel value="View Billing Payment via Standing GIRO" style="font-weight: bold"/>
+            <br/>
+            <br/>
+            <p:dataTable var="allNonStandingNTUCBill" 
+                         value="#{nTUCProcessBillsManagedBean.allNonStandingNTUCBills}" 
+                         reflow="true" paginator="true" rows="10" emptyMessage="No Record">
+                <p:column headerText="Billing Service"> 
+                    <h:outputText value="#{allNonStandingNTUCBill.billingOrganizationName}" />
+                </p:column>
+
+                <p:column headerText="Bill Reference"> 
+                    <h:outputText value="#{allNonStandingNTUCBill.billReference}" />
+                </p:column>
+
+                <p:column headerText="Payment Frequency"> 
+                    <h:outputText value="#{allNonStandingNTUCBill.paymentFrequency}" />
+                </p:column>
+
+                <p:column headerText="Action" style="width: 10%"> 
+                    <center>
+                        <p:commandButton process="@this" action="#{nTUCProcessBillsDoneManagedBean.approveBillingPaymentViaNonStandingGIRO()}" 
+                                         ajax="false" value="Approve" disabled="#{allNonStandingNTUCBill.buttonRender}"> 
+                            <f:setPropertyActionListener target="#{nTUCProcessBillsDoneManagedBean.billId}" value="#{allNonStandingNTUCBill.billId}" />
+                        </p:commandButton>
+                    </center>
+                </p:column>
+
+                <p:column headerText="Action" style="width: 10%">
+                    <center>
+                        <p:commandButton process="@this" action="#{nTUCProcessBillsDoneManagedBean.rejectBillingPaymentViaNonStandingGIRO()}" 
+                                         ajax="false" value="Reject" disabled="#{allNonStandingNTUCBill.buttonRender}"> 
+                            <f:setPropertyActionListener target="#{nTUCProcessBillsDoneManagedBean.billId}" value="#{allNonStandingNTUCBill.billId}" />
+                        </p:commandButton>
+                    </center>
+                </p:column>
+
+                <p:column headerText="Action" style="width: 10%">
+                    <center>
+                        <p:commandButton process="@this" action="#{nTUCProcessBillsDoneManagedBean.deleteBillingPayment}" 
+                                         ajax="false" icon="ui-icon-trash"> 
+                            <f:setPropertyActionListener target="#{nTUCProcessBillsDoneManagedBean.billId}" value="#{allNonStandingNTUCBill.billId}" />
                         </p:commandButton>
                     </center>
                 </p:column>

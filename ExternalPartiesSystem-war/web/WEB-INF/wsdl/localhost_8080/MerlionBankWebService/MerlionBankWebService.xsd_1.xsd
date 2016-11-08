@@ -4,6 +4,10 @@
 
 <xs:element name="addNewRecordResponse" type="tns:addNewRecordResponse"/>
 
+<xs:element name="approveNonStandingGIROTransaction" type="tns:approveNonStandingGIROTransaction"/>
+
+<xs:element name="approveNonStandingGIROTransactionResponse" type="tns:approveNonStandingGIROTransactionResponse"/>
+
 <xs:element name="bankAccount" type="tns:bankAccount"/>
 
 <xs:element name="debitBankAccount" type="tns:debitBankAccount"/>
@@ -14,9 +18,17 @@
 
 <xs:element name="receiveChequeInformationFromSACHResponse" type="tns:receiveChequeInformationFromSACHResponse"/>
 
-<xs:element name="rejectTransaction" type="tns:rejectTransaction"/>
+<xs:element name="rejectNonStandingGIROTransaction" type="tns:rejectNonStandingGIROTransaction"/>
 
-<xs:element name="rejectTransactionResponse" type="tns:rejectTransactionResponse"/>
+<xs:element name="rejectNonStandingGIROTransactionResponse" type="tns:rejectNonStandingGIROTransactionResponse"/>
+
+<xs:element name="rejectRegularGIROTransaction" type="tns:rejectRegularGIROTransaction"/>
+
+<xs:element name="rejectRegularGIROTransactionResponse" type="tns:rejectRegularGIROTransactionResponse"/>
+
+<xs:element name="rejectStandingGIROTransaction" type="tns:rejectStandingGIROTransaction"/>
+
+<xs:element name="rejectStandingGIROTransactionResponse" type="tns:rejectStandingGIROTransactionResponse"/>
 
 <xs:element name="retrieveBankAccountByNum" type="tns:retrieveBankAccountByNum"/>
 
@@ -701,7 +713,7 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="rejectTransaction">
+<xs:complexType name="rejectRegularGIROTransaction">
 <xs:sequence>
 <xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
 <xs:element name="transferAmt" type="xs:double" minOccurs="0"/>
@@ -709,7 +721,7 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="rejectTransactionResponse">
+<xs:complexType name="rejectRegularGIROTransactionResponse">
 <xs:sequence/>
 </xs:complexType>
 
@@ -761,6 +773,18 @@
 </xs:complexType>
 
 <xs:complexType name="receiveChequeInformationFromSACHResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="rejectNonStandingGIROTransaction">
+<xs:sequence>
+<xs:element name="billReference" type="xs:string" minOccurs="0"/>
+<xs:element name="creditBankAccountNum" type="xs:string" minOccurs="0"/>
+<xs:element name="debitBankAccountNum" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rejectNonStandingGIROTransactionResponse">
 <xs:sequence/>
 </xs:complexType>
 
@@ -817,6 +841,16 @@
 <xs:sequence/>
 </xs:complexType>
 
+<xs:complexType name="approveNonStandingGIROTransaction">
+<xs:sequence>
+<xs:element name="billReference" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="approveNonStandingGIROTransactionResponse">
+<xs:sequence/>
+</xs:complexType>
+
 <xs:complexType name="retrieveBankAccountByNum">
 <xs:sequence>
 <xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
@@ -827,5 +861,17 @@
 <xs:sequence>
 <xs:element name="return" type="tns:bankAccount" minOccurs="0"/>
 </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rejectStandingGIROTransaction">
+<xs:sequence>
+<xs:element name="billReference" type="xs:string" minOccurs="0"/>
+<xs:element name="creditBankAccountNum" type="xs:string" minOccurs="0"/>
+<xs:element name="debitBankAccountNum" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rejectStandingGIROTransactionResponse">
+<xs:sequence/>
 </xs:complexType>
 </xs:schema>

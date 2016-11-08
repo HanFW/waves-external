@@ -21,10 +21,11 @@ public class Bill implements Serializable {
     private String debitBank;
     private String debitBankAccountNum;
     private String paymentLimit;
-    private String billStatus;
     private String creditBank;
     private String creditBankAccountNum;
     private boolean buttonRender;
+    private String paymentFrequency;
+    private String billType;
 
     public Long getBillId() {
         return billId;
@@ -98,14 +99,6 @@ public class Bill implements Serializable {
         this.paymentLimit = paymentLimit;
     }
 
-    public String getBillStatus() {
-        return billStatus;
-    }
-
-    public void setBillStatus(String billStatus) {
-        this.billStatus = billStatus;
-    }
-
     public String getCreditBank() {
         return creditBank;
     }
@@ -128,6 +121,22 @@ public class Bill implements Serializable {
 
     public void setButtonRender(boolean buttonRender) {
         this.buttonRender = buttonRender;
+    }
+
+    public String getPaymentFrequency() {
+        return paymentFrequency;
+    }
+
+    public void setPaymentFrequency(String paymentFrequency) {
+        this.paymentFrequency = paymentFrequency;
+    }
+
+    public String getBillType() {
+        return billType;
+    }
+
+    public void setBillType(String billType) {
+        this.billType = billType;
     }
 
     @Override

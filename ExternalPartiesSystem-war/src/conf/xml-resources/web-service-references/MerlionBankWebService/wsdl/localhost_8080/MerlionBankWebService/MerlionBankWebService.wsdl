@@ -76,11 +76,29 @@
 <message name="retrieveReceivedChequeByNumResponse">
 <part name="parameters" element="tns:retrieveReceivedChequeByNumResponse"/>
 </message>
-<message name="rejectTransaction">
-<part name="parameters" element="tns:rejectTransaction"/>
+<message name="rejectRegularGIROTransaction">
+<part name="parameters" element="tns:rejectRegularGIROTransaction"/>
 </message>
-<message name="rejectTransactionResponse">
-<part name="parameters" element="tns:rejectTransactionResponse"/>
+<message name="rejectRegularGIROTransactionResponse">
+<part name="parameters" element="tns:rejectRegularGIROTransactionResponse"/>
+</message>
+<message name="rejectStandingGIROTransaction">
+<part name="parameters" element="tns:rejectStandingGIROTransaction"/>
+</message>
+<message name="rejectStandingGIROTransactionResponse">
+<part name="parameters" element="tns:rejectStandingGIROTransactionResponse"/>
+</message>
+<message name="rejectNonStandingGIROTransaction">
+<part name="parameters" element="tns:rejectNonStandingGIROTransaction"/>
+</message>
+<message name="rejectNonStandingGIROTransactionResponse">
+<part name="parameters" element="tns:rejectNonStandingGIROTransactionResponse"/>
+</message>
+<message name="approveNonStandingGIROTransaction">
+<part name="parameters" element="tns:approveNonStandingGIROTransaction"/>
+</message>
+<message name="approveNonStandingGIROTransactionResponse">
+<part name="parameters" element="tns:approveNonStandingGIROTransactionResponse"/>
 </message>
 <portType name="MerlionBankWebService">
 <operation name="addNewRecord">
@@ -131,9 +149,21 @@
 <input wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveReceivedChequeByNumRequest" message="tns:retrieveReceivedChequeByNum"/>
 <output wsam:Action="http://session.ws.ejb/MerlionBankWebService/retrieveReceivedChequeByNumResponse" message="tns:retrieveReceivedChequeByNumResponse"/>
 </operation>
-<operation name="rejectTransaction">
-<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/rejectTransactionRequest" message="tns:rejectTransaction"/>
-<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/rejectTransactionResponse" message="tns:rejectTransactionResponse"/>
+<operation name="rejectRegularGIROTransaction">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/rejectRegularGIROTransactionRequest" message="tns:rejectRegularGIROTransaction"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/rejectRegularGIROTransactionResponse" message="tns:rejectRegularGIROTransactionResponse"/>
+</operation>
+<operation name="rejectStandingGIROTransaction">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/rejectStandingGIROTransactionRequest" message="tns:rejectStandingGIROTransaction"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/rejectStandingGIROTransactionResponse" message="tns:rejectStandingGIROTransactionResponse"/>
+</operation>
+<operation name="rejectNonStandingGIROTransaction">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/rejectNonStandingGIROTransactionRequest" message="tns:rejectNonStandingGIROTransaction"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/rejectNonStandingGIROTransactionResponse" message="tns:rejectNonStandingGIROTransactionResponse"/>
+</operation>
+<operation name="approveNonStandingGIROTransaction">
+<input wsam:Action="http://session.ws.ejb/MerlionBankWebService/approveNonStandingGIROTransactionRequest" message="tns:approveNonStandingGIROTransaction"/>
+<output wsam:Action="http://session.ws.ejb/MerlionBankWebService/approveNonStandingGIROTransactionResponse" message="tns:approveNonStandingGIROTransactionResponse"/>
 </operation>
 </portType>
 <binding name="MerlionBankWebServicePortBinding" type="tns:MerlionBankWebService">
@@ -246,7 +276,34 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="rejectTransaction">
+<operation name="rejectRegularGIROTransaction">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="rejectStandingGIROTransaction">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="rejectNonStandingGIROTransaction">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="approveNonStandingGIROTransaction">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

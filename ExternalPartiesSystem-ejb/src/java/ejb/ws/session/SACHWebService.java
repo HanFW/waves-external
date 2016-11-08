@@ -1,5 +1,6 @@
 package ejb.ws.session;
 
+import ejb.billingprocessor.session.NTUCSessionBeanLocal;
 import ejb.mas.entity.SACH;
 import ejb.mas.session.MEPSSessionBeanLocal;
 import ejb.mas.session.SACHSessionBeanLocal;
@@ -26,6 +27,9 @@ import ws.client.merlionBank.ReceivedCheque;
 @Stateless()
 
 public class SACHWebService {
+
+    @EJB
+    private NTUCSessionBeanLocal nTUCSessionBeanLocal;
 
     @EJB
     private OtherBankAccountSessionBeanLocal otherBankAccountSessionBeanLocal;
@@ -231,6 +235,44 @@ public class SACHWebService {
         }
 
         return sach;
+    }
+
+    @WebMethod(operationName = "passStandingGIROToSACH")
+//    @Oneway
+    public void passStandingGIROToSACH(@WebParam(name = "customerName") String customerName,
+            @WebParam(name = "customerMobile") String customerMobile,
+            @WebParam(name = "billReference") String billReference,
+            @WebParam(name = "billingOrganizationName") String billingOrganizationName,
+            @WebParam(name = "creditBank") String creditBank,
+            @WebParam(name = "creditBankAccountNum") String creditBankAccountNum,
+            @WebParam(name = "debitBank") String debitBank,
+            @WebParam(name = "debitBankAccountNum") String debitBankAccountNum,
+            @WebParam(name = "paymemtLimit") String paymemtLimit,
+            @WebParam(name = "billStatus") String billStatus,
+            @WebParam(name = "buttonRender") boolean buttonRender) {
+
+        nTUCSessionBeanLocal.receiveStandingGIROFromSACH(customerName, customerMobile,
+                billReference, billingOrganizationName, creditBank, creditBankAccountNum,
+                debitBank, debitBankAccountNum, paymemtLimit, billStatus, buttonRender);
+    }
+
+    @WebMethod(operationName = "passNonStandingGIROToSACH")
+//    @Oneway
+    public void passNonStandingGIROToSACH(@WebParam(name = "customerName") String customerName,
+            @WebParam(name = "customerMobile") String customerMobile,
+            @WebParam(name = "billReference") String billReference,
+            @WebParam(name = "billingOrganizationName") String billingOrganizationName,
+            @WebParam(name = "creditBank") String creditBank,
+            @WebParam(name = "creditBankAccountNum") String creditBankAccountNum,
+            @WebParam(name = "debitBank") String debitBank,
+            @WebParam(name = "debitBankAccountNum") String debitBankAccountNum,
+            @WebParam(name = "paymemtLimit") String paymemtLimit,
+            @WebParam(name = "billStatus") String billStatus,
+            @WebParam(name = "paymentFrequency") String paymentFrequency) {
+
+        nTUCSessionBeanLocal.receiveNonStandingGIROFromSACH(customerName, customerMobile,
+                billReference, billingOrganizationName, creditBank, creditBankAccountNum,
+                debitBank, debitBankAccountNum, paymemtLimit, billStatus, paymentFrequency);
     }
 
     private Long addNewRecord(java.lang.String bankName, java.lang.String bankAccountNum, java.lang.String debitOrCredit, java.lang.String paymentAmt, java.lang.String onHoldStatus, java.lang.String debitOrCreditBankName, java.lang.String debitOrCreditBankAccountNum, java.lang.String paymentMethod) {

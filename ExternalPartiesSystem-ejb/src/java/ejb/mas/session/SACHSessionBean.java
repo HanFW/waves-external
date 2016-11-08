@@ -313,7 +313,7 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         String currentTime = cal.getTime().toString();
         String bankNames = "DBS&Merlion";
         String paymentMethod = "Standing GIRO";
-        String failedReason = "Refund to debit account due to invalid credit account number";
+        String failedReason = "Invalid Bill Reference Number";
 
         Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, creditBankAccountNum, "DBS",
                 debitBankAccountNum, "Merlion", cal.getTimeInMillis(), 0.0, "Failed");
@@ -322,6 +322,31 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         sach.setFailedReason(failedReason);
 
         rejectStandingGIROTransaction(billReference, creditBankAccountNum, debitBankAccountNum);
+    }
+
+    @Override
+    public void rejectNonStandingGIRO(String billReference, String creditBankAccountNum,
+            String debitBankAccountNum) {
+
+        Calendar cal = Calendar.getInstance();
+        String currentTime = cal.getTime().toString();
+        String bankNames = "DBS&Merlion";
+        String paymentMethod = "Non Standing GIRO";
+        String failedReason = "Invalid Bill Reference Number";
+
+        Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod,
+                creditBankAccountNum, "DBS", debitBankAccountNum, "Merlion",
+                cal.getTimeInMillis(), 0.0, "Failed");
+
+        SACH sach = retrieveSACHById(sachId);
+        sach.setFailedReason(failedReason);
+
+        rejectNonStandingGIROTransaction(billReference, creditBankAccountNum, debitBankAccountNum);
+    }
+
+    @Override
+    public void approveNonStandingGIRO(String billReference) {
+        approveNonStandingGIROTransaction(billReference);
     }
 
     private void actualOTMFastTransfer(java.lang.String fromBankAccountNum, java.lang.String toBankAccountNum, java.lang.Double transferAmt) {
@@ -378,5 +403,19 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
         port.rejectStandingGIROTransaction(billReference, creditBankAccountNum, debitBankAccountNum);
+    }
+
+    private void rejectNonStandingGIROTransaction(java.lang.String billReference, java.lang.String creditBankAccountNum, java.lang.String debitBankAccountNum) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        port.rejectNonStandingGIROTransaction(billReference, creditBankAccountNum, debitBankAccountNum);
+    }
+
+    private void approveNonStandingGIROTransaction(java.lang.String billReference) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        port.approveNonStandingGIROTransaction(billReference);
     }
 }

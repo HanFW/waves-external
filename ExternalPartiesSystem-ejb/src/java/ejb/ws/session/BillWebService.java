@@ -26,7 +26,6 @@ public class BillWebService {
             @WebParam(name = "creditBankAccountNum") String creditBankAccountNum,
             @WebParam(name = "debitBankAccountNum") String debitBankAccountNum,
             @WebParam(name = "paymentLimit") String paymentLimit,
-            @WebParam(name = "billStatus") String billStatus,
             @WebParam(name = "buttonRender") boolean buttonRender) {
         Bill bill = new Bill();
 
@@ -39,7 +38,6 @@ public class BillWebService {
         bill.setDebitBank(debitBank);
         bill.setDebitBankAccountNum(debitBankAccountNum);
         bill.setPaymentLimit(paymentLimit);
-        bill.setBillStatus(billStatus);
         bill.setButtonRender(buttonRender);
 
         entityManager.persist(bill);

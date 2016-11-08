@@ -18,8 +18,9 @@ public class BillSessionBean implements BillSessionBeanLocal {
     @Override
     public Long addNewBill(String customerName, String customerMobile, String billReference,
             String billingOrganizationName, String creditBank, String creditBankAccountNum,
-            String debitBank, String debitBankAccountNum, String paymentLimit,
-            String billStatus, boolean buttonRender) {
+            String debitBank, String debitBankAccountNum, String paymentLimit, boolean buttonRender,
+            String paymentFrequency, String billType) {
+        
         Bill bill = new Bill();
 
         bill.setCustomerName(customerName);
@@ -31,8 +32,9 @@ public class BillSessionBean implements BillSessionBeanLocal {
         bill.setDebitBank(debitBank);
         bill.setDebitBankAccountNum(debitBankAccountNum);
         bill.setPaymentLimit(paymentLimit);
-        bill.setBillStatus(billStatus);
         bill.setButtonRender(buttonRender);
+        bill.setPaymentFrequency(paymentFrequency);
+        bill.setBillType(billType);
 
         entityManager.persist(bill);
         entityManager.flush();
@@ -64,10 +66,21 @@ public class BillSessionBean implements BillSessionBeanLocal {
     }
 
     @Override
-    public List<Bill> getAllBill(String billingOrganizationName) {
+    public List<Bill> getAllStandingGIROBill(String billingOrganizationName) {
 
-        Query query = entityManager.createQuery("SELECT b FROM Bill b Where b.billingOrganizationName=:billingOrganizationName");
+        Query query = entityManager.createQuery("SELECT b FROM Bill b Where b.billingOrganizationName=:billingOrganizationName And b.billType=:billType");
         query.setParameter("billingOrganizationName", billingOrganizationName);
+        query.setParameter("billType", "Standing GIRO");
+
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<Bill> getAllNonStandingGIROBill(String billingOrganizationName) {
+
+        Query query = entityManager.createQuery("SELECT b FROM Bill b Where b.billingOrganizationName=:billingOrganizationName And b.billType=:billType");
+        query.setParameter("billingOrganizationName", billingOrganizationName);
+        query.setParameter("billType", "Non Standing GIRO");
 
         return query.getResultList();
     }
@@ -100,12 +113,6 @@ public class BillSessionBean implements BillSessionBeanLocal {
 
         Bill bill = retrieveBillByBillId(billId);
         bill.setPaymentAmt(paymentAmt.toString());
-    }
-
-    @Override
-    public void updateBillingStatus(Long billId) {
-        Bill bill = retrieveBillByBillId(billId);
-        bill.setBillStatus("Rejected");
     }
 
     @Override
