@@ -701,6 +701,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="rejectTransaction">
+<xs:sequence>
+<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
+<xs:element name="transferAmt" type="xs:double" minOccurs="0"/>
+<xs:element name="toBankAccountNum" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rejectTransactionResponse">
+<xs:sequence/>
+</xs:complexType>
+
 <xs:complexType name="retrieveReceivedChequeById">
 <xs:sequence>
 <xs:element name="chequeId" type="xs:long" minOccurs="0"/>
@@ -815,17 +827,5 @@
 <xs:sequence>
 <xs:element name="return" type="tns:bankAccount" minOccurs="0"/>
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="rejectTransaction">
-<xs:sequence>
-<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
-<xs:element name="transferAmt" type="xs:double" minOccurs="0"/>
-<xs:element name="toBankAccountNum" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="rejectTransactionResponse">
-<xs:sequence/>
 </xs:complexType>
 </xs:schema>
