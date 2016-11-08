@@ -1,8 +1,9 @@
 package ejb.otherbanks.session;
 
+import ejb.billingprocessor.entity.Bill;
+import ejb.billingprocessor.session.BillSessionBeanLocal;
 import ejb.card.entity.MasterCardClearingNetwork;
 import ejb.card.entity.VisaClearingNetwork;
-import ejb.card.session.VisaNetworkClearingSessionBeanLocal;
 import ejb.mas.session.SACHSessionBeanLocal;
 import ejb.otherbanks.entity.OtherBankOnHoldRecord;
 import ejb.otherbanks.entity.OtherBankAccount;
@@ -22,6 +23,9 @@ import ws.client.merlionBank.MerlionBankWebService_Service;
 @Stateless
 public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
 
+    @EJB
+    private BillSessionBeanLocal billSessionBeanLocal;
+
     @WebServiceRef(wsdlLocation = "META-INF/wsdl/localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl")
     private MerlionBankWebService_Service service_merlionBank;
 
@@ -30,9 +34,6 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
 
     @EJB
     private OtherBankAccountSessionBeanLocal otherBankAccountSessionBeanLocal;
-
-    @EJB
-    private VisaNetworkClearingSessionBeanLocal visaNetworkClearingSessionBeanLocal;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -118,6 +119,18 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
         }
 
         return "Payment Approved";
+    }
+
+    @Override
+    public void askForRejectBillingPayment(Long billId) {
+
+        Bill bill = billSessionBeanLocal.retrieveBillByBillId(billId);
+        String debilBankAccountNum = bill.getDebitBankAccountNum();
+        String creditBankAccountNum = bill.getCreditBankAccountNum();
+        String paymentAmt = bill.getPaymentAmt();
+        String billReference = bill.getBillReference();
+
+        sACHSessionBeanLocal.rejectStandingGIRO(billReference, creditBankAccountNum, debilBankAccountNum);
     }
 
     @Override
@@ -218,13 +231,6 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
 
             }
         }
-    }
-
-    private BankAccount retrieveBankAccountByNum(java.lang.String bankAccountNum) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.retrieveBankAccountByNum(bankAccountNum);
     }
 
     @Override
@@ -350,5 +356,12 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
             otherBankAccountSessionBeanLocal.updateOtherBankAccountBalanceById(merchantAccountIds.get(2), creditAmt);
             Long otherTransactionId3 = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, "CTS", "Transfer from citiBank to sephora", "", String.valueOf(creditAmt), merchantAccountIds.get(2));
         }
+    }
+
+    private BankAccount retrieveBankAccountByNum(java.lang.String bankAccountNum) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        return port.retrieveBankAccountByNum(bankAccountNum);
     }
 }

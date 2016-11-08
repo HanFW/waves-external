@@ -18,16 +18,21 @@ public class BillSessionBean implements BillSessionBeanLocal {
     @Override
     public Long addNewBill(String customerName, String customerMobile, String billReference,
             String billingOrganizationName, String creditBank, String creditBankAccountNum,
-            String debitBank, String debitBankAccountNum, String paymentLimit) {
+            String debitBank, String debitBankAccountNum, String paymentLimit,
+            String billStatus, boolean buttonRender) {
         Bill bill = new Bill();
 
         bill.setCustomerName(customerName);
         bill.setCustomerMobile(customerMobile);
         bill.setBillReference(billReference);
         bill.setBillingOrganizationName(billingOrganizationName);
+        bill.setCreditBank(creditBank);
+        bill.setCreditBankAccountNum(creditBankAccountNum);
         bill.setDebitBank(debitBank);
         bill.setDebitBankAccountNum(debitBankAccountNum);
         bill.setPaymentLimit(paymentLimit);
+        bill.setBillStatus(billStatus);
+        bill.setButtonRender(buttonRender);
 
         entityManager.persist(bill);
         entityManager.flush();
@@ -95,5 +100,28 @@ public class BillSessionBean implements BillSessionBeanLocal {
 
         Bill bill = retrieveBillByBillId(billId);
         bill.setPaymentAmt(paymentAmt.toString());
+    }
+
+    @Override
+    public void updateBillingStatus(Long billId) {
+        Bill bill = retrieveBillByBillId(billId);
+        bill.setBillStatus("Rejected");
+    }
+
+    @Override
+    public String deleteBill(Long billId) {
+
+        Bill bill = retrieveBillByBillId(billId);
+
+        entityManager.remove(bill);
+        entityManager.flush();
+
+        return "Successfully deleted!";
+    }
+
+    @Override
+    public void updateButtonRender(Long billId) {
+        Bill bill = retrieveBillByBillId(billId);
+        bill.setButtonRender(true);
     }
 }

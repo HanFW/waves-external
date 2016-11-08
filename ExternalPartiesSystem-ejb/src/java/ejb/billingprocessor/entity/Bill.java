@@ -8,6 +8,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Bill implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +21,10 @@ public class Bill implements Serializable {
     private String debitBank;
     private String debitBankAccountNum;
     private String paymentLimit;
+    private String billStatus;
+    private String creditBank;
+    private String creditBankAccountNum;
+    private boolean buttonRender;
 
     public Long getBillId() {
         return billId;
@@ -93,6 +98,38 @@ public class Bill implements Serializable {
         this.paymentLimit = paymentLimit;
     }
 
+    public String getBillStatus() {
+        return billStatus;
+    }
+
+    public void setBillStatus(String billStatus) {
+        this.billStatus = billStatus;
+    }
+
+    public String getCreditBank() {
+        return creditBank;
+    }
+
+    public void setCreditBank(String creditBank) {
+        this.creditBank = creditBank;
+    }
+
+    public String getCreditBankAccountNum() {
+        return creditBankAccountNum;
+    }
+
+    public void setCreditBankAccountNum(String creditBankAccountNum) {
+        this.creditBankAccountNum = creditBankAccountNum;
+    }
+
+    public boolean isButtonRender() {
+        return buttonRender;
+    }
+
+    public void setButtonRender(boolean buttonRender) {
+        this.buttonRender = buttonRender;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -117,5 +154,5 @@ public class Bill implements Serializable {
     public String toString() {
         return "ejb.mas.entity.Bill[ id=" + billId + " ]";
     }
-    
+
 }

@@ -305,6 +305,25 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         passChequeInformationToMerlion(chequeNum, transactionAmt, bankAccountNum);
     }
 
+    @Override
+    public void rejectStandingGIRO(String billReference, String creditBankAccountNum,
+            String debitBankAccountNum) {
+
+        Calendar cal = Calendar.getInstance();
+        String currentTime = cal.getTime().toString();
+        String bankNames = "DBS&Merlion";
+        String paymentMethod = "Standing GIRO";
+        String failedReason = "Refund to debit account due to invalid credit account number";
+
+        Long sachId = addNewSACH(0.0, 0.0, currentTime, bankNames, paymentMethod, creditBankAccountNum, "DBS",
+                debitBankAccountNum, "Merlion", cal.getTimeInMillis(), 0.0, "Failed");
+
+        SACH sach = retrieveSACHById(sachId);
+        sach.setFailedReason(failedReason);
+
+        rejectStandingGIROTransaction(billReference, creditBankAccountNum, debitBankAccountNum);
+    }
+
     private void actualOTMFastTransfer(java.lang.String fromBankAccountNum, java.lang.String toBankAccountNum, java.lang.Double transferAmt) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
@@ -352,5 +371,12 @@ public class SACHSessionBean implements SACHSessionBeanLocal {
         // If the calling of port operations may lead to race condition some synchronization is required.
         ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
         return port.retrieveReceivedChequeByNum(chequeNum);
+    }
+
+    private void rejectStandingGIROTransaction(java.lang.String billReference, java.lang.String creditBankAccountNum, java.lang.String debitBankAccountNum) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        port.rejectStandingGIROTransaction(billReference, creditBankAccountNum, debitBankAccountNum);
     }
 }

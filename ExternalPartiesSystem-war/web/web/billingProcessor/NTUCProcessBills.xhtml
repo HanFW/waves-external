@@ -6,7 +6,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/ntucTemplate.xhtml">
-    
+
     <ui:define name="content">
         <h:form>
             <h:outputText value="NTUC Process Bills" />
@@ -37,8 +37,25 @@
                         </p:commandButton>
                     </center>
                 </p:column>
-            </p:dataTable>
 
+                <p:column headerText="Action" style="width: 10%">
+                    <center>
+                        <p:commandButton process="@this" action="#{nTUCProcessBillsDoneManagedBean.rejectBillingPayment}" 
+                                         ajax="false" value="Reject" disabled="#{ntucBill.buttonRender}"> 
+                            <f:setPropertyActionListener target="#{nTUCProcessBillsDoneManagedBean.billId}" value="#{ntucBill.billId}" />
+                        </p:commandButton>
+                    </center>
+                </p:column>
+
+                <p:column headerText="Action" style="width: 10%">
+                    <center>
+                        <p:commandButton process="@this" action="#{nTUCProcessBillsDoneManagedBean.deleteBillingPayment}" 
+                                         ajax="false" icon="ui-icon-trash"> 
+                            <f:setPropertyActionListener target="#{nTUCProcessBillsDoneManagedBean.billId}" value="#{ntucBill.billId}" />
+                        </p:commandButton>
+                    </center>
+                </p:column>
+            </p:dataTable>
         </h:form>
     </ui:define>
 </ui:composition>

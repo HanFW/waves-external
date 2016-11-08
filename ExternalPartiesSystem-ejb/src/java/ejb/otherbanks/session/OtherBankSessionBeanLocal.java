@@ -19,4 +19,6 @@ public interface OtherBankSessionBeanLocal {
     public void merchantVisaNetworkSettlement();
     
     public void merchantMasterCardNetworkSettlement();
+    
+    public void askForRejectBillingPayment(Long billId);
 }

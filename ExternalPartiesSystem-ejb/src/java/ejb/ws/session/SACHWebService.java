@@ -19,7 +19,6 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.xml.ws.WebServiceRef;
-import ws.client.merlionBank.BankAccount;
 import ws.client.merlionBank.MerlionBankWebService_Service;
 import ws.client.merlionBank.ReceivedCheque;
 
@@ -155,7 +154,7 @@ public class SACHWebService {
             String failedReason = "Invalid Bank Account Number";
             sach.setFailedReason(failedReason);
 
-            rejectTransaction(fromBankAccountNum, transferAmt, toBankAccountNum);
+            rejectRegularGIROTransaction(fromBankAccountNum, transferAmt, toBankAccountNum);
         } else {
             Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
                     "DBS&Merlion", "Regular GIRO", toBankAccountNum, "DBS", fromBankAccountNum,
@@ -175,41 +174,6 @@ public class SACHWebService {
                     "Credit", transferAmt.toString(), "New", "Merlion",
                     fromBankAccountNum, "Regular GIRO");
         }
-    }
-
-    private Long addNewRecord(java.lang.String bankName, java.lang.String bankAccountNum, java.lang.String debitOrCredit, java.lang.String paymentAmt, java.lang.String onHoldStatus, java.lang.String debitOrCreditBankName, java.lang.String debitOrCreditBankAccountNum, java.lang.String paymentMethod) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.addNewRecord(bankName, bankAccountNum, debitOrCredit, paymentAmt, onHoldStatus, debitOrCreditBankName, debitOrCreditBankAccountNum, paymentMethod);
-    }
-
-    private void updateOnHoldChequeNum(java.lang.Long onHoldRecordId, java.lang.String chequeNum) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        port.updateOnHoldChequeNum(onHoldRecordId, chequeNum);
-    }
-
-    private ReceivedCheque retrieveReceivedChequeByNum(java.lang.String chequeNum) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.retrieveReceivedChequeByNum(chequeNum);
-    }
-
-    private BankAccount retrieveBankAccountByNum(java.lang.String bankAccountNum) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        return port.retrieveBankAccountByNum(bankAccountNum);
-    }
-
-    private void rejectTransaction(java.lang.String bankAccountNum, java.lang.Double transferAmt, java.lang.String toBankAccountNum) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
-        port.rejectTransaction(bankAccountNum, transferAmt, toBankAccountNum);
     }
 
     @WebMethod(operationName = "addNewSACH")
@@ -267,5 +231,33 @@ public class SACHWebService {
         }
 
         return sach;
+    }
+
+    private Long addNewRecord(java.lang.String bankName, java.lang.String bankAccountNum, java.lang.String debitOrCredit, java.lang.String paymentAmt, java.lang.String onHoldStatus, java.lang.String debitOrCreditBankName, java.lang.String debitOrCreditBankAccountNum, java.lang.String paymentMethod) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        return port.addNewRecord(bankName, bankAccountNum, debitOrCredit, paymentAmt, onHoldStatus, debitOrCreditBankName, debitOrCreditBankAccountNum, paymentMethod);
+    }
+
+    private void updateOnHoldChequeNum(java.lang.Long onHoldRecordId, java.lang.String chequeNum) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        port.updateOnHoldChequeNum(onHoldRecordId, chequeNum);
+    }
+
+    private ReceivedCheque retrieveReceivedChequeByNum(java.lang.String chequeNum) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        return port.retrieveReceivedChequeByNum(chequeNum);
+    }
+
+    private void rejectRegularGIROTransaction(java.lang.String bankAccountNum, java.lang.Double transferAmt, java.lang.String toBankAccountNum) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        ws.client.merlionBank.MerlionBankWebService port = service_merlionBank.getMerlionBankWebServicePort();
+        port.rejectRegularGIROTransaction(bankAccountNum, transferAmt, toBankAccountNum);
     }
 }

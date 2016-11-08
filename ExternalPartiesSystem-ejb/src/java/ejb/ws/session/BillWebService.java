@@ -21,18 +21,26 @@ public class BillWebService {
             @WebParam(name = "customerMobile") String customerMobile,
             @WebParam(name = "billReference") String billReference,
             @WebParam(name = "billingOrganizationName") String billingOrganizationName,
+            @WebParam(name = "creditBank") String creditBank,
             @WebParam(name = "debitBank") String debitBank,
+            @WebParam(name = "creditBankAccountNum") String creditBankAccountNum,
             @WebParam(name = "debitBankAccountNum") String debitBankAccountNum,
-            @WebParam(name = "paymentLimit") String paymentLimit) {
+            @WebParam(name = "paymentLimit") String paymentLimit,
+            @WebParam(name = "billStatus") String billStatus,
+            @WebParam(name = "buttonRender") boolean buttonRender) {
         Bill bill = new Bill();
 
         bill.setCustomerName(customerName);
         bill.setCustomerMobile(customerMobile);
         bill.setBillReference(billReference);
         bill.setBillingOrganizationName(billingOrganizationName);
+        bill.setCreditBank(creditBank);
+        bill.setCreditBankAccountNum(creditBankAccountNum);
         bill.setDebitBank(debitBank);
         bill.setDebitBankAccountNum(debitBankAccountNum);
         bill.setPaymentLimit(paymentLimit);
+        bill.setBillStatus(billStatus);
+        bill.setButtonRender(buttonRender);
 
         entityManager.persist(bill);
         entityManager.flush();
