@@ -133,6 +133,7 @@
 <xs:element name="customerPayeeNum" type="xs:string" minOccurs="0"/>
 <xs:element name="customerPostal" type="xs:string" minOccurs="0"/>
 <xs:element name="customerProperty" type="tns:customerProperty" minOccurs="0"/>
+<xs:element name="customerRFM" type="tns:customerRFM" minOccurs="0"/>
 <xs:element name="customerRace" type="xs:string" minOccurs="0"/>
 <xs:element name="customerSalutation" type="xs:string" minOccurs="0"/>
 <xs:element name="customerSignature" type="xs:base64Binary" minOccurs="0"/>
@@ -384,6 +385,7 @@
 <xs:element name="initialAmount" type="xs:double"/>
 <xs:element name="loanApplication" type="tns:loanApplication" minOccurs="0"/>
 <xs:element name="loanRepaymentAccount" type="tns:loanRepaymentAccount" minOccurs="0"/>
+<xs:element name="loanStatement" type="tns:loanStatement" minOccurs="0"/>
 <xs:element name="overdueBalance" type="xs:double"/>
 <xs:element name="startDate" type="xs:dateTime" minOccurs="0"/>
 </xs:sequence>
@@ -393,27 +395,40 @@
 <xs:sequence>
 <xs:element name="accountBalance" type="xs:double"/>
 <xs:element name="accountNumber" type="xs:string" minOccurs="0"/>
+<xs:element name="defaultMonths" type="xs:int"/>
 <xs:element name="depositAccountNumber" type="xs:string" minOccurs="0"/>
 <xs:element name="fees" type="xs:double"/>
 <xs:element name="id" type="xs:long" minOccurs="0"/>
 <xs:element name="instalment" type="xs:double"/>
+<xs:element name="interest" type="xs:double"/>
 <xs:element name="loanPayableAccount" type="tns:loanPayableAccount" minOccurs="0"/>
 <xs:element name="loanRepaymentTransactions" type="tns:loanRepaymentTransaction" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element name="overdueBalance" type="xs:double"/>
 <xs:element name="paymentStatus" type="xs:string" minOccurs="0"/>
+<xs:element name="principal" type="xs:double"/>
 <xs:element name="repaymentMonths" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="loanRepaymentTransaction">
 <xs:sequence>
-<xs:element name="accountCredit" type="xs:string" minOccurs="0"/>
-<xs:element name="accountDebit" type="xs:string" minOccurs="0"/>
+<xs:element name="accountBalance" type="xs:double"/>
+<xs:element name="accountCredit" type="xs:double"/>
+<xs:element name="accountDebit" type="xs:double"/>
+<xs:element name="description" type="xs:string" minOccurs="0"/>
 <xs:element name="id" type="xs:long" minOccurs="0"/>
 <xs:element name="loanRepaymentAccount" type="tns:loanRepaymentAccount" minOccurs="0"/>
-<xs:element name="transactionCode" type="xs:string" minOccurs="0"/>
 <xs:element name="transactionDate" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="transactionRefrence" type="xs:string" minOccurs="0"/>
+<xs:element name="transactionMillis" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="loanStatement">
+<xs:sequence>
+<xs:element name="accountDetails" type="xs:string" minOccurs="0"/>
+<xs:element name="loanPayableAccount" type="tns:loanPayableAccount" minOccurs="0"/>
+<xs:element name="loanStatementId" type="xs:long" minOccurs="0"/>
+<xs:element name="statementType" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -535,6 +550,23 @@
 <xs:element name="propertyTenureType" type="xs:string" minOccurs="0"/>
 <xs:element name="propertyType" type="xs:string" minOccurs="0"/>
 <xs:element name="propertyUsage" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="customerRFM">
+<xs:sequence>
+<xs:element name="customerBasic" type="tns:customerBasic" minOccurs="0"/>
+<xs:element name="customerName" type="xs:string" minOccurs="0"/>
+<xs:element name="customerRFMId" type="xs:long" minOccurs="0"/>
+<xs:element name="numOfTransactions" type="xs:int" minOccurs="0"/>
+<xs:element name="startTimeMilis" type="xs:long" minOccurs="0"/>
+<xs:element name="totalSpends" type="xs:double" minOccurs="0"/>
+<xs:element name="transactionDays" type="xs:long" minOccurs="0"/>
+<xs:element name="updateMonth" type="xs:int" minOccurs="0"/>
+<xs:element name="updateYear" type="xs:int" minOccurs="0"/>
+<xs:element name="fValue" type="xs:string" minOccurs="0"/>
+<xs:element name="mValue" type="xs:string" minOccurs="0"/>
+<xs:element name="rValue" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -737,6 +769,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="rejectNonStandingGIROTransaction">
+<xs:sequence>
+<xs:element name="billReference" type="xs:string" minOccurs="0"/>
+<xs:element name="creditBankAccountNum" type="xs:string" minOccurs="0"/>
+<xs:element name="debitBankAccountNum" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rejectNonStandingGIROTransactionResponse">
+<xs:sequence/>
+</xs:complexType>
+
 <xs:complexType name="retrieveOnHoldRecordById">
 <xs:sequence>
 <xs:element name="onHoldRecordId" type="xs:long" minOccurs="0"/>
@@ -773,18 +817,6 @@
 </xs:complexType>
 
 <xs:complexType name="receiveChequeInformationFromSACHResponse">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="rejectNonStandingGIROTransaction">
-<xs:sequence>
-<xs:element name="billReference" type="xs:string" minOccurs="0"/>
-<xs:element name="creditBankAccountNum" type="xs:string" minOccurs="0"/>
-<xs:element name="debitBankAccountNum" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="rejectNonStandingGIROTransactionResponse">
 <xs:sequence/>
 </xs:complexType>
 
@@ -851,18 +883,6 @@
 <xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="retrieveBankAccountByNum">
-<xs:sequence>
-<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retrieveBankAccountByNumResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:bankAccount" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="rejectStandingGIROTransaction">
 <xs:sequence>
 <xs:element name="billReference" type="xs:string" minOccurs="0"/>
@@ -873,5 +893,17 @@
 
 <xs:complexType name="rejectStandingGIROTransactionResponse">
 <xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="retrieveBankAccountByNum">
+<xs:sequence>
+<xs:element name="bankAccountNum" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retrieveBankAccountByNumResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:bankAccount" minOccurs="0"/>
+</xs:sequence>
 </xs:complexType>
 </xs:schema>
