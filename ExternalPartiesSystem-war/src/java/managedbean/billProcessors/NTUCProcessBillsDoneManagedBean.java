@@ -120,4 +120,39 @@ public class NTUCProcessBillsDoneManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You have exceeded customer's payment limit.", ""));
         }
     }
+
+    public void rejectBillingPaymentViaStandingGIRO() {
+        ec = FacesContext.getCurrentInstance().getExternalContext();
+
+        otherBankSessionBeanLocal.askForRejectBillingPaymentViaStandingGIRO(billId);
+        billSessionBeanLocal.updateButtonRender(billId);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You have successfully reject billing payment.", ""));
+    }
+
+    public void rejectBillingPaymentViaNonStandingGIRO() {
+        ec = FacesContext.getCurrentInstance().getExternalContext();
+
+        otherBankSessionBeanLocal.askForApproveBillingPaymentViaNonStandingGIRO(billId);
+        billSessionBeanLocal.updateButtonRender(billId);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You have successfully reject billing payment.", " "));
+    }
+
+    public void deleteBillingPayment() {
+        Bill bill = billSessionBeanLocal.retrieveBillByBillId(billId);
+
+        if (bill.getBillId() == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Failed! Bill does not exist.", "Failed!"));
+        } else {
+            billSessionBeanLocal.deleteBill(bill.getBillId());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Bill has already deleted Successfully.", " "));
+        }
+    }
+
+    public void approveBillingPaymentViaNonStandingGIRO() {
+        ec = FacesContext.getCurrentInstance().getExternalContext();
+
+        otherBankSessionBeanLocal.askForApproveBillingPaymentViaNonStandingGIRO(billId);
+        billSessionBeanLocal.updateButtonRender(billId);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You have successfully approve billing payment", " "));
+    }
 }

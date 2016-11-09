@@ -14,7 +14,7 @@ public interface SACHSessionBeanLocal {
     public Long addNewSACH(Double otherTotalCredit, Double merlionTotalCredit,
             String currentTime, String bankNames, String paymentMethod, String creditAccountNum,
             String creditBank, String debitAccountNum, String debitBank, Long currentTimeMilis,
-            Double creditAmt);
+            Double creditAmt, String sachStatus);
 
     public List<SACH> getAllSACH(String bankNames);
 
@@ -25,9 +25,17 @@ public interface SACHSessionBeanLocal {
     public String ntucInitiateGIRO(Long billId);
 
     public void clearMerlionReceivedCheque(String chequeNum);
-            
+
     public void clearDBSReceivedCheque(String chequeNum);
 
     public void receiveChequeInformationFromOtherBank(String chequeNum,
             String transactionAmt, String bankAccountNum);
+
+    public void rejectStandingGIRO(String billReference, String creditBankAccountNum,
+            String debitBankAccountNum);
+
+    public void rejectNonStandingGIRO(String billReference, String creditBankAccountNum,
+            String debitBankAccountNum);
+
+    public void approveNonStandingGIRO(String billReference);
 }

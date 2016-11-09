@@ -23,6 +23,8 @@ public class SACH implements Serializable {
     private String debitBank;
     private Long currentTimeMilis;
     private Double creditAmt;
+    private String sachStatus;
+    private String failedReason;
 
     public Long getSachId() {
         return sachId;
@@ -118,6 +120,22 @@ public class SACH implements Serializable {
 
     public void setCreditAmt(Double creditAmt) {
         this.creditAmt = creditAmt;
+    }
+
+    public String getSachStatus() {
+        return sachStatus;
+    }
+
+    public void setSachStatus(String sachStatus) {
+        this.sachStatus = sachStatus;
+    }
+
+    public String getFailedReason() {
+        return failedReason;
+    }
+
+    public void setFailedReason(String failedReason) {
+        this.failedReason = failedReason;
     }
     
     @Override

@@ -15,8 +15,14 @@ public interface OtherBankSessionBeanLocal {
     public void settleEachOtherBankAccount();
 
     public void creditPayementToAccountMTK(String fromBankAccountNum, String toBankAccountNum, Double paymentAmt);
-    
+
     public void merchantVisaNetworkSettlement();
-    
+
     public void merchantMasterCardNetworkSettlement();
+
+    public void askForRejectBillingPaymentViaStandingGIRO(Long billId);
+
+    public void askForRejectBillingPaymentViaNonStandingGIRO(Long billId);
+
+    public void askForApproveBillingPaymentViaNonStandingGIRO(Long billId);
 }
