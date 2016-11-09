@@ -199,7 +199,7 @@ public class DBSFastTransferManagedBean {
 
             ec.redirect(ec.getRequestContextPath() + "/web/otherBanks/dbs/dbsFastTransferDone.xhtml?faces-redirect=true");
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Failed! Your account balance is insufficient.", "Failed!"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Failed! Your account balance is insufficient.", "Failed!"));
         }
     }
 
