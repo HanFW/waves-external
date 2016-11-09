@@ -35,7 +35,7 @@
                 <p:column headerText="Action" style="width: 10%"> 
                     <center>
                         <p:commandButton process="@this" action="/web/billingProcessor/NTUCProcessBillsDone.xhtml?faces-redirect=true"
-                                         ajax="false" value="Billing"> 
+                                         ajax="false" value="Billing" disabled="#{ntucBill.buttonRender}">  
                             <f:setPropertyActionListener target="#{nTUCProcessBillsDoneManagedBean.billId}" value="#{ntucBill.billId}" />
                         </p:commandButton>
                     </center>
@@ -61,7 +61,7 @@
             </p:dataTable>
             <br/>
             <br/>
-            <p:outputLabel value="View Billing Payment via Standing GIRO" style="font-weight: bold"/>
+            <p:outputLabel value="View Billing Payment via Non Standing GIRO" style="font-weight: bold"/>
             <br/>
             <br/>
             <p:dataTable var="allNonStandingNTUCBill" 
