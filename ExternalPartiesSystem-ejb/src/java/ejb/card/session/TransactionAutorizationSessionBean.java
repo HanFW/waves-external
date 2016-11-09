@@ -96,8 +96,8 @@ public class TransactionAutorizationSessionBean implements TransactionAutorizati
     public void merlionCreditCustomerForTransactionMade(){
       String result = merlionCreditCustomerAccountForTransaction();
       System.out.println("result: "+result);
-      List<TransactionToBeAuthorized> transactions = getAllAuthorizedDebitCardTransaction();
-      System.out.println(" getAllAuthorizedDebitCardTransaction: "+transactions);
+      List<TransactionToBeAuthorized> transactions = getAllAuthorizedCardTransaction();
+      System.out.println(" getAllAuthorizedCardTransaction: "+transactions);
       for(int i=0;i<transactions.size();i++){
           transactions.get(i).setDebitBankAccount("yes");
           em.flush();
@@ -128,12 +128,12 @@ public class TransactionAutorizationSessionBean implements TransactionAutorizati
     }
     
     @Override
-    public List<TransactionToBeAuthorized> getAllAuthorizedDebitCardTransaction(){
+    public List<TransactionToBeAuthorized> getAllAuthorizedCardTransaction(){
                 List<TransactionToBeAuthorized> transactions = new ArrayList<>();
 
-        Query q = em.createQuery("select t from TransactionToBeAuthorized t where t.transactionStatus=:status and t.cardType=:cardType and t.debitBankAccount=:debitAccount");
+        Query q = em.createQuery("select t from TransactionToBeAuthorized t where t.transactionStatus=:status and t.debitBankAccount=:debitAccount");
         q.setParameter("status", "authorized");
-        q.setParameter("cardType", "debit");
+//        q.setParameter("cardType", "debit");
         q.setParameter("debitAccount", "no");
 
         if (!q.getResultList().isEmpty()) {

@@ -7,67 +7,70 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/dbsTemplate.xhtml">
     <ui:define name="content">
-        <h:body>
-            <h:form id="formMain"> 
-                <h:outputText value="Enter Cheque Information" />
-                <br/>
-                <br/>
-                <div align="center">
-                    <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
-                        <p:panel id="panel"> 
-                            <p:messages globalOnly="true"/>
+        <h:form id="formMain"> 
+            <h:outputText value="Enter Cheque Information" />
+            <br/>
+            <br/>
+            <div align="center">
+                <p:panel id="panel"> 
+                    <h:panelGrid columns="1" class="ui-lg-4">
 
-                            <p:outputLabel for="chequeNum" style="font-weight: bold" 
-                                           value="Cheque Number: " />
-                            <p:inputText required="true" label="Cheque Number" 
-                                         requiredMessage="Required Field" id="chequeNum"
-                                         value="#{dBSEnterChequeInformationManagedBean.chequeNum}">
-                            </p:inputText>
-                            <p:message for="chequeNum" />
+                        <p:messages globalOnly="true"/>
 
-                            <p:outputLabel for="transactionAmt" style="font-weight: bold" 
-                                           value="Transfer Amount: " />
-                            <p:inputText required="true" label="Transfer Amount" 
-                                         requiredMessage="Required Field" id="transactionAmt"
-                                         value="#{dBSEnterChequeInformationManagedBean.transactionAmt}">
-                            </p:inputText>
-                            <p:message for="transactionAmt" />
+                        <p:outputLabel for="chequeNum" style="font-weight: bold" 
+                                       value="Cheque Number: " />
+                        <p:inputText required="true" label="Cheque Number" 
+                                     requiredMessage="Required Field" id="chequeNum"
+                                     value="#{dBSEnterChequeInformationManagedBean.chequeNum}">
+                        </p:inputText>
+                        <p:message for="chequeNum" />
 
-                            <p:outputLabel for="receivedBankAccountNum" style="font-weight: bold" value="Account Number: " />
-                            <p:inputText required="true" label="Account Number" 
-                                         requiredMessage="Required Field" id="receivedBankAccountNum"
-                                         value="#{dBSEnterChequeInformationManagedBean.receivedBankAccountNum}">
-                            </p:inputText>
-                            <p:message for="receivedBankAccountNum" />
+                        <p:outputLabel for="transactionAmt" style="font-weight: bold" 
+                                       value="Transfer Amount: " />
+                        <p:inputText required="true" label="Transfer Amount" 
+                                     requiredMessage="Required Field" id="transactionAmt"
+                                     value="#{dBSEnterChequeInformationManagedBean.transactionAmt}">
+                        </p:inputText>
+                        <p:message for="transactionAmt" />
 
-                            <p:outputLabel for="issuedBankAccountNum" style="font-weight: bold" value="Issued Account Number: " />
-                            <p:inputText required="true" label="Issued Account Number" 
-                                         requiredMessage="Required Field" id="issuedBankAccountNum"
-                                         value="#{dBSEnterChequeInformationManagedBean.issuedBankAccountNum}">
-                            </p:inputText>
-                            <p:message for="issuedBankAccountNum" />
+                        <p:outputLabel for="receivedBankAccountNum" style="font-weight: bold" value="Account Number: " />
+                        <p:inputText required="true" label="Account Number" 
+                                     requiredMessage="Required Field" id="receivedBankAccountNum"
+                                     value="#{dBSEnterChequeInformationManagedBean.receivedBankAccountNum}">
+                        </p:inputText>
+                        <p:message for="receivedBankAccountNum" />
 
-                            <p:outputLabel for="receivedCustomerName" style="font-weight: bold" value="Customer Name: " />
-                            <p:inputText required="true" label="Customer Name" 
-                                         requiredMessage="Required Field" id="receivedCustomerName"
-                                         value="#{dBSEnterChequeInformationManagedBean.customerName}">
-                            </p:inputText>
-                            <p:message for="receivedCustomerName" />
+                        <p:outputLabel for="issuedBankAccountNum" style="font-weight: bold" value="Issued Account Number: " />
+                        <p:inputText required="true" label="Issued Account Number" 
+                                     requiredMessage="Required Field" id="issuedBankAccountNum"
+                                     value="#{dBSEnterChequeInformationManagedBean.issuedBankAccountNum}">
+                        </p:inputText>
+                        <p:message for="issuedBankAccountNum" />
 
-                            <p:outputLabel for="receivedCustomerMobile" style="font-weight: bold" value="Customer Mobile: " />
-                            <p:inputText required="true" label="Customer Mobile" 
-                                         requiredMessage="Required Field" id="receivedCustomerMobile"
-                                         value="#{dBSEnterChequeInformationManagedBean.customerMobile}">
-                            </p:inputText>
-                            <p:message for="receivedCustomerMobile" />
+                        <p:outputLabel for="receivedCustomerName" style="font-weight: bold" value="Customer Name: " />
+                        <p:inputText required="true" label="Customer Name" 
+                                     requiredMessage="Required Field" id="receivedCustomerName"
+                                     value="#{dBSEnterChequeInformationManagedBean.customerName}">
+                        </p:inputText>
+                        <p:message for="receivedCustomerName" />
 
-                            <p:commandButton id="submitBtn" value="Submit" update="panel" 
+                        <p:outputLabel for="receivedCustomerMobile" style="font-weight: bold" value="Customer Mobile: " />
+                        <p:inputText required="true" label="Customer Mobile" 
+                                     requiredMessage="Required Field" id="receivedCustomerMobile"
+                                     value="#{dBSEnterChequeInformationManagedBean.customerMobile}">
+                        </p:inputText>
+                        <p:message for="receivedCustomerMobile" />
+
+                       
+
+                    </h:panelGrid>
+                     
+                            <p:commandButton id="submitBtn" value="Submit" update="panel" style="width:auto"
                                              actionListener="#{dBSEnterChequeInformationManagedBean.submit()}" 
                                              ajax="true"/>
-                        </p:panel>
-                    </p:panelGrid>
-                </div>
-            </h:form>
-        </h:body>
+                        
+                </p:panel>
+            </div>
+        </h:form>
     </ui:define>
 </ui:composition>

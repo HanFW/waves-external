@@ -9,6 +9,9 @@
     <ui:define name="content">
         <h:body>
             <h:form id="formMain"> 
+                <h:outputText value="Choose Account to View Transaction" />
+                <br/>
+                <br/>
                 <p:messages globalOnly="true"/>
                 
                 <p:dataTable var="dbsBankAccount" value="#{dBSViewAccountManagedBean.allDBSBankAccounts}" 
