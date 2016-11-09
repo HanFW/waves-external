@@ -25,7 +25,6 @@ import ws.client.merlionBank.ReceivedCheque;
 
 @WebService(serviceName = "SACHWebService")
 @Stateless()
-
 public class SACHWebService {
 
     @EJB
@@ -151,12 +150,21 @@ public class SACHWebService {
 
         OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(toBankAccountNum);
         if (dbsBankAccount.getOtherBankAccountId() == null) {
-            Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
-                    "DBS&Merlion", "Regular GIRO", toBankAccountNum, "DBS", fromBankAccountNum,
-                    "Merlion", currentTimeMilis, transferAmt, "Failed");
+            Double otherTotalCredit = 0 - transferAmt;
+            Double merlionTotalCredit = 0 + transferAmt;
+            Long sachId = sACHSessionBeanLocal.addNewSACH(otherTotalCredit, merlionTotalCredit,
+                    currentTime, "DBS&Merlion", "Regular GIRO", toBankAccountNum, "DBS",
+                    fromBankAccountNum, "Merlion", currentTimeMilis, transferAmt, "Failed");
             SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
             String failedReason = "Invalid Bank Account Number";
             sach.setFailedReason(failedReason);
+
+            addNewRecord("Merlion", fromBankAccountNum, "Credit",
+                    transferAmt.toString(), "New", "DBS", toBankAccountNum,
+                    "Regular GIRO");
+            onHoldSessionBeanLocal.addNewRecord("DBS", toBankAccountNum,
+                    "Debit", transferAmt.toString(), "New", "Merlion",
+                    fromBankAccountNum, "Regular GIRO");
 
             rejectRegularGIROTransaction(fromBankAccountNum, transferAmt, toBankAccountNum);
         } else {

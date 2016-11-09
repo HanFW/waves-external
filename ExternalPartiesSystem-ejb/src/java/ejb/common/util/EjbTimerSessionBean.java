@@ -236,8 +236,6 @@ public class EjbTimerSessionBean implements EjbTimerSessionBeanLocal {
         
         transactionAutorizationSessionBeanLocal.merlionCreditCustomerForTransactionMade();
         System.out.println("merlionCreditCustomerForTransactionMade");
-        
-        
     }
 
     private void settleEachBankAccount() {
