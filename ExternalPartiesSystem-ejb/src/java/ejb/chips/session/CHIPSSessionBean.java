@@ -21,7 +21,7 @@ import ws.client.merlionBank.MerlionBankWebService_Service;
 
 @Stateless
 public class CHIPSSessionBean implements CHIPSSessionBeanLocal {
-    
+
     @EJB
     private SettlementSessionBeanLocal settlementSessionBeanLocal;
 
@@ -91,7 +91,7 @@ public class CHIPSSessionBean implements CHIPSSessionBeanLocal {
 
     @Override
     public void clearSWIFTTransferMTK(Long swiftId) {
-        
+
         SWIFT swift = sWIFTSessionBeanLocal.retrieveSWIFTById(swiftId);
 
         Double transactionAmt = Double.valueOf(swift.getPaymentAmt());
@@ -122,7 +122,7 @@ public class CHIPSSessionBean implements CHIPSSessionBeanLocal {
                 "Debit", transactionAmt.toString(), "New", "Bank of Korea",
                 "22222222", "SWIFT");
     }
-    
+
     @Override
     public void ForwardPaymentInstructionToMEPS() {
 
@@ -140,7 +140,7 @@ public class CHIPSSessionBean implements CHIPSSessionBeanLocal {
             settlementSessionBeanLocal.recordSettlementInformationCHIPS(chips);
         }
     }
-    
+
     @Override
     public List<CHIPS> getAllCHIPS(String bankNames) {
 
