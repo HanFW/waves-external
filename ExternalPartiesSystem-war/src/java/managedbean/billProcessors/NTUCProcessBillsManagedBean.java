@@ -18,9 +18,16 @@ public class NTUCProcessBillsManagedBean {
     public NTUCProcessBillsManagedBean() {
     }
 
-    public List<Bill> getAllNTUCBills() {
+    public List<Bill> getAllStandingNTUCBills() {
 
-        List<Bill> ntucBills = billSessionBeanLocal.getAllBill("NTUC");
+        List<Bill> ntucBills = billSessionBeanLocal.getAllStandingGIROBill("NTUC");
+
+        return ntucBills;
+    }
+
+    public List<Bill> getAllNonStandingNTUCBills() {
+
+        List<Bill> ntucBills = billSessionBeanLocal.getAllNonStandingGIROBill("NTUC");
 
         return ntucBills;
     }

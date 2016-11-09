@@ -22,7 +22,7 @@ public interface TransactionAutorizationSessionBeanLocal {
     
     public List<TransactionToBeAuthorized> getAllAuthorizedTransactions();
     
-    public List<TransactionToBeAuthorized> getAllAuthorizedDebitCardTransaction();
+    public List<TransactionToBeAuthorized> getAllAuthorizedCardTransaction();
     
     public TransactionToBeAuthorized getTransactionToBeAuthorizedById(Long id);
   

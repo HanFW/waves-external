@@ -8,6 +8,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Bill implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +21,11 @@ public class Bill implements Serializable {
     private String debitBank;
     private String debitBankAccountNum;
     private String paymentLimit;
+    private String creditBank;
+    private String creditBankAccountNum;
+    private boolean buttonRender;
+    private String paymentFrequency;
+    private String billType;
 
     public Long getBillId() {
         return billId;
@@ -93,6 +99,46 @@ public class Bill implements Serializable {
         this.paymentLimit = paymentLimit;
     }
 
+    public String getCreditBank() {
+        return creditBank;
+    }
+
+    public void setCreditBank(String creditBank) {
+        this.creditBank = creditBank;
+    }
+
+    public String getCreditBankAccountNum() {
+        return creditBankAccountNum;
+    }
+
+    public void setCreditBankAccountNum(String creditBankAccountNum) {
+        this.creditBankAccountNum = creditBankAccountNum;
+    }
+
+    public boolean isButtonRender() {
+        return buttonRender;
+    }
+
+    public void setButtonRender(boolean buttonRender) {
+        this.buttonRender = buttonRender;
+    }
+
+    public String getPaymentFrequency() {
+        return paymentFrequency;
+    }
+
+    public void setPaymentFrequency(String paymentFrequency) {
+        this.paymentFrequency = paymentFrequency;
+    }
+
+    public String getBillType() {
+        return billType;
+    }
+
+    public void setBillType(String billType) {
+        this.billType = billType;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -117,5 +163,5 @@ public class Bill implements Serializable {
     public String toString() {
         return "ejb.mas.entity.Bill[ id=" + billId + " ]";
     }
-    
+
 }
