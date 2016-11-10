@@ -93,7 +93,7 @@ public class DBSEnterChequeInformationManagedBean {
         Calendar cal = Calendar.getInstance();
         String transactionDate = cal.getTime().toString();
 
-        OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum("11111111");
+        OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(receivedBankAccountNum);
         String currentAvailableBalance = dbsBankAccount.getAvailableBankAccountBalance();
         Double totalBalance = Double.valueOf(currentAvailableBalance) + Double.valueOf(transactionAmt);
 
@@ -105,7 +105,7 @@ public class DBSEnterChequeInformationManagedBean {
         sACHSessionBeanLocal.receiveChequeInformationFromOtherBank(chequeNum, transactionAmt,
                 issuedBankAccountNum);
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Successfully Input Received Cheque Information", ""));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully Input Received Cheque Information", ""));
     }
 
 }

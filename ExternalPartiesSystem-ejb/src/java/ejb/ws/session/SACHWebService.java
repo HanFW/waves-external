@@ -15,17 +15,13 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.xml.ws.WebServiceRef;
 import ws.client.merlionBank.MerlionBankWebService_Service;
 import ws.client.merlionBank.ReceivedCheque;
 
 @WebService(serviceName = "SACHWebService")
 @Stateless()
-
 public class SACHWebService {
 
     @EJB
@@ -54,7 +50,9 @@ public class SACHWebService {
 
     @WebMethod(operationName = "SACHTransferMTD")
 //    @Oneway
-    public void SACHTransferMTD(@WebParam(name = "fromBankAccountNum") String fromBankAccountNum, @WebParam(name = "toBankAccountNum") String toBankAccountNum, @WebParam(name = "transferAmt") Double transferAmt) {
+    public void SACHTransferMTD(@WebParam(name = "fromBankAccountNum") String fromBankAccountNum,
+            @WebParam(name = "toBankAccountNum") String toBankAccountNum,
+            @WebParam(name = "transferAmt") Double transferAmt) {
 
         Calendar cal = Calendar.getInstance();
         String currentTime = cal.getTime().toString();
@@ -151,9 +149,11 @@ public class SACHWebService {
 
         OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(toBankAccountNum);
         if (dbsBankAccount.getOtherBankAccountId() == null) {
-            Long sachId = sACHSessionBeanLocal.addNewSACH(0.0, 0.0, currentTime,
-                    "DBS&Merlion", "Regular GIRO", toBankAccountNum, "DBS", fromBankAccountNum,
-                    "Merlion", currentTimeMilis, transferAmt, "Failed");
+            Double otherTotalCredit = 0 + transferAmt;
+            Double merlionTotalCredit = 0 - transferAmt;
+            Long sachId = sACHSessionBeanLocal.addNewSACH(otherTotalCredit, merlionTotalCredit,
+                    currentTime, "DBS&Merlion", "Regular GIRO", toBankAccountNum, "DBS",
+                    fromBankAccountNum, "Merlion", currentTimeMilis, transferAmt, "Failed");
             SACH sach = sACHSessionBeanLocal.retrieveSACHById(sachId);
             String failedReason = "Invalid Bank Account Number";
             sach.setFailedReason(failedReason);
@@ -178,63 +178,6 @@ public class SACHWebService {
                     "Credit", transferAmt.toString(), "New", "Merlion",
                     fromBankAccountNum, "Regular GIRO");
         }
-    }
-
-    @WebMethod(operationName = "addNewSACH")
-    public Long addNewSACH(@WebParam(name = "otherTotalCredit") Double otherTotalCredit,
-            @WebParam(name = "merlionTotalCredit") Double merlionTotalCredit,
-            @WebParam(name = "currentTime") String currentTime,
-            @WebParam(name = "bankNames") String bankNames,
-            @WebParam(name = "paymentMethod") String paymentMethod,
-            @WebParam(name = "creditAccountNum") String creditAccountNum,
-            @WebParam(name = "creditBank") String creditBank,
-            @WebParam(name = "debitAccountNum") String debitAccountNum,
-            @WebParam(name = "debitBank") String debitBank,
-            @WebParam(name = "currentTimeMilis") Long currentTimeMilis,
-            @WebParam(name = "creditAmt") Double creditAmt,
-            @WebParam(name = "sachStatus") String sachStatus) {
-        SACH sach = new SACH();
-
-        sach.setBankBTotalCredit(otherTotalCredit);
-        sach.setBankATotalCredit(merlionTotalCredit);
-        sach.setCurrentTime(currentTime);
-        sach.setBankNames(bankNames);
-        sach.setPaymentMethod(paymentMethod);
-        sach.setCreditAccountNum(creditAccountNum);
-        sach.setCreditBank(creditBank);
-        sach.setDebitAccountNum(debitAccountNum);
-        sach.setDebitBank(debitBank);
-        sach.setCurrentTimeMilis(currentTimeMilis);
-        sach.setCreditAmt(creditAmt);
-        sach.setSachStatus(sachStatus);
-
-        entityManager.persist(sach);
-        entityManager.flush();
-
-        return sach.getSachId();
-    }
-
-    @WebMethod(operationName = "retrieveSACHById")
-    public SACH retrieveSACHById(@WebParam(name = "sachId") Long sachId) {
-        SACH sach = new SACH();
-
-        try {
-            Query query = entityManager.createQuery("Select s From SACH s Where s.sachId=:sachId");
-            query.setParameter("sachId", sachId);
-
-            if (query.getResultList().isEmpty()) {
-                return new SACH();
-            } else {
-                sach = (SACH) query.getSingleResult();
-            }
-        } catch (EntityNotFoundException enfe) {
-            System.out.println("Entity not found error: " + enfe.getMessage());
-            return new SACH();
-        } catch (NonUniqueResultException nure) {
-            System.out.println("Non unique result error: " + nure.getMessage());
-        }
-
-        return sach;
     }
 
     @WebMethod(operationName = "passStandingGIROToSACH")
