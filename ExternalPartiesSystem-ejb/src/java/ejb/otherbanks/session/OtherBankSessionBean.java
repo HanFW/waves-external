@@ -171,90 +171,92 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
             String paymentMethod = onHoldRecord.getPaymentMethod();
 
             OtherBankAccount dbsBankAccount = otherBankAccountSessionBeanLocal.retrieveBankAccountByNum(bankAccountNum);
-            String currentAvailableBalance = dbsBankAccount.getAvailableBankAccountBalance();
-            String currentTotalBalance = dbsBankAccount.getTotalBankAccountBalance();
+            if (dbsBankAccount.getOtherBankAccountId() != null) {
+                String currentAvailableBalance = dbsBankAccount.getAvailableBankAccountBalance();
+                String currentTotalBalance = dbsBankAccount.getTotalBankAccountBalance();
 
-            if (debitOrCredit.equals("Credit") && debitOrCreditBankName.equals("Merlion")) {
+                if (debitOrCredit.equals("Credit") && debitOrCreditBankName.equals("Merlion")) {
 
-                Double totalAvailableBalance = Double.valueOf(currentAvailableBalance) + Double.valueOf(paymentAmt);
-                Double totalBalance = Double.valueOf(currentTotalBalance) + Double.valueOf(paymentAmt);
+                    Double totalAvailableBalance = Double.valueOf(currentAvailableBalance) + Double.valueOf(paymentAmt);
+                    Double totalBalance = Double.valueOf(currentTotalBalance) + Double.valueOf(paymentAmt);
 
-                dbsBankAccount.setAvailableBankAccountBalance(totalAvailableBalance.toString());
-                dbsBankAccount.setTotalBankAccountBalance(totalBalance.toString());
+                    dbsBankAccount.setAvailableBankAccountBalance(totalAvailableBalance.toString());
+                    dbsBankAccount.setTotalBankAccountBalance(totalBalance.toString());
 
-                onHoldRecord.setOnHoldStatus("Done");
+                    onHoldRecord.setOnHoldStatus("Done");
 
-                BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
-                Calendar cal = Calendar.getInstance();
-                String transactionDate = cal.getTime().toString();
-                String transactionCode = "";
+                    BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
+                    Calendar cal = Calendar.getInstance();
+                    String transactionDate = cal.getTime().toString();
+                    String transactionCode = "";
 
-                if (paymentMethod.equals("Non Standing GIRO") || paymentMethod.equals("Standing GIRO")) {
-                    transactionCode = "BILL";
-                } else if (paymentMethod.equals("Cheque")) {
-                    transactionCode = "CHQ";
-                } else if (paymentMethod.equals("Regular GIRO")) {
-                    transactionCode = "GIRO";
+                    if (paymentMethod.equals("Non Standing GIRO") || paymentMethod.equals("Standing GIRO")) {
+                        transactionCode = "BILL";
+                    } else if (paymentMethod.equals("Cheque")) {
+                        transactionCode = "CHQ";
+                    } else if (paymentMethod.equals("Regular GIRO")) {
+                        transactionCode = "GIRO";
+                    }
+
+                    String accountCredit = paymentAmt;
+                    String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
+
+                    Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
+                            transactionRef, " ", accountCredit, dbsBankAccount.getOtherBankAccountId());
+
+                } else if (debitOrCredit.equals("Debit") && debitOrCreditBankName.equals("Merlion")) {
+
+                    Double totalAvailableBalance = Double.valueOf(currentAvailableBalance) - Double.valueOf(paymentAmt);
+                    Double totalBalance = Double.valueOf(currentTotalBalance) - Double.valueOf(paymentAmt);
+
+                    dbsBankAccount.setAvailableBankAccountBalance(totalAvailableBalance.toString());
+                    dbsBankAccount.setTotalBankAccountBalance(totalBalance.toString());
+
+                    onHoldRecord.setOnHoldStatus("Done");
+
+                    BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
+                    Calendar cal = Calendar.getInstance();
+                    String transactionDate = cal.getTime().toString();
+                    String transactionCode = "";
+
+                    if (paymentMethod.equals("Non Standing GIRO") || paymentMethod.equals("Standing GIRO")) {
+                        transactionCode = "BILL";
+                    } else if (paymentMethod.equals("Cheque")) {
+                        transactionCode = "CHQ";
+                    } else if (paymentMethod.equals("Regular GIRO")) {
+                        transactionCode = "GIRO";
+                    }
+
+                    String accountdebit = paymentAmt;
+                    String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
+
+                    Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
+                            transactionRef, accountdebit, " ", dbsBankAccount.getOtherBankAccountId());
+
+                } else if (debitOrCredit.equals("Credit") && debitOrCreditBankName.equals("Bank of Korea")) {
+
+                    Double totalBalance = Double.valueOf(currentTotalBalance) + Double.valueOf(paymentAmt);
+                    dbsBankAccount.setTotalBankAccountBalance(df.format(totalBalance));
+
+                    onHoldRecord.setOnHoldStatus("Done");
+
+                    BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
+                    Calendar cal = Calendar.getInstance();
+                    String transactionDate = cal.getTime().toString();
+                    String transactionCode = "SWIFT";
+                    String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
+
+                    Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
+                            transactionRef, " ", paymentAmt, dbsBankAccount.getOtherBankAccountId());
+
                 }
-
-                String accountCredit = paymentAmt;
-                String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
-
-                Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
-                        transactionRef, " ", accountCredit, dbsBankAccount.getOtherBankAccountId());
-
-            } else if (debitOrCredit.equals("Debit") && debitOrCreditBankName.equals("Merlion")) {
-
-                Double totalAvailableBalance = Double.valueOf(currentAvailableBalance) - Double.valueOf(paymentAmt);
-                Double totalBalance = Double.valueOf(currentTotalBalance) - Double.valueOf(paymentAmt);
-
-                dbsBankAccount.setAvailableBankAccountBalance(totalAvailableBalance.toString());
-                dbsBankAccount.setTotalBankAccountBalance(totalBalance.toString());
-
-                onHoldRecord.setOnHoldStatus("Done");
-
-                BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
-                Calendar cal = Calendar.getInstance();
-                String transactionDate = cal.getTime().toString();
-                String transactionCode = "";
-
-                if (paymentMethod.equals("Non Standing GIRO") || paymentMethod.equals("Standing GIRO")) {
-                    transactionCode = "BILL";
-                } else if (paymentMethod.equals("Cheque")) {
-                    transactionCode = "CHQ";
-                } else if (paymentMethod.equals("Regular GIRO")) {
-                    transactionCode = "GIRO";
-                }
-
-                String accountdebit = paymentAmt;
-                String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
-
-                Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
-                        transactionRef, accountdebit, " ", dbsBankAccount.getOtherBankAccountId());
-
-            } else if (debitOrCredit.equals("Credit") && debitOrCreditBankName.equals("Bank of Korea")) {
-
-                Double totalBalance = Double.valueOf(currentTotalBalance) + Double.valueOf(paymentAmt);
-                dbsBankAccount.setTotalBankAccountBalance(df.format(totalBalance));
-
-                onHoldRecord.setOnHoldStatus("Done");
-
-                BankAccount bankAccount = retrieveBankAccountByNum(debitOrCreditBankAccountNum);
-                Calendar cal = Calendar.getInstance();
-                String transactionDate = cal.getTime().toString();
-                String transactionCode = "SWIFT";
-                String transactionRef = bankAccount.getBankAccountType() + "-" + bankAccount.getBankAccountNum();
-
-                Long otherTransactionId = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, transactionCode,
-                        transactionRef, " ", paymentAmt, dbsBankAccount.getOtherBankAccountId());
-
             }
         }
     }
 
     @Override
     public void merchantVisaNetworkSettlement() {
-        System.out.println("enter citi pays merchant by via");
+        
         List<VisaClearingNetwork> visaRecords = new ArrayList<>();
 
         List<Long> merchantAccountIds = otherBankAccountSessionBeanLocal.getAllCitiBankMerchantAccountId();
@@ -314,7 +316,6 @@ public class OtherBankSessionBean implements OtherBankSessionBeanLocal {
             otherBankAccountSessionBeanLocal.updateOtherBankAccountBalanceById(merchantAccountIds.get(2), creditAmt);
             Long otherTransactionId3 = otherTransactionSessionBeanLocal.addNewOtherTransaction(transactionDate, "CTS", "Transfer from citiBank to sephora", "", String.valueOf(creditAmt), merchantAccountIds.get(2));
         }
-
     }
 
     @Override
