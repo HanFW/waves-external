@@ -10,19 +10,25 @@
         <div class="layout-menu-master #{externalPreferences.menuClass}">
             <pu:menu widgetVar="me">
                 <p:submenu label="MAS">
-                    <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="Bank of Korea Transaction" url="/web/mas/meps/koreaMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
-                    <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
-                    <p:menuitem value="Merlion and Bank of Korea MEPS History Records" url="/web/mas/meps/merlionAndKoreaMEPSHistoryRecord.xhtml" />
-                    <p:menuitem value="CitiBank Account Transaction" url="/web/mas/meps/citiBankMasterAccountTransaction.xhtml" />
-                    <p:menuitem value="Visa Account Transaction" url="/web/mas/meps/visaMasterAccountTransaction.xhtml"/>
-                    <p:menuitem value="Merlion Bank(Card) Account Transaction" url="/web/mas/meps/masterCardMasterAccountTransaction.xhtml"/>
-                    <p:menuitem value="CitiBank and Visa MEPS History Records" url="/web/mas/meps/mepsCitiAndVisaHistory.xhtml"/>
-                    <p:menuitem value="CitiBank and MasterCard MEPS History Records" url="/web/mas/meps/mepsCitiAndMasterCardHistory.xhtml"/>
-                    <p:menuitem value="Visa and Merlion MEPS History Records" url="/web/mas/meps/mepsVisaAndMerlionHistory.xhtml"/>
-                    <p:menuitem value="MasterCard and Merlion MEPS History Records" url="/web/mas/meps/mepsMasterCardAndMerlionHistory.xhtml"/>
+                    <p:submenu label="Account Transaction">
+                        <p:menuitem value="DBS Account Transaction" url="/web/mas/meps/dbsMasterAccountTransaction.xhtml" />
+                        <p:menuitem value="Merlion Bank Account Transaction" url="/web/mas/meps/merlionMasterAccountTransaction.xhtml" />
+                        <p:menuitem value="Bank of Korea Transaction" url="/web/mas/meps/koreaMasterAccountTransaction.xhtml" />
+                        <p:menuitem value="CitiBank Account Transaction" url="/web/mas/meps/citiBankMasterAccountTransaction.xhtml" />
+                        <p:menuitem value="Visa Account Transaction" url="/web/mas/meps/visaMasterAccountTransaction.xhtml"/>
+                        <p:menuitem value="Merlion Bank(Card) Account Transaction" url="/web/mas/meps/masterCardMasterAccountTransaction.xhtml"/>
+                    </p:submenu>
+                    <p:submenu label="SACH History Records">
+                        <p:menuitem value="DBS and Merlion SACH History Records" url="/web/mas/sach/dbsMerlionSachHistoryRecord.xhtml" />
+                    </p:submenu>
+                    <p:submenu label="MEPS History Records">
+                        <p:menuitem value="DBS and Merlion MEPS History Records" url="/web/mas/meps/mepsHistoryRecord.xhtml" />
+                        <p:menuitem value="Merlion and Bank of Korea MEPS History Records" url="/web/mas/meps/merlionAndKoreaMEPSHistoryRecord.xhtml" />
+                        <p:menuitem value="CitiBank and Visa MEPS History Records" url="/web/mas/meps/mepsCitiAndVisaHistory.xhtml"/>
+                        <p:menuitem value="CitiBank and MasterCard MEPS History Records" url="/web/mas/meps/mepsCitiAndMasterCardHistory.xhtml"/>
+                        <p:menuitem value="Visa and Merlion MEPS History Records" url="/web/mas/meps/mepsVisaAndMerlionHistory.xhtml"/>
+                        <p:menuitem value="MasterCard and Merlion MEPS History Records" url="/web/mas/meps/mepsMasterCardAndMerlionHistory.xhtml"/>
+                    </p:submenu>
                 </p:submenu>
                 <p:submenu label="DBS">
                     <p:menuitem value="Fast Transfer" url="/web/otherBanks/dbs/dbsFastTransfer.xhtml" />

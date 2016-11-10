@@ -324,11 +324,11 @@
     -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12); }
 
 .login-body {
-    background-color: #5A5655;
+    background-color: #F1EEEA;
     background-size: 100% auto; }
 
 .login-panel {
-    background-color: #5A5655;
+    background-color: #F1EEEA;
     text-align: center;
     width: 350px;
     min-height: 440px;
@@ -349,7 +349,7 @@
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .login-body {
-        background-color: #5A5655;
+        background-color: #F1EEEA;
         background-size: 100% auto; } }
 @media (max-width: 1024px) {
     .login-panel {
@@ -7068,7 +7068,7 @@ body.layout-compact .ui-datatable .ui-datatable-header,
 body.layout-compact .ui-datatable .ui-datatable-footer {
     padding: 8px 14px; }
 body.layout-compact .ui-datatable .ui-paginator {
-    padding: 8px 14px; }
+    padding: 3px 14px; }
 body.layout-compact .ui-datatable thead th {
     padding: 6px 10px; }
 body.layout-compact .ui-datatable thead th .ui-sortable-column-icon {

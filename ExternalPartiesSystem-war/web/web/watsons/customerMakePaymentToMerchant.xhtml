@@ -7,17 +7,15 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/watsonsTemplate.xhtml">
     <ui:define name="content">
-        <h:head>
-            Customer Make Payment To Watsons
-        </h:head>
-
         <h:body>
-
-            <h:form>
-                <h1>Customer Make Payment To Merchant</h1>
+             <p:outputLabel value="Customer Make Payment To Merchant" />
+                <br/>
+                <br/>
+            <h:form>    
+                <div align="center">                 
                 <p:messages autoUpdate="true"/>
 
-                <h:panelGrid columns="3" class="ui-lg-6">
+                <h:panelGrid columns="1" class="ui-lg-4">
 
                     <p:outputLabel value="Transaction Amount:" />
                     <p:inputText id="transactionAmt" value="#{simulateCustomerMakePaymentToMerchantManagedBean.transactionAmt}"/> 
@@ -32,7 +30,7 @@
                     <p:messages for="cardType"/>
 
 
-                    <p:outputLabel value="Card Number"/>
+                    <p:outputLabel value="Card Number:"/>
                     <p:inputText id="cardNum" value="#{simulateCustomerMakePaymentToMerchantManagedBean.cardNum}">
                         <f:validateLength minimum="16" maximum="16" /> 
                     </p:inputText>
@@ -40,11 +38,14 @@
                 </h:panelGrid>
 
                 <p:panel style="border: none;" id="panelDebitCard" visible="#{simulateCustomerMakePaymentToMerchantManagedBean.debitCard}">
-                    <p:outputLabel value="Card Password:" />
-                    <p:inputText type="password" id="cardPwd" value="#{simulateCustomerMakePaymentToMerchantManagedBean.debitCardPwd}">
+                    <h:panelGrid columns="1" class="ui-lg-4">
+                        <p:outputLabel value="Card Password:" />
+                         <p:inputText type="password" id="cardPwd" value="#{simulateCustomerMakePaymentToMerchantManagedBean.debitCardPwd}">
 <!--                        <f:validateLength minimum="6" maximum="6" /> -->
                     </p:inputText>
                     <p:message for="cardPwd"/>     
+                    </h:panelGrid>
+                   
                 </p:panel>
 <!--
 
@@ -62,7 +63,8 @@
                 </h:panelGrid>-->
 
 
-                <p:commandButton value="Confirm" actionListener="#{simulateCustomerMakePaymentToMerchantManagedBean.forwardTransactionAuthorization()}" update="@form"/>  
+                <p:commandButton value="Confirm" actionListener="#{simulateCustomerMakePaymentToMerchantManagedBean.forwardTransactionAuthorization()}" update="@form" style="width:150px"/>  
+            </div>
             </h:form> 
 
 
