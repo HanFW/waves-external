@@ -24,10 +24,10 @@
     </service>
   </services>
   <clients>
-    <client name="FastTransferWebService">
-      <wsdl-url>http://localhost:8080/FastTransferWebService/FastTransferWebService?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/FastTransferWebService/FastTransferWebService.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">ws.client.fastTransfer</package-name>
+    <client name="MerlionBankWebService">
+      <wsdl-url>http://localhost:8080/MerlionBankWebService/MerlionBankWebService?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl</local-wsdl-file>
+      <package-name forceReplace="true">ws.client.merlionBank</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -44,7 +44,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/FastTransferWebService/FastTransferWebService?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8080/MerlionBankWebService/MerlionBankWebService?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -56,7 +56,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>ws.client.fastTransfer</wsimport-option-value>
+          <wsimport-option-value>ws.client.merlionBank</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
     </client>
@@ -96,10 +96,10 @@
         </wsimport-option>
       </wsimport-options>
     </client>
-    <client name="MerlionBankWebService">
-      <wsdl-url>http://localhost:8080/MerlionBankWebService/MerlionBankWebService?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/MerlionBankWebService/MerlionBankWebService.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">ws.client.merlionBank</package-name>
+    <client name="FastTransferWebService">
+      <wsdl-url>http://localhost:8080/FastTransferWebService/FastTransferWebService?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8080/FastTransferWebService/FastTransferWebService.wsdl</local-wsdl-file>
+      <package-name forceReplace="true">ws.client.fastTransfer</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -116,7 +116,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/MerlionBankWebService/MerlionBankWebService?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8080/FastTransferWebService/FastTransferWebService?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -128,7 +128,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>ws.client.merlionBank</wsimport-option-value>
+          <wsimport-option-value>ws.client.fastTransfer</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
     </client>
