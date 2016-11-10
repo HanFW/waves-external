@@ -21,6 +21,7 @@ public interface VisaNetworkClearingSessionBeanLocal {
    public double getTotalCreditAmt();
    
    public List<VisaClearingNetwork> getAllVisaRecords();
+
    
    
 }

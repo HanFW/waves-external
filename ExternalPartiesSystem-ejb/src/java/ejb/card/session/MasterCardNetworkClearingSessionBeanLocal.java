@@ -22,4 +22,5 @@ public interface MasterCardNetworkClearingSessionBeanLocal {
     public double getTotalCreditAmt();
 
     public List<MasterCardClearingNetwork> getAllMasterCardRecords();
+
 }
