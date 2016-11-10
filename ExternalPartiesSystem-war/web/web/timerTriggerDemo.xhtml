@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"                                                                                                           
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Timer Trigger</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:panel id="panel">
+                <p:messages />
+
+                <p:commandButton process="@this" actionListener="#{timerTriggerDemoManagedBean.create10000msTimer()}" 
+                                 value="Create Timer(10000ms)" ajax="true" update="panel"/>
+                <br/>
+                <p:commandButton process="@this" action="#{timerTriggerDemoManagedBean.cancel10000msTimer()}" 
+                                 value="Cancel Timer(10000ms)" ajax="true" update="panel"/>
+                <br/>
+                <br/>
+                <p:commandButton process="@this" action="#{timerTriggerDemoManagedBean.create30000msTimer()}" 
+                                 value="Create Timer(30000ms)" ajax="true" update="panel"/>
+                <br/>
+                <p:commandButton process="@this" action="#{timerTriggerDemoManagedBean.cancel30000msTimer()}" 
+                                 value="Cancel Timer(30000ms)" ajax="true" update="panel"/>
+                <br/>
+                <br/>
+                <p:commandButton process="@this" action="#{timerTriggerDemoManagedBean.create40000msTimer()}" 
+                                 value="Create Timer(40000ms)" ajax="true" update="panel"/>
+                <br/>
+                <p:commandButton process="@this" action="#{timerTriggerDemoManagedBean.cancel40000msTimer()}" 
+                                 value="Cancel Timer(40000ms)" ajax="true" update="panel"/>
+
+                <br/>
+                <br/>
+                <p:commandButton process="@this" action="#{timerTriggerDemoManagedBean.create50000msTimer()}" 
+                                 value="Create Timer(50000ms)" ajax="true" update="panel"/>
+                <br/>
+                <p:commandButton process="@this" action="#{timerTriggerDemoManagedBean.cancel50000msTimer()}" 
+                                 value="Cancel Timer(50000ms)" ajax="true" update="panel"/>
+                <br/>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
