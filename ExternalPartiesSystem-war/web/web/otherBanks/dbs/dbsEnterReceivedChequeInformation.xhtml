@@ -19,9 +19,10 @@
 
                         <p:outputLabel for="chequeNum" style="font-weight: bold" 
                                        value="Cheque Number: " />
-                        <p:inputText required="true" label="Cheque Number" 
-                                     requiredMessage="Required Field" id="chequeNum"
+                        <p:inputText required="true" label="Cheque Number" converterMessage="Invalid Input"
+                                     requiredMessage="Required Field" id="chequeNum" validatorMessage="Invalid Input"
                                      value="#{dBSEnterChequeInformationManagedBean.chequeNum}">
+                            <f:validateDoubleRange minimum="100000" maximum="999999" />
                         </p:inputText>
                         <p:message for="chequeNum" />
 
@@ -34,7 +35,7 @@
                         <p:message for="transactionAmt" />
 
                         <p:outputLabel for="receivedBankAccountNum" style="font-weight: bold" value="Account Number: " />
-                        <p:inputText required="true" label="Account Number" 
+                        <p:inputText required="true" label="Received Account Number" 
                                      requiredMessage="Required Field" id="receivedBankAccountNum"
                                      value="#{dBSEnterChequeInformationManagedBean.receivedBankAccountNum}">
                         </p:inputText>
@@ -61,14 +62,14 @@
                         </p:inputText>
                         <p:message for="receivedCustomerMobile" />
 
-                       
+
 
                     </h:panelGrid>
-                     
-                            <p:commandButton id="submitBtn" value="Submit" update="panel" style="width:auto"
-                                             actionListener="#{dBSEnterChequeInformationManagedBean.submit()}" 
-                                             ajax="true"/>
-                        
+
+                    <p:commandButton id="submitBtn" value="Submit" update="panel" style="width:auto"
+                                     actionListener="#{dBSEnterChequeInformationManagedBean.submit()}" 
+                                     ajax="true"/>
+
                 </p:panel>
             </div>
         </h:form>
